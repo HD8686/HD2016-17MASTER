@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by akash on 5/7/2016.
  */
 public class ExampleOpMode extends HDOpMode {
-    Servo servoClimber;
     DriveHandler robotDrive;
     HDDashboard mDashboard;
     HDServo mServoClimber;
@@ -23,12 +22,9 @@ public class ExampleOpMode extends HDOpMode {
     @Override
     public void Initialize() {
         mDashboard = new HDDashboard(telemetry);
+        mServoClimber = new HDServo(Names.climbersServo);
         robotDrive = new DriveHandler();
-        servoClimber = hardwareMap.servo.get(Names.climbersServo);
         robotDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        robotDrive.tankDrive(1, 1);
-
-        //Work on AutoSpeedServo
     }
 
     @Override
@@ -38,13 +34,17 @@ public class ExampleOpMode extends HDOpMode {
 
     @Override
     public void Start() {
-
+        //This needs to be tested.
+        mServoClimber.setPosition(.5,.5);
+        robotDrive.tankDrive(.1, .1);
     }
 
     @Override
     public void continuousRun() {
 
     }
+
+
 
 
 }
