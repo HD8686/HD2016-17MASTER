@@ -23,34 +23,35 @@ public abstract class HDOpMode extends LinearOpMode {
     }   //getInstance
 
 
-    public void Initialize(){
-    }
+    public abstract void Initialize();
 
-    public void InitializeLoop(){
-    }
+    public abstract void InitializeLoop();
 
-    public void Start(){
+    public abstract void Start();
 
-    }
-
-    public void continuousRun(){
-
-    }
+    public abstract void continuousRun();
 
     @Override
     public void runOpMode() throws InterruptedException {
         ServoObjList.clear();
+
         Initialize();
+
         waitTime = System.currentTimeMillis();
+
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
                 InitializeLoop();
                 waitTime = waitTime + Names.initLoopTime;
             }
         }
+
         waitTime = 0;
+
         waitForStart();
+
         Start();
+
         while(opModeIsActive()){
             continuousRun();
             for(HDServo m: ServoObjList){
