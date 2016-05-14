@@ -10,7 +10,6 @@ import java.util.List;
 public abstract class HDOpMode extends LinearOpMode {
     public static HDOpMode instance = null;
     private double waitTime = 0;
-    public List<HDServo> ServoObjList;
 
     public HDOpMode() {
         super();
@@ -33,7 +32,6 @@ public abstract class HDOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        ServoObjList.clear();
         HDLoopInterface hdLoopInterface = new HDLoopInterface();
         Initialize();
         waitTime = System.currentTimeMillis();

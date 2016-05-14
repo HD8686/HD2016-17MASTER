@@ -27,13 +27,14 @@ public class HDServo implements HDLoopInterface.LoopTimer{
     }
 
     public void setPosition(double Position){
+        try {   HDLoopInterface.getInstance().deregister(this); } catch (Exception e){}
         mServo.setPosition(Position);
     }
 
     public void setPosition(double Position, double Speed){
             this.targetPosition = Range.clip(Position, 0, 1);
-            this.prevTime = System.currentTimeMillis() / 1000;
-            this.steppingRate = Math.abs(Speed);
+            this.prevTime = System.currentTimeMillis();
+            this.steppingRate = Math.abs(Speed)/1000;
             this.currPosition = mServo.getPosition();
             HDLoopInterface.getInstance().register(this);
     }
@@ -43,11 +44,10 @@ public class HDServo implements HDLoopInterface.LoopTimer{
     }
 
 
-
     @Override
     public void continuousCall() {
         if(targetPosition != currPosition){
-            double currTime = System.currentTimeMillis()/1000;
+            double currTime = System.currentTimeMillis();
             double posChange = steppingRate * (currTime - prevTime);
 
             if(currPosition < targetPosition){

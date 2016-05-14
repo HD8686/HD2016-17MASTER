@@ -8,14 +8,14 @@ public class Names {
     //HardwareMapKeys//
 
     //Servos
-    public static final String climbersServo = "climbers";
+    public static final String climbersServo = "servo_4";
 
 
     //Motors
-    public static final String frontRight = "front_right";
-    public static final String frontLeft = "front_left";
-    public static final String backRight = "back_right";
-    public static final String backLeft = "back_left";
+    public static final String frontRight = "motor_3";
+    public static final String frontLeft = "motor_1";
+    public static final String backRight = "motor_4";
+    public static final String backLeft = "motor_2";
 
     //Sensors
     public static final String Gyro = "gyro";
