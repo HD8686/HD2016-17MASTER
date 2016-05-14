@@ -3,17 +3,11 @@ package com.qualcomm.ftcrobotcontroller.HDLib;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import java.lang.annotation.Target;
-
 /**
  * Created by akash on 5/7/2016.
  */
 public class HDServo implements HDLoopInterface.LoopTimer{
     private Servo mServo;
-    private double steppingRate = 10;
-    private double currPosition = 0;
-    private double targetPosition = 0;
-    double prevTime = 0;
 
     public HDServo(String servoName){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
@@ -22,10 +16,8 @@ public class HDServo implements HDLoopInterface.LoopTimer{
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
     }
 
-    public double getCurrPosition(){
-        return currPosition;
-    }
 
+<<<<<<< HEAD
     public void setPosition(double Position){
         mServo.setPosition(Position);
     }
@@ -36,12 +28,22 @@ public class HDServo implements HDLoopInterface.LoopTimer{
             this.steppingRate = Math.abs(Speed);
             this.currPosition = mServo.getPosition();
             HDLoopInterface.getInstance().register(this);
+=======
+
+    public void SetPosition(double Position, double Speed){
+        Position = Range.clip(Position,0,1);
+        Speed = Range.clip(Speed,1,10);
+
+
+>>>>>>> parent of 3e704f5... Finished Servo Speed Control, not sure if it will work yet though.
     }
 
-    public void stopServo(){
-        targetPosition = currPosition;
+    public void SetPosition(double Position){
+        Position = Range.clip(Position,0,1);
+        mServo.setPosition(Position);
     }
 
+<<<<<<< HEAD
 
 
     @Override
@@ -66,5 +68,9 @@ public class HDServo implements HDLoopInterface.LoopTimer{
             prevTime = currTime;
             mServo.setPosition(currPosition);
         }
+=======
+    public void SpeedPositionManager(){
+
+>>>>>>> parent of 3e704f5... Finished Servo Speed Control, not sure if it will work yet though.
     }
 }

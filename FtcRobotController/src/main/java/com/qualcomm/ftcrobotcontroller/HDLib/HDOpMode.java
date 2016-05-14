@@ -23,34 +23,38 @@ public abstract class HDOpMode extends LinearOpMode {
     }   //getInstance
 
 
-    public abstract void Initialize();
+    public void Initialize(){
+    }
 
-    public abstract void InitializeLoop();
+    public void InitializeLoop(){
+    }
 
-    public abstract void Start();
+    public void Start(){
 
-    public abstract void continuousRun();
+    }
+
+    public void continuousRun(){
+
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
         ServoObjList.clear();
+<<<<<<< HEAD
         HDLoopInterface hdLoopInterface = new HDLoopInterface();
+=======
+>>>>>>> parent of 3e704f5... Finished Servo Speed Control, not sure if it will work yet though.
         Initialize();
         waitTime = System.currentTimeMillis();
-
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
                 InitializeLoop();
                 waitTime = waitTime + Names.initLoopTime;
             }
         }
-
         waitTime = 0;
-
         waitForStart();
-
         Start();
-
         while(opModeIsActive()){
             continuousRun();
                 hdLoopInterface.runWaitingLoops();
