@@ -34,8 +34,13 @@ public abstract class HDOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         ServoObjList.clear();
+<<<<<<< HEAD
         HDLoopInterface hdLoopInterface = new HDLoopInterface();
+=======
+
+>>>>>>> 3e704f5c9f56dff2aa225988d52dc10ff7d54ead
         Initialize();
+
         waitTime = System.currentTimeMillis();
 
         while(!opModeIsActive()){

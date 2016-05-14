@@ -24,6 +24,7 @@ public class HDServo implements HDLoopInterface.LoopTimer{
 
     public double getCurrPosition(){
         return currPosition;
+<<<<<<< HEAD
     }
 
     public void setPosition(double Position){
@@ -40,6 +41,44 @@ public class HDServo implements HDLoopInterface.LoopTimer{
 
     public void stopServo(){
         targetPosition = currPosition;
+=======
+    }
+
+    public void setSpeed(double Speed){
+        steppingRate = Range.clip(Speed,0,100);
+    }
+
+    public void setPosition(double Position){
+        if(targetPosition != currPosition) {
+            this.prevTime = System.currentTimeMillis() / 1000;
+            targetPosition = Range.clip(Position, 0, 1);
+        }
+    }
+
+    public void stopServo(){
+        targetPosition = currPosition;
+    }
+
+    public void SpeedPositionManager(){
+        if(targetPosition != currPosition){
+            double currTime = System.currentTimeMillis()/1000;
+            double posChange = steppingRate * (currTime - prevTime);
+
+            if(currPosition < targetPosition){
+                currPosition = currPosition + posChange;
+                if(currPosition > targetPosition){
+                    currPosition = targetPosition;
+                }
+            } else if(currPosition > targetPosition){
+                currPosition = currPosition - posChange;
+                if(currPosition < targetPosition){
+                    currPosition = targetPosition;
+                }
+            }
+            prevTime = currTime;
+            mServo.setPosition(currPosition);
+        }
+>>>>>>> 3e704f5c9f56dff2aa225988d52dc10ff7d54ead
     }
 
 

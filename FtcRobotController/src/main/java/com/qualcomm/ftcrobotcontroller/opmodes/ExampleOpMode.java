@@ -34,8 +34,13 @@ public class ExampleOpMode extends HDOpMode {
 
     @Override
     public void Start() {
+<<<<<<< HEAD
         //This needs to be tested.
         mServoClimber.setPosition(.5,.5);
+=======
+        mServoClimber.setSpeed(10);
+        mServoClimber.setPosition(.5);
+>>>>>>> 3e704f5c9f56dff2aa225988d52dc10ff7d54ead
         robotDrive.tankDrive(.1, .1);
     }
 
