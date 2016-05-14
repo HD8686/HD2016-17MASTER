@@ -16,6 +16,13 @@ public class HDServo implements HDLoopInterface.LoopTimer{
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
     }
 
+<<<<<<< HEAD
+=======
+    public double getCurrPosition(){
+        return currPosition;
+<<<<<<< HEAD
+    }
+>>>>>>> e8234ec39bd3578fbe8f011e78b0d944ab26bef8
 
 <<<<<<< HEAD
     public void setPosition(double Position){
@@ -38,9 +45,52 @@ public class HDServo implements HDLoopInterface.LoopTimer{
 >>>>>>> parent of 3e704f5... Finished Servo Speed Control, not sure if it will work yet though.
     }
 
+<<<<<<< HEAD
     public void SetPosition(double Position){
         Position = Range.clip(Position,0,1);
         mServo.setPosition(Position);
+=======
+    public void stopServo(){
+        targetPosition = currPosition;
+=======
+    }
+
+    public void setSpeed(double Speed){
+        steppingRate = Range.clip(Speed,0,100);
+    }
+
+    public void setPosition(double Position){
+        if(targetPosition != currPosition) {
+            this.prevTime = System.currentTimeMillis() / 1000;
+            targetPosition = Range.clip(Position, 0, 1);
+        }
+    }
+
+    public void stopServo(){
+        targetPosition = currPosition;
+    }
+
+    public void SpeedPositionManager(){
+        if(targetPosition != currPosition){
+            double currTime = System.currentTimeMillis()/1000;
+            double posChange = steppingRate * (currTime - prevTime);
+
+            if(currPosition < targetPosition){
+                currPosition = currPosition + posChange;
+                if(currPosition > targetPosition){
+                    currPosition = targetPosition;
+                }
+            } else if(currPosition > targetPosition){
+                currPosition = currPosition - posChange;
+                if(currPosition < targetPosition){
+                    currPosition = targetPosition;
+                }
+            }
+            prevTime = currTime;
+            mServo.setPosition(currPosition);
+        }
+>>>>>>> 3e704f5c9f56dff2aa225988d52dc10ff7d54ead
+>>>>>>> e8234ec39bd3578fbe8f011e78b0d944ab26bef8
     }
 
 <<<<<<< HEAD

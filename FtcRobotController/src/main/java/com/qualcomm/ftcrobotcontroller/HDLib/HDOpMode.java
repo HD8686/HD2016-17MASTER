@@ -43,8 +43,14 @@ public abstract class HDOpMode extends LinearOpMode {
 <<<<<<< HEAD
         HDLoopInterface hdLoopInterface = new HDLoopInterface();
 =======
+<<<<<<< HEAD
 >>>>>>> parent of 3e704f5... Finished Servo Speed Control, not sure if it will work yet though.
+=======
+
+>>>>>>> 3e704f5c9f56dff2aa225988d52dc10ff7d54ead
+>>>>>>> e8234ec39bd3578fbe8f011e78b0d944ab26bef8
         Initialize();
+
         waitTime = System.currentTimeMillis();
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
