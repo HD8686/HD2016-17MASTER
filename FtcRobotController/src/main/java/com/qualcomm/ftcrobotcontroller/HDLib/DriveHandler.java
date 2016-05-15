@@ -1,9 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
-import android.widget.ListView;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.ftcrobotcontroller.HDVals.Keys;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -25,10 +22,10 @@ public class DriveHandler {
 
     private void InitMotors(){
         this.mHardwareMap = HDOpMode.getInstance().hardwareMap;
-        this.DHfrontLeft = mHardwareMap.dcMotor.get(Names.frontLeft);
-        this.DHfrontRight = mHardwareMap.dcMotor.get(Names.frontRight);
-        this.DHbackLeft = mHardwareMap.dcMotor.get(Names.backLeft);
-        this.DHbackRight = mHardwareMap.dcMotor.get(Names.backRight);
+        this.DHfrontLeft = mHardwareMap.dcMotor.get(Keys.frontLeft);
+        this.DHfrontRight = mHardwareMap.dcMotor.get(Keys.frontRight);
+        this.DHbackLeft = mHardwareMap.dcMotor.get(Keys.backLeft);
+        this.DHbackRight = mHardwareMap.dcMotor.get(Keys.backRight);
     }
 
     public void tankDrive(double LeftPower, double RightPower){

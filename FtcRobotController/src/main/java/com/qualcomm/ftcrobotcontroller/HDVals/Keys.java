@@ -1,9 +1,9 @@
-package com.qualcomm.ftcrobotcontroller.HDLib;
+package com.qualcomm.ftcrobotcontroller.HDVals;
 
 /**
  * Created by akash on 5/1/2016.
  */
-public class Names {
+public class Keys {
     /******************/
     //HardwareMapKeys//
 
@@ -23,4 +23,8 @@ public class Names {
     //HDOpMode Settings
     public static final double initLoopTime = 50;
 
+
+
+
 }
+

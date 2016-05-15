@@ -1,8 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
+import com.qualcomm.ftcrobotcontroller.HDVals.Keys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import java.util.List;
 
 /**
  * Created by Akash on 5/8/2016.
@@ -39,7 +38,7 @@ public abstract class HDOpMode extends LinearOpMode {
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
                 InitializeLoop();
-                waitTime = waitTime + Names.initLoopTime;
+                waitTime = waitTime + Keys.initLoopTime;
             }
         }
 
@@ -51,7 +50,7 @@ public abstract class HDOpMode extends LinearOpMode {
 
         while(opModeIsActive()){
             continuousRun();
-                hdLoopInterface.runWaitingLoops();
+            hdLoopInterface.runWaitingLoops();
         }
     }
 }
