@@ -3,7 +3,7 @@ package com.qualcomm.ftcrobotcontroller.HDVals;
 /**
  * Created by akash on 5/1/2016.
  */
-public class Keys {
+public final class Keys {
     /******************/
     //HardwareMapKeys//
 
@@ -23,7 +23,8 @@ public class Keys {
     //HDOpMode Settings
     public static final double initLoopTime = 50;
 
-
+    //Servo Init Values
+    public static final double climberServoInit = .9;
 
 
 }

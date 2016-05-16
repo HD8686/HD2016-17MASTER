@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by akash on 5/7/2016.
+ * Created by Akash on 5/7/2016.
  */
 public class HDServo implements HDLoopInterface.LoopTimer{
     private Servo mServo;
-    private double steppingRate = 10.0;
+    private double steppingRate = 0.0;
     private double currPosition = 0.0;
     private double targetPosition = 0.0;
     private double prevTime = 0.0;

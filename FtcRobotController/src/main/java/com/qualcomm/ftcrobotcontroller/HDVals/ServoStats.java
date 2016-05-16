@@ -3,7 +3,7 @@ package com.qualcomm.ftcrobotcontroller.HDVals;
 /**
  * Created by Akash on 5/15/2016.
  */
-public class ServoStats {
+public final class ServoStats {
     //Time to travel 60 degrees
     public static final double HS_311 = .19;
     public static final double HS_322HD = .19;
@@ -18,4 +18,5 @@ public class ServoStats {
     public static final double HS_785HB = .28;
     public static final double HS_805BB = .19;
     public static final double HS_805MG = .19;
+
 }
