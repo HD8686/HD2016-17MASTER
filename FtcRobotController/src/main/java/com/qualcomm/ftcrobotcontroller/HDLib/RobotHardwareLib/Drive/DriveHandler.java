@@ -1,6 +1,7 @@
-package com.qualcomm.ftcrobotcontroller.HDLib;
+package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 
-import com.qualcomm.ftcrobotcontroller.HDVals.Keys;
+import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -22,10 +23,10 @@ public class DriveHandler {
 
     private void InitMotors(){
         this.mHardwareMap = HDOpMode.getInstance().hardwareMap;
-        this.DHfrontLeft = mHardwareMap.dcMotor.get(Keys.frontLeft);
-        this.DHfrontRight = mHardwareMap.dcMotor.get(Keys.frontRight);
-        this.DHbackLeft = mHardwareMap.dcMotor.get(Keys.backLeft);
-        this.DHbackRight = mHardwareMap.dcMotor.get(Keys.backRight);
+        this.DHfrontLeft = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.frontLeft);
+        this.DHfrontRight = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.frontRight);
+        this.DHbackLeft = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.backLeft);
+        this.DHbackRight = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.backRight);
     }
 
     public void tankDrive(double LeftPower, double RightPower){

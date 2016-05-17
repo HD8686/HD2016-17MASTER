@@ -1,11 +1,10 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.HDLib.DriveHandler;
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDServo;
-import com.qualcomm.ftcrobotcontroller.HDVals.Keys;
-import com.qualcomm.ftcrobotcontroller.HDVals.ServoStats;
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Servo.HDServo;
+import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 /**
@@ -16,25 +15,32 @@ public class ExampleOpMode extends HDOpMode {
     HDDashboard mDashboard;
     HDServo mServoClimber;
 
+    private enum exampleStates{
+        delay,
+        servoStep,
+        VLF
+    }
+
 
     @Override
     public void Initialize() {
+        //Initialize Variables
         mDashboard = new HDDashboard(telemetry);
-        mServoClimber = new HDServo(Keys.climbersServo, ServoStats.HS_311);
         robotDrive = new DriveHandler();
+        mServoClimber = new HDServo(Values.HardwareMapKeys.climberServo, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.climberServoInit);
+        //Init Settings
         robotDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
 
     @Override
     public void InitializeLoop() {
-        mDashboard.displayPrintf(1,"Servo Position" + mServoClimber.getCurrPosition());
-        mServoClimber.setPosition(.8);
+        mDashboard.displayPrintf(1, "Servo Position" + mServoClimber.getCurrPosition());
     }
 
     @Override
     public void Start() {
-        mServoClimber.setPosition(.1, .1); //Works now but needs scale testing, maybe input servo speed for scale? (Would Actually Probably Work) Add init position in start of servo init.
-        //robotDrive.tankDrive(.1, .1);
+        mServoClimber.setPosition(.1, .1); //Added Scaling Code but still needs testing.
+        robotDrive.tankDrive(.1, .1);
     }
 
     @Override

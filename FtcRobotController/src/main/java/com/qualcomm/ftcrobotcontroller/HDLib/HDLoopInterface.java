@@ -25,12 +25,10 @@ public class HDLoopInterface {
     public interface LoopTimer
     {
         void continuousCall();
-
     }
 
     public void register(LoopTimer lT){
         loopTimerSet.add(lT);
-
     }
 
     public void deregister(LoopTimer lT){

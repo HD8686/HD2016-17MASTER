@@ -1,6 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
-import com.qualcomm.ftcrobotcontroller.HDVals.Keys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -9,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public abstract class HDOpMode extends LinearOpMode {
     public static HDOpMode instance = null;
     private double waitTime = 0;
+    HDLoopInterface hdLoopInterface;
+
 
     public HDOpMode() {
         super();
@@ -31,14 +32,14 @@ public abstract class HDOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        HDLoopInterface hdLoopInterface = new HDLoopInterface();
+        hdLoopInterface = new HDLoopInterface();
         Initialize();
         waitTime = System.currentTimeMillis();
 
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
                 InitializeLoop();
-                waitTime = waitTime + Keys.initLoopTime;
+                waitTime = waitTime + Values.initLoopTime;
             }
         }
 

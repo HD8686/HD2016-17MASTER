@@ -1,12 +1,21 @@
-package com.qualcomm.ftcrobotcontroller.HDLib;
+package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Servo;
 
+import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
+import com.qualcomm.ftcrobotcontroller.HDLib.HDLoopInterface;
+import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 /**
  * Created by Akash on 5/7/2016.
  */
-public class HDServo implements HDLoopInterface.LoopTimer{
+
+/**
+ * This class encompasses the Servo class and adds stepping controls to it.
+ * When you initialize this class, you need to pass 3 main values. The servoName in the hardware map, the max servo speed from HDValues, and the servo position you want the servo to init to
+ *
+ */
+public class HDServo implements HDLoopInterface.LoopTimer {
     private Servo mServo;
     private double steppingRate = 0.0;
     private double currPosition = 0.0;
@@ -14,12 +23,13 @@ public class HDServo implements HDLoopInterface.LoopTimer{
     private double prevTime = 0.0;
     private double maxSpeed = 0.0;
 
-    public HDServo(String servoName, double servoStats){
+    public HDServo(String servoName, double servoStats, double servoInitPosition){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
             throw new NullPointerException("Servo is null");
         }
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
         this.maxSpeed = ((1/servoStats) * 60.0);
+        this.mServo.setPosition(servoInitPosition);
     }
 
     public double getCurrPosition(){
@@ -33,7 +43,7 @@ public class HDServo implements HDLoopInterface.LoopTimer{
 
     public void setPosition(double Position, double Speed){
             this.targetPosition = Range.clip(Position, 0, 1);
-            this.prevTime = HDBaseLib.getCurrentTimeSeconds();
+            this.prevTime = HDGeneralLib.getCurrentTimeSeconds();
             this.steppingRate = Math.abs(Range.clip(Speed,0,1)) * this.maxSpeed;
             this.currPosition = mServo.getPosition();
             HDLoopInterface.getInstance().register(this);
@@ -47,7 +57,7 @@ public class HDServo implements HDLoopInterface.LoopTimer{
     @Override
     public void continuousCall() {
         if(targetPosition != currPosition){
-            double currTime = HDBaseLib.getCurrentTimeSeconds();
+            double currTime = HDGeneralLib.getCurrentTimeSeconds();
             double posChange = steppingRate * (currTime - prevTime);
 
             if(currPosition < targetPosition){
@@ -68,3 +78,4 @@ public class HDServo implements HDLoopInterface.LoopTimer{
         }
     }
 }
+
