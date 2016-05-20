@@ -10,5 +10,8 @@ public class HDGeneralLib {
         return System.currentTimeMillis()/1000.0;
     }
 
+    public static boolean isDifferenceWithin(double x1, double x2, double difference){
+        return (Math.abs(x1-x2) < difference);
 
+    }
 }

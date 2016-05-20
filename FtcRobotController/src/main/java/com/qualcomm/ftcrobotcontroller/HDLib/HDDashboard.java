@@ -92,6 +92,30 @@ public class HDDashboard
         }
     }   //displayPrintf
 
+    public void displayPrintfOnNextLn(String format, Object... args){
+
+        int lineNum = 95342212;
+        for(int i = 0; i< display.length; i++) {
+            if(display[i].equals(""))
+            {
+                lineNum = i;
+                break;
+            }
+        }
+
+        if(lineNum != 95342212) {
+            if (lineNum >= 0 && lineNum < display.length) {
+                display[lineNum] = String.format(format, args);
+                telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
+            }
+
+        }
+
+
+    }
+
+
+
     /**
      * This method clears all the display lines.
      */

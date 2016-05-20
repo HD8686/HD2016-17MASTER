@@ -12,6 +12,7 @@ public final class Values {
 
     //Servos
     public static final String climberServo = "servo_4";
+    public static final String allClearL = "AllClear";
 
     //Motors
     public static final String frontRight = "motor_3";
@@ -27,7 +28,7 @@ public final class Values {
     public final class ServoInit {
         //Servo Init Values
         public static final double climberServoInit = .8;
-
+        public static final double allClearLInit = .1;
 
 
 

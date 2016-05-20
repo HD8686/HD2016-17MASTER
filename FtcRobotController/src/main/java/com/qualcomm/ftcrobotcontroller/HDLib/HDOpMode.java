@@ -38,6 +38,7 @@ public abstract class HDOpMode extends LinearOpMode {
 
         while(!opModeIsActive()){
             if(System.currentTimeMillis() >= waitTime){
+                hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
                 waitTime = waitTime + Values.initLoopTime;
             }
@@ -48,10 +49,11 @@ public abstract class HDOpMode extends LinearOpMode {
         waitForStart();
 
         Start();
+        hdLoopInterface.runStartInterface();
 
         while(opModeIsActive()){
             continuousRun();
-            hdLoopInterface.runWaitingLoops();
+            hdLoopInterface.runContinuousRunInterface();
         }
     }
 }

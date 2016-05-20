@@ -9,7 +9,9 @@ import java.util.Set;
 public class HDLoopInterface {
 
     private static HDLoopInterface instance = null;
-    Set<LoopTimer> loopTimerSet = new HashSet<LoopTimer>();
+    Set<LoopTimer> InitializeLoopHS = new HashSet<LoopTimer>();
+    Set<LoopTimer> StartHS = new HashSet<LoopTimer>();
+    Set<LoopTimer> ContinuousRunHS = new HashSet<LoopTimer>();
 
     public HDLoopInterface(){
         instance = this;
@@ -24,22 +26,62 @@ public class HDLoopInterface {
 
     public interface LoopTimer
     {
-        void continuousCall();
+        void continuousCallOp();
+
+        void StartOp();
+
+        void InitializeLoopOp();
     }
 
-    public void register(LoopTimer lT){
-        loopTimerSet.add(lT);
-    }
-
-    public void deregister(LoopTimer lT){
-        loopTimerSet.remove(lT);
-    }
-
-
-    public void runWaitingLoops(){
-        for(LoopTimer tempLoop: loopTimerSet){
-            tempLoop.continuousCall();
+    public void register(LoopTimer lT, registrationTypes rT){
+        switch (rT){
+            case InitializeLoop:
+                InitializeLoopHS.add(lT);
+                break;
+            case Start:
+                StartHS.add(lT);
+                break;
+            case ContinuousRun:
+                ContinuousRunHS.add(lT);
+                break;
         }
     }
 
+    public void deregister(LoopTimer lT, registrationTypes rT){
+        switch (rT){
+            case InitializeLoop:
+                InitializeLoopHS.remove(lT);
+                break;
+            case Start:
+                StartHS.remove(lT);
+                break;
+            case ContinuousRun:
+                ContinuousRunHS.remove(lT);
+                break;
+        }
+    }
+
+
+    public void runContinuousRunInterface(){
+        for(LoopTimer tempLoop: ContinuousRunHS){
+            tempLoop.continuousCallOp();
+        }
+    }
+    public void runInitializeLoopInterface(){
+        for(LoopTimer tempLoop: InitializeLoopHS){
+            tempLoop.continuousCallOp();
+        }
+    }
+    public void runStartInterface(){
+        for(LoopTimer tempLoop: StartHS){
+            tempLoop.continuousCallOp();
+        }
+    }
+
+    public enum registrationTypes{
+        InitializeLoop, Start, ContinuousRun,
+    }
+
 }
+
+

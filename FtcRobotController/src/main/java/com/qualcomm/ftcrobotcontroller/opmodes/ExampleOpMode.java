@@ -3,49 +3,76 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Servo.HDServo;
+import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateMachine;
+import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateTracker;
+import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.WaitTypes;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+
+import java.security.Key;
 
 /**
- * Created by akash on 5/7/2016.
+ * Created by Akash on 5/7/2016.
  */
 public class ExampleOpMode extends HDOpMode {
     DriveHandler robotDrive;
     HDDashboard mDashboard;
     HDServo mServoClimber;
+    StateMachine SM;
+    StateTracker StateManager;
+    HDServo mServoAllClearL;
+    HDGyro mGyro;
 
     private enum exampleStates{
         delay,
         servoStep,
-        VLF
     }
-
+    //Test Servo.getPosition, was pretty sure it isn't working but it might be
 
     @Override
     public void Initialize() {
-        //Initialize Variables
         mDashboard = new HDDashboard(telemetry);
+        mGyro = new HDGyro(Values.HardwareMapKeys.Gyro);
         robotDrive = new DriveHandler();
+        StateManager = new StateTracker(robotDrive);
+        SM = new StateMachine(StateManager);
         mServoClimber = new HDServo(Values.HardwareMapKeys.climberServo, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.climberServoInit);
-        //Init Settings
+        mServoAllClearL = new HDServo(Values.HardwareMapKeys.allClearL, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.allClearLInit);
         robotDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
 
     @Override
     public void InitializeLoop() {
-        mDashboard.displayPrintf(1, "Servo Position" + mServoClimber.getCurrPosition());
+
     }
+
 
     @Override
     public void Start() {
-        mServoClimber.setPosition(.1, .1); //Added Scaling Code but still needs testing.
-        robotDrive.tankDrive(.1, .1);
+        SM.setState(exampleStates.delay);
     }
 
     @Override
     public void continuousRun() {
-        mDashboard.displayPrintf(1,"Servo Position" + mServoClimber.getCurrPosition());
+
+        if(SM.ready()){
+            exampleStates states = (exampleStates) SM.getState();
+                switch (states){
+                    case delay:
+                        SM.setState(exampleStates.servoStep);
+                        StateManager.setWait(WaitTypes.Timer, 5);
+                        break;
+                    case servoStep:
+                        mServoClimber.setPosition(.1, .1); //Added Scaling Code but still needs testing.
+                        StateManager.setWait(WaitTypes.Timer, 10);
+                        break;
+                }
+
+        }
+
     }
 
 

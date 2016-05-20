@@ -13,12 +13,15 @@ import com.qualcomm.robotcore.util.Range;
 public class DriveHandler {
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
     private HardwareMap mHardwareMap;
+    private static DriveHandler instance = null;
+
 
     public DriveHandler(){
         if(HDOpMode.getInstance() == null){
             throw new NullPointerException("HDOpMode not running!");
         }
         InitMotors();
+        instance = this;
     }
 
     private void InitMotors(){
@@ -50,6 +53,10 @@ public class DriveHandler {
                 DHfrontRight.getCurrentPosition()+
                 DHbackLeft.getCurrentPosition()+
                 DHbackRight.getCurrentPosition())/4);
+    }
+
+    public static DriveHandler getInstance(){
+        return instance;
     }
 
 

@@ -37,7 +37,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
     }
 
     public void setPosition(double Position){
-        HDLoopInterface.getInstance().deregister(this);
+        HDLoopInterface.getInstance().deregister(this,HDLoopInterface.registrationTypes.ContinuousRun);
         this.mServo.setPosition(Position);
     }
 
@@ -46,7 +46,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
             this.prevTime = HDGeneralLib.getCurrentTimeSeconds();
             this.steppingRate = Math.abs(Range.clip(Speed,0,1)) * this.maxSpeed;
             this.currPosition = mServo.getPosition();
-            HDLoopInterface.getInstance().register(this);
+            HDLoopInterface.getInstance().register(this,HDLoopInterface.registrationTypes.ContinuousRun);
     }
 
     public void stopServo(){
@@ -55,7 +55,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
 
 
     @Override
-    public void continuousCall() {
+    public void continuousCallOp() {
         if(targetPosition != currPosition){
             double currTime = HDGeneralLib.getCurrentTimeSeconds();
             double posChange = steppingRate * (currTime - prevTime);
@@ -71,11 +71,21 @@ public class HDServo implements HDLoopInterface.LoopTimer {
                     currPosition = targetPosition;
                 }
             }else{
-                HDLoopInterface.getInstance().deregister(this);
+                HDLoopInterface.getInstance().deregister(this,HDLoopInterface.registrationTypes.ContinuousRun);
             }
             prevTime = currTime;
             mServo.setPosition(currPosition);
         }
+    }
+
+    @Override
+    public void InitializeLoopOp() {
+
+    }
+
+    @Override
+    public void StartOp() {
+
     }
 }
 
