@@ -51,7 +51,6 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
             isReady = false;
             HDDashboard.getInstance().displayPrintfOnNextLn("Waiting on gyro before starting stateMachine");
         } else{
-            HDDashboard.getInstance().clearDisplay();
             isReady = true;
         }
     }
