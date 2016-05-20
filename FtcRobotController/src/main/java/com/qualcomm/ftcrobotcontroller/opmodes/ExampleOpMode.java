@@ -23,7 +23,6 @@ public class ExampleOpMode extends HDOpMode {
     HDServo mServoClimber;
     StateMachine SM;
     StateTracker StateManager;
-    HDServo mServoAllClearL;
     HDGyro mGyro;
 
     private enum exampleStates{
@@ -40,7 +39,6 @@ public class ExampleOpMode extends HDOpMode {
         StateManager = new StateTracker(robotDrive);
         SM = new StateMachine(StateManager);
         mServoClimber = new HDServo(Values.HardwareMapKeys.climberServo, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.climberServoInit);
-        mServoAllClearL = new HDServo(Values.HardwareMapKeys.allClearL, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.allClearLInit);
         robotDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
 
