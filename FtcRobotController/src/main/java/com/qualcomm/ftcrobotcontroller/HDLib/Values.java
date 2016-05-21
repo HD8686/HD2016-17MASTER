@@ -6,7 +6,6 @@ package com.qualcomm.ftcrobotcontroller.HDLib;
  */
 public final class Values {
     //HDOpMode Settings
-    public static final double initLoopTime = 50;
 
     public final class HardwareMapKeys {
 

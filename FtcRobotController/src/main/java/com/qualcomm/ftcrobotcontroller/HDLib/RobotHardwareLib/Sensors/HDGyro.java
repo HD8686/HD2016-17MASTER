@@ -53,7 +53,6 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
     public void continuousCallOp() {
         if((HDGeneralLib.getCurrentTimeSeconds() < lastGyroCal + 6) && !isReady){
             isReady = false;
-            HDDashboard.getInstance().displayPrintf(10, "Waiting on gyro before starting stateMachine");
         } else{
             HDLoopInterface.getInstance().deregister(this, HDLoopInterface.registrationTypes.InitializeLoop);
             HDLoopInterface.getInstance().deregister(this, HDLoopInterface.registrationTypes.ContinuousRun);
@@ -65,7 +64,6 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
 
     @Override
     public void InitializeLoopOp() {
-        Log.w("Gyro", "2");
         switch (currGyroCal){
             case gyroCalibration:
                 lastGyroCal = HDGeneralLib.getCurrentTimeSeconds();
@@ -73,7 +71,6 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
                 currGyroCal = gyroCalibration.waitForGyroCalibration;
                 break;
             case waitForGyroCalibration:
-                HDDashboard.getInstance().displayPrintf(8, "Seconds until next gyro calibration: " + String.valueOf((lastGyroCal + 30) - HDGeneralLib.getCurrentTimeSeconds()));
                 if(HDGeneralLib.getCurrentTimeSeconds() >= lastGyroCal + 30){
                     currGyroCal = gyroCalibration.gyroCalibration;
                 }

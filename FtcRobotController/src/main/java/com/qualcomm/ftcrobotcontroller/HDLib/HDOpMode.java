@@ -9,9 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 public abstract class HDOpMode extends LinearOpMode {
     public static HDOpMode instance = null;
-    private double waitTime = 0;
     HDLoopInterface hdLoopInterface;
-
 
     public HDOpMode() {
         super();
@@ -22,7 +20,6 @@ public abstract class HDOpMode extends LinearOpMode {
     {
         return instance;
     }   //getInstance
-
 
     public abstract void Initialize();
 
@@ -36,20 +33,12 @@ public abstract class HDOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         hdLoopInterface = new HDLoopInterface();
         Initialize();
-        waitTime = 0;
-
+        hdLoopInterface.runInitializeLoopInterface();
         while(!opModeIsActive()){
             waitForNextHardwareCycle();
-
-            if(System.currentTimeMillis() >= waitTime){
-                Log.w("Gyro", "1");
                 hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
-                waitTime = System.currentTimeMillis() + Values.initLoopTime;
-            }
         }
-
-        waitTime = 0;
 
         waitForStart();
 
@@ -61,4 +50,6 @@ public abstract class HDOpMode extends LinearOpMode {
             hdLoopInterface.runContinuousRunInterface();
         }
     }
+
+
 }

@@ -70,7 +70,6 @@ public class HDLoopInterface {
         }
     }
     public void runInitializeLoopInterface(){
-        Log.w("Gyro", InitializeLoopHS.toString());
         for(LoopTimer tempLoop: InitializeLoopHS){
             tempLoop.InitializeLoopOp();
         }

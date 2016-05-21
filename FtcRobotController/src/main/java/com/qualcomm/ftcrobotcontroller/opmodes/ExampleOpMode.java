@@ -31,7 +31,6 @@ public class ExampleOpMode extends HDOpMode {
         delay,
         servoStep,
     }
-    //Test Servo.getPosition, was pretty sure it isn't working but it might be
 
     @Override
     public void Initialize() {
