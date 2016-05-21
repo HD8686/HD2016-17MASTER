@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import android.util.Log;
+
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
@@ -55,21 +57,22 @@ public class ExampleOpMode extends HDOpMode {
 
     @Override
     public void continuousRun() {
-
         if(SM.ready()){
             exampleStates states = (exampleStates) SM.getState();
                 switch (states){
                     case delay:
                         SM.setState(exampleStates.servoStep);
-                        StateManager.setWait(WaitTypes.Timer, 5);
+                        StateManager.setWait(WaitTypes.Timer, 2.5);
                         break;
                     case servoStep:
-                        mServoClimber.setPosition(.1, .1); //Added Scaling Code but still needs testing.
-                        StateManager.setWait(WaitTypes.Timer, 10);
+                        mServoClimber.setPosition(.1, .5); //Added Scaling Code but still needs testing.
+                        StateManager.setWait(WaitTypes.Timer, 3);
                         break;
                 }
 
+
         }
+
 
     }
 

@@ -28,7 +28,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
             throw new NullPointerException("Servo is null");
         }
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
-        this.maxSpeed = ((1/servoStats) * 60.0);
+        this.maxSpeed = ((1/servoStats) * 60.0)/360;
         this.mServo.setPosition(servoInitPosition);
     }
 

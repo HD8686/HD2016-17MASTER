@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -34,14 +36,16 @@ public abstract class HDOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         hdLoopInterface = new HDLoopInterface();
         Initialize();
-        waitTime = System.currentTimeMillis();
+        waitTime = 0;
 
         while(!opModeIsActive()){
+            waitForNextHardwareCycle();
+
             if(System.currentTimeMillis() >= waitTime){
-                HDDashboard.getInstance().clearDisplay();
+                Log.w("Gyro", "1");
                 hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
-                waitTime = waitTime + Values.initLoopTime;
+                waitTime = System.currentTimeMillis() + Values.initLoopTime;
             }
         }
 
@@ -55,7 +59,6 @@ public abstract class HDOpMode extends LinearOpMode {
         while(opModeIsActive()){
             continuousRun();
             hdLoopInterface.runContinuousRunInterface();
-            HDDashboard.getInstance().clearDisplay();
         }
     }
 }

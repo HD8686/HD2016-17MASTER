@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.StateMachines;
 
+import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
@@ -24,7 +25,8 @@ public class StateMachine {
 
     public boolean ready(){
         boolean sTwhatToReturn = true;
-
+        HDDashboard.getInstance().displayPrintf(3, String.valueOf(sT.waitingActive));
+        HDDashboard.getInstance().displayPrintf(2, String.valueOf(sT.currWaitType));
         boolean HDGyroWhatToReturn = true;
 
         if(sT.waitingActive){
@@ -38,7 +40,8 @@ public class StateMachine {
                         }
                     break;
                 case Timer:
-                    if(sT.timerExpire >= HDGeneralLib.getCurrentTimeSeconds()){
+                    HDDashboard.getInstance().displayPrintf(4, String.valueOf(sT.timerExpire - HDGeneralLib.getCurrentTimeSeconds()));
+                    if(sT.timerExpire <= HDGeneralLib.getCurrentTimeSeconds()){
                         sT.resetValues();
                         sTwhatToReturn = true;
                     }else{
@@ -56,7 +59,7 @@ public class StateMachine {
         if(HDGyro.getInstance() != null){
             HDGyroWhatToReturn = HDGyro.isReady;
         }
-
+        HDDashboard.getInstance().displayPrintf(5, String.valueOf(sTwhatToReturn));
         return sTwhatToReturn && HDGyroWhatToReturn;
     }
 

@@ -56,7 +56,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
     manager.register("ExampleOpModeTestv1", ExampleOpMode.class);
-
+    manager.register("FieldCentric" , FieldCentric.class);
 
 
   }

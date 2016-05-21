@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
+import android.util.Log;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,13 +70,14 @@ public class HDLoopInterface {
         }
     }
     public void runInitializeLoopInterface(){
+        Log.w("Gyro", InitializeLoopHS.toString());
         for(LoopTimer tempLoop: InitializeLoopHS){
-            tempLoop.continuousCallOp();
+            tempLoop.InitializeLoopOp();
         }
     }
     public void runStartInterface(){
         for(LoopTimer tempLoop: StartHS){
-            tempLoop.continuousCallOp();
+            tempLoop.StartOp();
         }
     }
 
