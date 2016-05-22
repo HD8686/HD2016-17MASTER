@@ -1,7 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -10,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public abstract class HDOpMode extends LinearOpMode {
     public static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
-
     public HDOpMode() {
         super();
         instance = this;
@@ -33,11 +30,13 @@ public abstract class HDOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         hdLoopInterface = new HDLoopInterface();
         Initialize();
+        HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered,"HDLib Running");
         hdLoopInterface.runInitializeLoopInterface();
         while(!opModeIsActive()){
-            waitForNextHardwareCycle();
+                waitForNextHardwareCycle();
                 hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
+                HDDashboard.getInstance().refreshDisplay();
         }
 
         waitForStart();
@@ -46,6 +45,7 @@ public abstract class HDOpMode extends LinearOpMode {
         hdLoopInterface.runStartInterface();
 
         while(opModeIsActive()){
+            HDDashboard.getInstance().refreshDisplay();
             continuousRun();
             hdLoopInterface.runContinuousRunInterface();
         }

@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 
+import android.util.Log;
+
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -47,6 +49,13 @@ public class DriveHandler {
         DHbackLeft.setMode(RunMode);
         DHbackRight.setMode(RunMode);
     }
+    public void setOldSteve(){
+        DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
+        DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
+        DHbackRight.setDirection(DcMotor.Direction.REVERSE);
+    }
+
 
     public double getEncoderCount(){
         return ((DHfrontLeft.getCurrentPosition()+

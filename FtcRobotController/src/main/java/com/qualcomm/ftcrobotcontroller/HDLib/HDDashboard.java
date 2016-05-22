@@ -1,6 +1,8 @@
 
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.robocol.Telemetry;
 
 import java.util.NoSuchElementException;
@@ -19,10 +21,17 @@ import java.util.NoSuchElementException;
 public class HDDashboard
 {
     public static final int MAX_NUM_TEXTLINES = 16;
+    private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";
     private static Telemetry telemetry = null;
     private static HDDashboard instance = null;
     private static String[] display = new String[MAX_NUM_TEXTLINES];
+    public enum textPosition{
+        Left,
+        Right,
+        Centered
+    }
+
 
     /**
      * Constructor: Creates an instance of the object.
@@ -78,41 +87,39 @@ public class HDDashboard
 
     /**
      * This method displays a formatted message to the display on the Driver Station.
-     *
-     * @param lineNum specifies the line number on the display.
+     *  @param lineNum specifies the line number on the display.
      * @param format specifies the format string.
      * @param args specifies variable number of substitution arguments.
      */
-    public void displayPrintf(int lineNum, String format, Object... args)
+    public void displayPrintf(int lineNum, textPosition tP, String format, Object... args)
     {
+        display[lineNum] = String.format(format, args);
         if (lineNum >= 0 && lineNum < display.length)
         {
-            display[lineNum] = String.format(format, args);
-            telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
-        }
-    }   //displayPrintf
-
-    public void displayPrintfOnNextLn(String format, Object... args){
-
-        int lineNum = 95342212;
-        for(int i = 0; i< display.length; i++) {
-            if(display[i].equals(""))
-            {
-                lineNum = i;
-                break;
-            }
-        }
-
-        if(lineNum != 95342212) {
-            if (lineNum >= 0 && lineNum < display.length) {
+            if(tP == textPosition.Centered){
+                int spacing = Math.round(MAX_CHAR - display[lineNum].length() + (display[lineNum].length() - display[lineNum].replace(" ","").length())) - 3;
+                StringBuilder builder = new StringBuilder(display[lineNum]);
+                for(int i = 0; i < spacing; i++){
+                    builder.insert(0," ");
+                }
+                display[lineNum] = builder.toString();
+                telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
+            } else if(tP == textPosition.Right){
+                int spacing = Math.round((MAX_CHAR - display[lineNum].length() + (display[lineNum].length() - display[lineNum].replace(" ","").length()))*2)-5;
+                StringBuilder builder = new StringBuilder(display[lineNum]);
+                for(int i = 0; i < spacing; i++){
+                    builder.insert(0," ");
+                }
+                display[lineNum] = builder.toString();
+                telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
+            } else if(tP == textPosition.Left){
                 display[lineNum] = String.format(format, args);
                 telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
             }
 
         }
+    }   //displayPrintf
 
-
-    }
 
 
 

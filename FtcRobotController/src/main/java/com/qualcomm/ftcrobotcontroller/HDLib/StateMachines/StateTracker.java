@@ -39,7 +39,7 @@ public class StateTracker {
                 break;
             case EncoderCounts:
                 waitingActive = true;
-                targetEncoder = rDrive.getEncoderCount() + targetEncoder;
+                targetEncoder = rDrive.getEncoderCount() + Argument;
                 break;
             case Nothing:
                 break;

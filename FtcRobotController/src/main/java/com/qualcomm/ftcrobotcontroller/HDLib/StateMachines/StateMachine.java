@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.StateMachines;
 
+import android.util.Log;
+
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
@@ -30,10 +32,13 @@ public class StateMachine {
         if(sT.waitingActive){
             switch(sT.currWaitType){
                 case EncoderCounts:
-                        if(HDGeneralLib.isDifferenceWithin(sT.targetEncoder,DriveHandler.getInstance().getEncoderCount(),100)){
+                        if(HDGeneralLib.isDifferenceWithin(sT.targetEncoder,DriveHandler.getInstance().getEncoderCount(),50)){
+                            Log.w("HD", "Encoder Counts: " + String.valueOf(DriveHandler.getInstance().getEncoderCount()) + "Target: " + String.valueOf(sT.targetEncoder));
                             sT.resetValues();
                             sTwhatToReturn = true;
                         } else{
+                            Log.w("HD", "Encoder Counts: " + String.valueOf(DriveHandler.getInstance().getEncoderCount()) + "Target: " + String.valueOf(sT.targetEncoder));
+                            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Degrees Left: " + (String.valueOf(sT.targetEncoder - DriveHandler.getInstance().getEncoderCount())));
                             sTwhatToReturn = false;
                         }
                     break;
@@ -42,6 +47,7 @@ public class StateMachine {
                         sT.resetValues();
                         sTwhatToReturn = true;
                     }else{
+                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Delay Left: " + (String.valueOf(Math.round(sT.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
                         sTwhatToReturn = false;
                     }
                     break;
@@ -65,6 +71,7 @@ public class StateMachine {
 
 
     public Object getState(){
+        HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "Current State Running: " + State.toString());
         return State;
     }
 }
