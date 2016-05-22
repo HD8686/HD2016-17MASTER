@@ -5,6 +5,7 @@ import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -31,13 +32,16 @@ public class FieldCentric extends OpMode {
         DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
         DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
         DHbackRight.setDirection(DcMotor.Direction.REVERSE);
+        //RUN WITHOUT MOTORS BEFORE TESTING
+        setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
     }
 
     @Override
     public void loop() {
         telemetry.addData("Gyro",-mGyro.getIntegratedZValue());
-        Speed = Math.max(Math.abs(gamepad1.left_stick_x),Math.abs(gamepad1.left_stick_y));
-        direction_Cmd = Math.atan2(gamepad1.left_stick_x, -gamepad1.left_stick_y) * (180/Math.PI);
+        Speed = Math.max(Math.abs(gamepad1.left_stick_x), Math.abs(gamepad1.left_stick_y));
+        direction_Cmd = Math.atan2(gamepad1.left_stick_x, gamepad1.left_stick_y) * (180/Math.PI); //This may need to be negative? Add telemetry to track direction_CMD and run it without motors.
         telemetry.addData("direction", String.valueOf(direction_Cmd));
         angle_error  = direction_Cmd - -mGyro.getIntegratedZValue();
         while(angle_error > 180){
@@ -58,7 +62,7 @@ public class FieldCentric extends OpMode {
         rightSpeed = Speed - clockwiseCmd;
         telemetry.addData("left", leftSpeed);
         telemetry.addData("right", rightSpeed);
-        tankDrive(leftSpeed,rightSpeed);
+        tankDrive(leftSpeed, rightSpeed);
 
     }
 
@@ -71,5 +75,12 @@ public class FieldCentric extends OpMode {
         DHbackLeft.setPower(LeftPower);
         DHfrontRight.setPower(RightPower);
         DHbackRight.setPower(RightPower);
+    }
+
+    public void setMode(DcMotorController.RunMode RunMode){
+        DHfrontLeft.setMode(RunMode);
+        DHfrontRight.setMode(RunMode);
+        DHbackLeft.setMode(RunMode);
+        DHbackRight.setMode(RunMode);
     }
 }
