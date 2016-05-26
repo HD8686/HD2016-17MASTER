@@ -6,10 +6,8 @@ import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Servo.HDServo;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateMachine;
-import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateTracker;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.WaitTypes;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 
 /**
  * Created by Akash on 5/7/2016.
@@ -19,24 +17,23 @@ public class ExampleOpMode extends HDOpMode {
     DriveHandler robotDrive;
     HDServo mServoClimber;
     StateMachine SM;
-    StateTracker StateManager;
     HDGyro mGyro;
 
     private enum exampleStates{
         delay,
         servoStepUp,
         servoStepDown,
+        DONE,
     }
 
     @Override
     public void Initialize() {
+        SM = new StateMachine(robotDrive);
         mDisplay = new HDDashboard(telemetry);
         mGyro = new HDGyro(Values.HardwareMapKeys.Gyro);
         robotDrive = new DriveHandler();
-        StateManager = new StateTracker(robotDrive);
-        SM = new StateMachine(StateManager);
         mServoClimber = new HDServo(Values.HardwareMapKeys.climberServo, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.climberServoInit);
-        robotDrive.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        robotDrive.resetEncoders();
     }
 
     @Override
@@ -57,18 +54,20 @@ public class ExampleOpMode extends HDOpMode {
             exampleStates states = (exampleStates) SM.getState();
                 switch (states){
                     case delay:
-                        SM.setState(exampleStates.servoStepUp);
-                        robotDrive.tankDrive(.25,.25);
-                        StateManager.setWait(WaitTypes.EncoderCounts, 500);
-                        //StateManager.setWait(WaitTypes.Timer, 2.5);
+                        SM.setNextState(exampleStates.servoStepUp, WaitTypes.Timer, 2.5);
                         break;
                     case servoStepUp:
+                        SM.setNextState(exampleStates.servoStepDown, WaitTypes.EncoderCounts, 3000);
                         mServoClimber.setPosition(.1, .5); //Added Scaling Code but still needs testing.
-                        SM.setState(exampleStates.servoStepDown);
-                        StateManager.setWait(WaitTypes.Timer, 3);
+                        robotDrive.tankDrive(.1, .1);
                         break;
                     case servoStepDown:
-                        mServoClimber.setPosition(.8,.5);
+                        SM.setNextState(exampleStates.DONE, WaitTypes.EncoderCounts, 0);
+                        mServoClimber.setPosition(.8, .5);
+                        robotDrive.tankDrive(-0.1, -0.1);
+                        break;
+                    case DONE:
+                            robotDrive.tankDrive(0,0);
                         break;
 
                 }

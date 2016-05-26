@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
+import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
 import com.qualcomm.robotcore.util.Range;
@@ -15,13 +16,34 @@ import com.qualcomm.robotcore.util.Range;
 public class StateMachine {
     Object State;
     Object nextState;
-    StateTracker sT;
+    public boolean waitingActive = false;
+    public double timerExpire = 0.0;
+    public double targetEncoder = 0.0;
+    DriveHandler rDrive;
+    WaitTypes currWaitType = WaitTypes.Nothing;
 
-    public StateMachine(StateTracker stateTracker){
-        this.sT = stateTracker;
+    public StateMachine(DriveHandler robotD){
+        this.rDrive = robotD;
     }
 
     public void setState(Object sL){
+        State = sL;
+    }
+
+    public void setNextState(Object sL, WaitTypes typetoWait, double Argument){
+        currWaitType = typetoWait;
+        switch(typetoWait){
+            case Timer:
+                waitingActive = true;
+                timerExpire = HDGeneralLib.getCurrentTimeSeconds() + Argument;
+                break;
+            case EncoderCounts:
+                waitingActive = true;
+                targetEncoder = Argument;
+                break;
+            case Nothing:
+                break;
+        }
         State = sL;
     }
 
@@ -29,30 +51,28 @@ public class StateMachine {
         boolean sTwhatToReturn = true;
         boolean HDGyroWhatToReturn = true;
 
-        if(sT.waitingActive){
-            switch(sT.currWaitType){
+        if(this.waitingActive){
+            switch(this.currWaitType){
                 case EncoderCounts:
-                        if(HDGeneralLib.isDifferenceWithin(sT.targetEncoder,DriveHandler.getInstance().getEncoderCount(),50)){
-                            Log.w("HD", "Encoder Counts: " + String.valueOf(DriveHandler.getInstance().getEncoderCount()) + "Target: " + String.valueOf(sT.targetEncoder));
-                            sT.resetValues();
+                        if(HDGeneralLib.isDifferenceWithin(this.targetEncoder,DriveHandler.getInstance().getEncoderCount(),50)){
+                            this.resetValues();
                             sTwhatToReturn = true;
                         } else{
-                            Log.w("HD", "Encoder Counts: " + String.valueOf(DriveHandler.getInstance().getEncoderCount()) + "Target: " + String.valueOf(sT.targetEncoder));
-                            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Degrees Left: " + (String.valueOf(sT.targetEncoder - DriveHandler.getInstance().getEncoderCount())));
+                            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - DriveHandler.getInstance().getEncoderCount()))));
                             sTwhatToReturn = false;
                         }
                     break;
                 case Timer:
-                    if(sT.timerExpire <= HDGeneralLib.getCurrentTimeSeconds()){
-                        sT.resetValues();
+                    if(this.timerExpire <= HDGeneralLib.getCurrentTimeSeconds()){
+                        this.resetValues();
                         sTwhatToReturn = true;
                     }else{
-                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Delay Left: " + (String.valueOf(Math.round(sT.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
+                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
                         sTwhatToReturn = false;
                     }
                     break;
                 case Nothing:
-                    sT.resetValues();
+                    this.resetValues();
                     sTwhatToReturn = true;
                     break;
             }
@@ -66,7 +86,13 @@ public class StateMachine {
     }
 
 
-
+    public void resetValues()
+    {
+        waitingActive = false;
+        timerExpire = 0.0;
+        targetEncoder = 0.0;
+        currWaitType = WaitTypes.Nothing;
+    }
 
 
 

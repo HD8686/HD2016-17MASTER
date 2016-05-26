@@ -22,12 +22,14 @@ public class DriveHandler {
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
     private HardwareMap mHardwareMap;
     private static DriveHandler instance = null;
+    private DcMotorController.RunMode currRunMode = DcMotorController.RunMode.RUN_USING_ENCODERS;
 
     public DriveHandler(){
         if(HDOpMode.getInstance() == null){
             throw new NullPointerException("HDOpMode not running!");
         }
         InitMotors();
+        setMode(currRunMode);
         instance = this;
     }
 
@@ -40,6 +42,7 @@ public class DriveHandler {
     }
 
     public void tankDrive(double LeftPower, double RightPower){
+        Log.w("HD", "Ran with:" + String.valueOf(LeftPower) + "," + String.valueOf(RightPower));
         LeftPower = Range.clip(LeftPower,-1,1);
         RightPower = Range.clip(RightPower,-1,1);
         DHfrontLeft.setPower(LeftPower);
@@ -48,12 +51,25 @@ public class DriveHandler {
         DHbackRight.setPower(RightPower);
     }
 
+
+
     public void setMode(DcMotorController.RunMode RunMode){
+        currRunMode = RunMode;
         DHfrontLeft.setMode(RunMode);
         DHfrontRight.setMode(RunMode);
         DHbackLeft.setMode(RunMode);
         DHbackRight.setMode(RunMode);
     }
+
+    public void resetEncoders(){
+        DHfrontLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        DHfrontRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        DHbackLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        DHbackRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        setMode(currRunMode);
+    }
+
     public void setOldSteve() {
         DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
         DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -118,39 +134,6 @@ public class DriveHandler {
         setMotorSpeeds(Motors);
     }
 
-    public void fieldCentricTank(double X1, double Y1){
-        double direction_Cmd = 0;
-        double Speed = 0;
-        double angle_error = 0;
-        double clockwiseCmd = 0;
-        double leftSpeed = 0;
-        double rightSpeed = 0;
-        HDOpMode.getInstance().telemetry.addData("Gyro", HDGyro.getInstance().getHeading());
-        Speed = Math.max(Math.abs(X1), Math.abs(Y1));
-        direction_Cmd = Math.atan2(X1, Y1) * (180/Math.PI); //This may need to be negative? Add telemetry to track direction_CMD and run it without motors.
-        HDOpMode.getInstance().telemetry.addData("direction", String.valueOf(direction_Cmd));
-        angle_error  = direction_Cmd - HDGyro.getInstance().getHeading();
-        while(angle_error > 180){
-            angle_error -= 360;
-        }
-        while(angle_error < -180){
-            angle_error +=360;
-        }
-        if(angle_error > 100){
-            angle_error -= 180;
-            Speed = -Speed;
-        } else if(angle_error < -100){
-            angle_error += 180;
-            Speed = -Speed;
-        }
-        clockwiseCmd = angle_error/45;
-        leftSpeed = Speed + clockwiseCmd;
-        rightSpeed = Speed - clockwiseCmd;
-        HDOpMode.getInstance().telemetry.addData("left", leftSpeed);
-        HDOpMode.getInstance().telemetry.addData("right", rightSpeed);
-        tankDrive(leftSpeed, rightSpeed);
-
-    }
 
 
 

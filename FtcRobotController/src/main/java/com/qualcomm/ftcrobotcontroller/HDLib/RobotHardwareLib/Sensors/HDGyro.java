@@ -54,7 +54,7 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
         if((HDGeneralLib.getCurrentTimeSeconds() < lastGyroCal + 3) && !isReady){
             isReady = false;
             HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "Gyro Is Calibrating");
-            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Time Left: " + String.valueOf(Math.round((lastGyroCal+6) - HDGeneralLib.getCurrentTimeSeconds())) + " Seconds");
+            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Time Left: " + String.valueOf(Math.round((lastGyroCal+3) - HDGeneralLib.getCurrentTimeSeconds())) + " Seconds");
         } else{
             HDLoopInterface.getInstance().deregister(this, HDLoopInterface.registrationTypes.InitializeLoop);
             HDLoopInterface.getInstance().deregister(this, HDLoopInterface.registrationTypes.ContinuousRun);
