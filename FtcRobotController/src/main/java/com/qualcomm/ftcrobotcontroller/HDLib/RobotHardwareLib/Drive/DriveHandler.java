@@ -3,6 +3,7 @@ package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 import android.util.Log;
 
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -115,6 +116,40 @@ public class DriveHandler {
         }
 
         setMotorSpeeds(Motors);
+    }
+
+    public void fieldCentricTank(double X1, double Y1){
+        double direction_Cmd = 0;
+        double Speed = 0;
+        double angle_error = 0;
+        double clockwiseCmd = 0;
+        double leftSpeed = 0;
+        double rightSpeed = 0;
+        HDOpMode.getInstance().telemetry.addData("Gyro", HDGyro.getInstance().getHeading());
+        Speed = Math.max(Math.abs(X1), Math.abs(Y1));
+        direction_Cmd = Math.atan2(X1, Y1) * (180/Math.PI); //This may need to be negative? Add telemetry to track direction_CMD and run it without motors.
+        HDOpMode.getInstance().telemetry.addData("direction", String.valueOf(direction_Cmd));
+        angle_error  = direction_Cmd - HDGyro.getInstance().getHeading();
+        while(angle_error > 180){
+            angle_error -= 360;
+        }
+        while(angle_error < -180){
+            angle_error +=360;
+        }
+        if(angle_error > 100){
+            angle_error -= 180;
+            Speed = -Speed;
+        } else if(angle_error < -100){
+            angle_error += 180;
+            Speed = -Speed;
+        }
+        clockwiseCmd = angle_error/45;
+        leftSpeed = Speed + clockwiseCmd;
+        rightSpeed = Speed - clockwiseCmd;
+        HDOpMode.getInstance().telemetry.addData("left", leftSpeed);
+        HDOpMode.getInstance().telemetry.addData("right", rightSpeed);
+        tankDrive(leftSpeed, rightSpeed);
+
     }
 
 

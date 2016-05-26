@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by Height Differential on 5/20/2016.
  */
-public class FieldCentric extends OpMode {
+public class FieldCentricTest extends OpMode {
     private ModernRoboticsI2cGyro mGyro;
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
     private double direction_Cmd = 0;
