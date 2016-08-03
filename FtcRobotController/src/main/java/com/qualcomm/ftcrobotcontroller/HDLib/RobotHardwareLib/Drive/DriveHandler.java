@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
-
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
@@ -42,7 +41,7 @@ public class DriveHandler {
     }
 
     public void tankDrive(double LeftPower, double RightPower){
-        Log.w("HD", "Ran with:" + String.valueOf(LeftPower) + "," + String.valueOf(RightPower));
+        Log.w("HD", "tankDrive:" + String.valueOf(LeftPower) + "," + String.valueOf(RightPower));
         LeftPower = Range.clip(LeftPower,-1,1);
         RightPower = Range.clip(RightPower,-1,1);
         DHfrontLeft.setPower(LeftPower);

@@ -13,12 +13,10 @@ import com.qualcomm.ftcrobotcontroller.HDLib.Values;
  * Created by Akash on 5/7/2016.
  */
 public class ExampleOpMode extends HDOpMode {
-    public HDDashboard mDisplay;
     DriveHandler robotDrive;
     HDServo mServoClimber;
     StateMachine SM;
     HDGyro mGyro;
-
     private enum exampleStates{
         delay,
         servoStepUp,
@@ -29,7 +27,6 @@ public class ExampleOpMode extends HDOpMode {
     @Override
     public void Initialize() {
         SM = new StateMachine(robotDrive);
-        mDisplay = new HDDashboard(telemetry);
         mGyro = new HDGyro(Values.HardwareMapKeys.Gyro);
         robotDrive = new DriveHandler();
         mServoClimber = new HDServo(Values.HardwareMapKeys.climberServo, Values.ServoSpeedStats.HS_755HB, Values.ServoInit.climberServoInit);

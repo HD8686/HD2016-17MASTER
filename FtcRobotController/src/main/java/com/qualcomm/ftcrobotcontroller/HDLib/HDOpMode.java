@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by Akash on 5/8/2016.
  */
 public abstract class HDOpMode extends LinearOpMode {
+    public HDDashboard mDisplay;
     public static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
     public HDOpMode() {
@@ -28,6 +29,7 @@ public abstract class HDOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        mDisplay = new HDDashboard(telemetry);
         hdLoopInterface = new HDLoopInterface();
         Initialize();
         HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered,"HDLib Running");
