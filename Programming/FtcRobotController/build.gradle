@@ -22,13 +22,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
     }
 }
 
 repositories {
     flatDir {
-        dirs 'libs'
+        dirs 'libs', 'C:\\Users\\Jack\\navx-micro\\android\\libs'
     }
 }
 
@@ -42,7 +42,6 @@ allprojects {
 }
 
 dependencies {
-    compile files('libs/android-support-v4.jar')
     compile(name: 'RobotCore-release', ext: 'aar')
     compile(name: 'Hardware-release', ext: 'aar')
     compile(name: 'FtcCommon-release', ext: 'aar')
@@ -50,4 +49,5 @@ dependencies {
     compile(name: 'Analytics-release', ext: 'aar')
     compile(name: 'WirelessP2p-release', ext: 'aar')
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile (name:'navx_ftc-release', ext:'aar')
 }

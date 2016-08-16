@@ -54,7 +54,8 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
+  manager.register("DIstance Test", MRI_Range.class);
     manager.register("ExampleOpModeTestv1", ExampleOpMode.class);
+    manager.register("NavxTest", navXProcessedOp.class);
   }
 }
