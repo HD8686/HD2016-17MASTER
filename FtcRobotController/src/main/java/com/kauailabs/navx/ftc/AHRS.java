@@ -34,6 +34,7 @@ import com.kauailabs.navx.IMURegisters;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.I2cController;
 import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceImpl;
 
 import java.util.Arrays;
 
@@ -1133,7 +1134,7 @@ public class AHRS {
             if ( enable_logging ) {
                 Log.i("navx_ftc", "Opening device on DIM port " + Integer.toString(dim_port));
             }
-            navXDevice = new I2cDevice(dim, dim_port);
+            navXDevice = new I2cDeviceImpl(dim, dim_port);
 
             navxReader[0] = new DimI2cDeviceReader(navXDevice, NAVX_I2C_DEV_8BIT_ADDRESS,
                                                    NAVX_REGISTER_FIRST, DIM_MAX_I2C_READ_LEN);

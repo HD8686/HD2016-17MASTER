@@ -56,5 +56,6 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
     manager.register("ExampleOpModeTestv1", ExampleOpMode.class);
+    manager.register("NavX-Data", navXProcessedOp.class);
   }
 }
