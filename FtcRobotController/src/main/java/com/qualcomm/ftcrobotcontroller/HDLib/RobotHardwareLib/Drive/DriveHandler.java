@@ -20,7 +20,7 @@ public class DriveHandler {
     public enum Side{
         Right,
         Left,
-        Diagonal,
+        Back,
     }
     private DecimalFormat df;
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
@@ -86,11 +86,11 @@ public class DriveHandler {
             DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
             DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
             DHbackRight.setDirection(DcMotor.Direction.REVERSE);
-        }else if(reverse == Side.Diagonal){
+        }else if(reverse == Side.Back){
             DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
-            DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
+            DHfrontRight.setDirection(DcMotor.Direction.FORWARD);
             DHbackLeft.setDirection(DcMotor.Direction.REVERSE);
-            DHbackRight.setDirection(DcMotor.Direction.FORWARD);
+            DHbackRight.setDirection(DcMotor.Direction.REVERSE);
         }
     }
 
@@ -102,8 +102,9 @@ public class DriveHandler {
                 DHbackRight.getCurrentPosition())/4);
     }
 
-    public DcMotor getfrontLeft(){
-        return DHfrontLeft;
+    public String getEncoderCountDiag(){
+        return "frontLeft: " + DHfrontLeft.getCurrentPosition() + ",frontRight: " + DHfrontRight.getCurrentPosition()
+                + ",backRight: " + DHbackRight.getCurrentPosition() + ",backLeft: " + DHbackLeft.getCurrentPosition();
     }
 
     public void setMotorSpeeds(double[] Speeds){

@@ -8,8 +8,6 @@ import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateMachine;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.WaitTypes;
 
-import java.util.logging.Logger;
-
 /**
  * Created by Akash on 5/7/2016.
  */
@@ -39,15 +37,15 @@ public class ExampleOpMode extends HDOpMode {
 
     @Override
     public void InitializeLoop() {
-        Log.w("Test", String.valueOf(robotDrive.getEncoderCount()));
-        telemetry.addData("Encoders", "Test" + robotDrive.getfrontLeft());
+        robotDrive.reverseSide(DriveHandler.Side.Left);
+        Log.w("Test", robotDrive.getEncoderCountDiag());
+        telemetry.addData("Encoders", robotDrive.getEncoderCountDiag());
     }
 
 
     @Override
     public void Start() {
         SM.setState(exampleStates.delay);
-        robotDrive.reverseSide(DriveHandler.Side.Diagonal);
     }
 
     @Override
