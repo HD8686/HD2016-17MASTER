@@ -22,6 +22,7 @@ public class DriveHandler {
         Left,
         Back,
     }
+    public boolean firstRun = true;
     private DecimalFormat df;
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
     private HardwareMap mHardwareMap;
@@ -124,6 +125,10 @@ public class DriveHandler {
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
     public void gyroTurn(double targetAngle){
+        if(firstRun){
+            navX.yawPIDController.setSetpoint(targetAngle);
+            firstRun = false;
+        }
         navX.yawPIDController.enable(true);
         df = new DecimalFormat("#.##");
         if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
@@ -141,6 +146,34 @@ public class DriveHandler {
             /* the loop() function was invoked.  Therefore, there's no */
             /* need to update the motors at this time.                 */
         }
+    }
+
+    //Angle is -180 to 180 degrees. Uses values from the Values Class.
+    public void VLF(double targetAngle){
+        if(firstRun){
+            navX.yawPIDController.setSetpoint(targetAngle);
+            firstRun = false;
+        }
+        navX.yawPIDController.enable(true);
+        df = new DecimalFormat("#.##");
+        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
+            if (navX.yawPIDResult.isOnTarget()) {
+                tankDrive(Values.PIDSettings.DRIVE_SPEED_ON_TARGET,Values.PIDSettings.DRIVE_SPEED_ON_TARGET);
+                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(Values.PIDSettings.DRIVE_SPEED_ON_TARGET) + ", " +
+                        df.format(Values.PIDSettings.DRIVE_SPEED_ON_TARGET));
+            } else {
+                double output = navX.yawPIDResult.getOutput();
+                tankDrive(limit(Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output),limit(Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output));
+            }
+        } else {
+                /* No sensor update has been received since the last time  */
+                /* the loop() function was invoked.  Therefore, there's no */
+                /* need to update the motors at this time.                 */
+        }
+    }
+
+    public double limit(double a) {
+        return Math.min(Math.max(a, Values.PIDSettings.MIN_MOTOR_OUTPUT_VALUE), Values.PIDSettings.MAX_MOTOR_OUTPUT_VALUE);
     }
 
     /**

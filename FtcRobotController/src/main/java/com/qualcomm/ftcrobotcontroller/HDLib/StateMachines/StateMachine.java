@@ -70,6 +70,7 @@ public class StateMachine {
 
     public void resetValues()
     {
+        rDrive.firstRun = true;
         navX.yawPIDController.enable(false);
         waitingActive = false;
         timerExpire = 0.0;

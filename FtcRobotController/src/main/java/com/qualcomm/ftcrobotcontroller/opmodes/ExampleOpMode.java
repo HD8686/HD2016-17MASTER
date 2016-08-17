@@ -30,8 +30,8 @@ public class ExampleOpMode extends HDOpMode {
     @Override
     public void Initialize() {
         navX = new HDNavX();
-        SM = new StateMachine(robotDrive, navX);
         robotDrive = new DriveHandler(navX);
+        SM = new StateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
     }
 
@@ -57,8 +57,9 @@ public class ExampleOpMode extends HDOpMode {
                         SM.setNextState(exampleStates.driveForward, WaitTypes.Timer, 2.5);
                         break;
                     case driveForward:
-                        SM.setNextState(exampleStates.driveBack, WaitTypes.EncoderCounts, 3000);
-                        robotDrive.tankDrive(.4, .4);
+                        SM.setNextState(exampleStates.driveBack, WaitTypes.EncoderCounts, 10000);
+                        //robotDrive.tankDrive(.4, .4);
+                        robotDrive.VLF(0);
                         break;
                     case driveBack:
                         SM.setNextState(exampleStates.gyroTurn, WaitTypes.EncoderCounts, 0);
