@@ -32,33 +32,38 @@ public abstract class HDOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        mDisplay = new HDDashboard(telemetry);
-        hdLoopInterface = new HDLoopInterface();
-        Initialize();
-        HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered,"HDLib Running");
-        hdLoopInterface.runInitializeLoopInterface();
-        while(!opModeIsActive()){
+        try {
+            mDisplay = new HDDashboard(telemetry);
+            hdLoopInterface = new HDLoopInterface();
+            Initialize();
+            HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered, "HDLib Running");
+            hdLoopInterface.runInitializeLoopInterface();
+            while (!opModeIsActive()) {
                 waitForNextHardwareCycle();
                 hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
                 HDDashboard.getInstance().refreshDisplay();
-        }
+            }
 
-        waitForStart();
+            waitForStart();
 
-        Start();
-        hdLoopInterface.runStartInterface();
+            Start();
+            hdLoopInterface.runStartInterface();
 
-        while(opModeIsActive()){
-            HDDashboard.getInstance().refreshDisplay();
-            continuousRun();
-            hdLoopInterface.runContinuousRunInterface();
-        }
-        if(HDNavX.instance != null){
-            Log.w("NavX","Using NAVX");
-            HDNavX.instance.getSensorData().close();
+            while (opModeIsActive()) {
+                HDDashboard.getInstance().refreshDisplay();
+                continuousRun();
+                hdLoopInterface.runContinuousRunInterface();
+            }
+        }catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }finally {
+            if(HDNavX.instance != null){
+                HDNavX.instance.getSensorData().close();
+            }
         }
     }
+
 
 
 

@@ -126,6 +126,7 @@ public class DriveHandler {
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
     public void gyroTurn(double targetAngle){
         if(firstRun){
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(targetAngle);
             firstRun = false;
         }
@@ -136,7 +137,7 @@ public class DriveHandler {
                 setPowerFloat();
                 HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(0.00));
             } else {
-                double output = navX.yawPIDResult.getOutput();
+                double output = (navX.yawPIDResult.getOutput());
                 tankDrive(output, -output);
                 HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(output) + ", " +
                         df.format(-output));
@@ -149,8 +150,9 @@ public class DriveHandler {
     }
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
-    public void VLF(double targetAngle){
+    public void VLF(double targetAngle, DcMotor.Direction direction){
         if(firstRun){
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(targetAngle);
             firstRun = false;
         }
@@ -158,12 +160,18 @@ public class DriveHandler {
         df = new DecimalFormat("#.##");
         if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
             if (navX.yawPIDResult.isOnTarget()) {
-                tankDrive(Values.PIDSettings.DRIVE_SPEED_ON_TARGET,Values.PIDSettings.DRIVE_SPEED_ON_TARGET);
-                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(Values.PIDSettings.DRIVE_SPEED_ON_TARGET) + ", " +
-                        df.format(Values.PIDSettings.DRIVE_SPEED_ON_TARGET));
+                if(direction == DcMotor.Direction.FORWARD) {
+                    tankDrive((Values.PIDSettings.DRIVE_SPEED_ON_TARGET), (Values.PIDSettings.DRIVE_SPEED_ON_TARGET));
+                }else{
+                    tankDrive(-(Values.PIDSettings.DRIVE_SPEED_ON_TARGET), -(Values.PIDSettings.DRIVE_SPEED_ON_TARGET));
+                }
             } else {
                 double output = navX.yawPIDResult.getOutput();
-                tankDrive(limit(Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output),limit(Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output));
+                if(direction == DcMotor.Direction.FORWARD) {
+                    tankDrive(limit((Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limit((Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
+                }else{
+                    tankDrive(limit((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limit((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
+                }
             }
         } else {
                 /* No sensor update has been received since the last time  */
@@ -173,7 +181,7 @@ public class DriveHandler {
     }
 
     public double limit(double a) {
-        return Math.min(Math.max(a, Values.PIDSettings.MIN_MOTOR_OUTPUT_VALUE), Values.PIDSettings.MAX_MOTOR_OUTPUT_VALUE);
+        return Math.min(Math.max(a, Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE), Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
     }
 
     /**

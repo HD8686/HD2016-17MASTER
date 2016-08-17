@@ -7,6 +7,7 @@ import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateMachine;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.WaitTypes;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Akash on 5/7/2016.
@@ -22,8 +23,9 @@ public class ExampleOpMode extends HDOpMode {
     private enum exampleStates{
         delay,
         driveForward,
-        driveBack,
         gyroTurn,
+        driveBack,
+        gyroTurn1,
         DONE,
     }
 
@@ -57,17 +59,22 @@ public class ExampleOpMode extends HDOpMode {
                         SM.setNextState(exampleStates.driveForward, WaitTypes.Timer, 2.5);
                         break;
                     case driveForward:
-                        SM.setNextState(exampleStates.driveBack, WaitTypes.EncoderCounts, 10000);
+                        SM.setNextState(exampleStates.gyroTurn, WaitTypes.EncoderCounts, 2500);
                         //robotDrive.tankDrive(.4, .4);
-                        robotDrive.VLF(0);
-                        break;
-                    case driveBack:
-                        SM.setNextState(exampleStates.gyroTurn, WaitTypes.EncoderCounts, 0);
-                        robotDrive.tankDrive(-0.4, -0.4);
+                        robotDrive.VLF(0, DcMotor.Direction.FORWARD);
                         break;
                     case gyroTurn:
-                        SM.setNextState(exampleStates.DONE, WaitTypes.PIDTarget);
+                        SM.setNextState(exampleStates.driveBack, WaitTypes.PIDTarget);
                         robotDrive.gyroTurn(90);
+                        break;
+                    case driveBack:
+                        SM.setNextState(exampleStates.gyroTurn1, WaitTypes.EncoderCounts, 2100);
+                        robotDrive.VLF(90, DcMotor.Direction.REVERSE);
+                        //robotDrive.tankDrive(-0.3, -0.3);
+                        break;
+                    case gyroTurn1:
+                        SM.setNextState(exampleStates.DONE, WaitTypes.PIDTarget);
+                        robotDrive.gyroTurn(0);
                         break;
                     case DONE:
                             robotDrive.tankDrive(0,0);

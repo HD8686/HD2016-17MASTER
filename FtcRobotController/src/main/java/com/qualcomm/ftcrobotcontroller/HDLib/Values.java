@@ -12,10 +12,12 @@ public final class Values {
     }
 
     public final class PIDSettings{
-        public static final double DRIVE_SPEED_ON_TARGET = .5;
+        public static final double DRIVE_SPEED_ON_TARGET = .325;
         public static final double TOLERANCE_DEGREES = 2.0;
-        public static final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
-        public static final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
+        public static final double VLF_MIN_MOTOR_OUTPUT_VALUE = -0.65;
+        public static final double VLF_MAX_MOTOR_OUTPUT_VALUE = 0.65;
+        public static final double GYRO_MIN_MOTOR_OUTPUT_VALUE = -0.50;
+        public static final double GYRO_MAX_MOTOR_OUTPUT_VALUE = 0.50;
         public static final double YAW_PID_P = 0.005;
         public static final double YAW_PID_I = 0.0;
         public static final double YAW_PID_D = 0.0;

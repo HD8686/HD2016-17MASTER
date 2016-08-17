@@ -26,7 +26,7 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
         yawPIDController = new navXPIDController( navx_device,
                 navXPIDController.navXTimestampedDataSource.YAW);
         yawPIDController.setContinuous(true);
-        yawPIDController.setOutputRange(Values.PIDSettings.MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.MAX_MOTOR_OUTPUT_VALUE);
+        yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
         yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
         yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
         yawPIDController.enable(false);
