@@ -1,5 +1,8 @@
 package com.qualcomm.ftcrobotcontroller.HDLib;
 
+import android.util.Log;
+
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -51,7 +54,12 @@ public abstract class HDOpMode extends LinearOpMode {
             continuousRun();
             hdLoopInterface.runContinuousRunInterface();
         }
+        if(HDNavX.instance != null){
+            Log.w("NavX","Using NAVX");
+            HDNavX.instance.getSensorData().close();
+        }
     }
+
 
 
 }

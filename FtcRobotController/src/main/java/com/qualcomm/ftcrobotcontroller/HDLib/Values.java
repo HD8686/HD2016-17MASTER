@@ -26,10 +26,10 @@ public final class Values {
     public static final String climberServo = "servo_4";
 
     //Motors
-    public static final String frontRight = "motor_3";
-    public static final String frontLeft = "motor_1";
-    public static final String backRight = "motor_4";
-    public static final String backLeft = "motor_2";
+    public static final String frontRight = "rightFront";
+    public static final String frontLeft = "leftFront";
+    public static final String backRight = "rightBack";
+    public static final String backLeft = "leftBack";
 
     //Sensors
     public static final String DeviceInterfaceModule = "dim";

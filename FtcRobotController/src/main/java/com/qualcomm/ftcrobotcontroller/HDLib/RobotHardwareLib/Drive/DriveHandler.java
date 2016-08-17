@@ -1,7 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 
-import android.util.Log;
-
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
@@ -21,7 +19,8 @@ public class DriveHandler {
 
     public enum Side{
         Right,
-        Left
+        Left,
+        Diagonal,
     }
     private DecimalFormat df;
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
@@ -82,11 +81,16 @@ public class DriveHandler {
             DHfrontRight.setDirection(DcMotor.Direction.FORWARD);
             DHbackLeft.setDirection(DcMotor.Direction.REVERSE);
             DHbackRight.setDirection(DcMotor.Direction.FORWARD);
-        }else{
+        }else if(reverse == Side.Right){
             DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
             DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
             DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
             DHbackRight.setDirection(DcMotor.Direction.REVERSE);
+        }else if(reverse == Side.Diagonal){
+            DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
+            DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
+            DHbackLeft.setDirection(DcMotor.Direction.REVERSE);
+            DHbackRight.setDirection(DcMotor.Direction.FORWARD);
         }
     }
 
@@ -96,6 +100,10 @@ public class DriveHandler {
                 DHfrontRight.getCurrentPosition()+
                 DHbackLeft.getCurrentPosition()+
                 DHbackRight.getCurrentPosition())/4);
+    }
+
+    public DcMotor getfrontLeft(){
+        return DHfrontLeft;
     }
 
     public void setMotorSpeeds(double[] Speeds){
@@ -115,7 +123,6 @@ public class DriveHandler {
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
     public void gyroTurn(double targetAngle){
-        navX.yawPIDController.setSetpoint(targetAngle);
         navX.yawPIDController.enable(true);
         df = new DecimalFormat("#.##");
         if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {

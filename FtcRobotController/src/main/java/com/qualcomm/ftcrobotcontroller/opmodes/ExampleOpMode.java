@@ -1,12 +1,14 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import android.util.Log;
+
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
-import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDMRGyro;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.StateMachine;
 import com.qualcomm.ftcrobotcontroller.HDLib.StateMachines.WaitTypes;
-import com.qualcomm.ftcrobotcontroller.HDLib.Values;
+
+import java.util.logging.Logger;
 
 /**
  * Created by Akash on 5/7/2016.
@@ -19,7 +21,6 @@ public class ExampleOpMode extends HDOpMode {
     HDNavX navX;
     DriveHandler robotDrive;
     StateMachine SM;
-    HDMRGyro mGyro;
     private enum exampleStates{
         delay,
         driveForward,
@@ -32,21 +33,21 @@ public class ExampleOpMode extends HDOpMode {
     public void Initialize() {
         navX = new HDNavX();
         SM = new StateMachine(robotDrive, navX);
-        mGyro = new HDMRGyro(Values.HardwareMapKeys.Gyro);
         robotDrive = new DriveHandler(navX);
         robotDrive.resetEncoders();
     }
 
     @Override
     public void InitializeLoop() {
-
+        Log.w("Test", String.valueOf(robotDrive.getEncoderCount()));
+        telemetry.addData("Encoders", "Test" + robotDrive.getfrontLeft());
     }
 
 
     @Override
     public void Start() {
         SM.setState(exampleStates.delay);
-        robotDrive.reverseSide(DriveHandler.Side.Right);
+        robotDrive.reverseSide(DriveHandler.Side.Diagonal);
     }
 
     @Override
@@ -59,11 +60,11 @@ public class ExampleOpMode extends HDOpMode {
                         break;
                     case driveForward:
                         SM.setNextState(exampleStates.driveBack, WaitTypes.EncoderCounts, 3000);
-                        robotDrive.tankDrive(.1, .1);
+                        robotDrive.tankDrive(.4, .4);
                         break;
                     case driveBack:
-                        SM.setNextState(exampleStates.DONE, WaitTypes.EncoderCounts, 0);
-                        robotDrive.tankDrive(-0.1, -0.1);
+                        SM.setNextState(exampleStates.gyroTurn, WaitTypes.EncoderCounts, 0);
+                        robotDrive.tankDrive(-0.4, -0.4);
                         break;
                     case gyroTurn:
                         SM.setNextState(exampleStates.DONE, WaitTypes.PIDTarget);
