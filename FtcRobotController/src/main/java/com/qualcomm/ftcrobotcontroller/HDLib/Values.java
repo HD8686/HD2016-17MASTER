@@ -7,6 +7,19 @@ package com.qualcomm.ftcrobotcontroller.HDLib;
 public final class Values {
     //HDOpMode Settings
 
+    public final class NavX{
+        public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
+    }
+
+    public final class PIDSettings{
+        public static final double TOLERANCE_DEGREES = 2.0;
+        public static final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
+        public static final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
+        public static final double YAW_PID_P = 0.005;
+        public static final double YAW_PID_I = 0.0;
+        public static final double YAW_PID_D = 0.0;
+    }
+
     public final class HardwareMapKeys {
 
     //Servos
@@ -19,8 +32,10 @@ public final class Values {
     public static final String backLeft = "motor_2";
 
     //Sensors
+    public static final String DeviceInterfaceModule = "dim";
     public static final String Gyro = "gyro";
-
+    public static final String Range = "range";
+    public static final int NAVX_I2C = 1;
     }
 
     public final class ServoInit {

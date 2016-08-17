@@ -6,6 +6,6 @@ package com.qualcomm.ftcrobotcontroller.HDLib.StateMachines;
 public enum WaitTypes{
     EncoderCounts,
     Timer,
-    Nothing
-
+    Nothing,
+    PIDTarget
 }

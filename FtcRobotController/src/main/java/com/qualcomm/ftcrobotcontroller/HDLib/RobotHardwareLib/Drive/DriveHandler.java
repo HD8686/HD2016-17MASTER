@@ -3,7 +3,7 @@ package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 import android.util.Log;
 
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
-import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDGyro;
+import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -11,22 +11,30 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Akash on 5/7/2016.
  */
 
 public class DriveHandler {
 
-
+    public enum Side{
+        Right,
+        Left
+    }
+    private DecimalFormat df;
     private DcMotor DHfrontLeft,DHfrontRight,DHbackLeft,DHbackRight;
     private HardwareMap mHardwareMap;
     private static DriveHandler instance = null;
     private DcMotorController.RunMode currRunMode = DcMotorController.RunMode.RUN_USING_ENCODERS;
+    private HDNavX navX;
 
-    public DriveHandler(){
+    public DriveHandler(HDNavX sensor){
         if(HDOpMode.getInstance() == null){
             throw new NullPointerException("HDOpMode not running!");
         }
+        navX = sensor;
         InitMotors();
         setMode(currRunMode);
         instance = this;
@@ -41,7 +49,6 @@ public class DriveHandler {
     }
 
     public void tankDrive(double LeftPower, double RightPower){
-        Log.w("HD", "tankDrive:" + String.valueOf(LeftPower) + "," + String.valueOf(RightPower));
         LeftPower = Range.clip(LeftPower,-1,1);
         RightPower = Range.clip(RightPower,-1,1);
         DHfrontLeft.setPower(LeftPower);
@@ -69,11 +76,18 @@ public class DriveHandler {
         setMode(currRunMode);
     }
 
-    public void setOldSteve() {
-        DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
-        DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
-        DHbackRight.setDirection(DcMotor.Direction.REVERSE);
+    public void reverseSide(Side reverse){
+        if(reverse == Side.Left){
+            DHfrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            DHfrontRight.setDirection(DcMotor.Direction.FORWARD);
+            DHbackLeft.setDirection(DcMotor.Direction.REVERSE);
+            DHbackRight.setDirection(DcMotor.Direction.FORWARD);
+        }else{
+            DHfrontLeft.setDirection(DcMotor.Direction.FORWARD);
+            DHfrontRight.setDirection(DcMotor.Direction.REVERSE);
+            DHbackLeft.setDirection(DcMotor.Direction.FORWARD);
+            DHbackRight.setDirection(DcMotor.Direction.REVERSE);
+        }
     }
 
 
@@ -90,7 +104,36 @@ public class DriveHandler {
         DHbackLeft.setPower(Range.clip(Speeds[2], -1, 1));
         DHbackRight.setPower(Range.clip(Speeds[3], -1, 1));
     }
+    
+    public void setPowerFloat(){
+        DHfrontLeft.setPowerFloat();
+        DHfrontRight.setPowerFloat();
+        DHbackLeft.setPowerFloat();
+        DHbackRight.setPowerFloat();
+    }
 
+
+    //Angle is -180 to 180 degrees. Uses values from the Values Class.
+    public void gyroTurn(double targetAngle){
+        navX.yawPIDController.setSetpoint(targetAngle);
+        navX.yawPIDController.enable(true);
+        df = new DecimalFormat("#.##");
+        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
+            if (navX.yawPIDResult.isOnTarget()) {
+                setPowerFloat();
+                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(0.00));
+            } else {
+                double output = navX.yawPIDResult.getOutput();
+                tankDrive(output, -output);
+                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(output) + ", " +
+                        df.format(-output));
+            }
+        } else {
+            /* No sensor update has been received since the last time  */
+            /* the loop() function was invoked.  Therefore, there's no */
+            /* need to update the motors at this time.                 */
+        }
+    }
 
     /**
      * Drive method for Mecanum wheeled robots.

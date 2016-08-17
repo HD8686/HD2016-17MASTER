@@ -1,22 +1,19 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors;
 
-import android.util.Log;
-
 import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDLoopInterface;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Akash on 5/19/2016.
  */
-public class HDGyro implements HDLoopInterface.LoopTimer {
+public class HDMRGyro implements HDLoopInterface.LoopTimer {
     private ModernRoboticsI2cGyro mGyro;
     public static boolean isReady = false;
     private double lastGyroCal = 0.0;
-    private static HDGyro instance = null;
+    private static HDMRGyro instance = null;
     private enum gyroCalibration{
         gyroCalibration,
         waitForGyroCalibration,
@@ -24,14 +21,14 @@ public class HDGyro implements HDLoopInterface.LoopTimer {
     private gyroCalibration currGyroCal = gyroCalibration.gyroCalibration;
 
 
-    public HDGyro(String gyroHMkey){
+    public HDMRGyro(String gyroHMkey){
         this.mGyro = (ModernRoboticsI2cGyro) HDOpMode.getInstance().hardwareMap.gyroSensor.get(gyroHMkey);
         instance = this;
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.InitializeLoop);
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.ContinuousRun);
     }
 
-    public static HDGyro getInstance(){
+    public static HDMRGyro getInstance(){
         return instance;
     }
 
