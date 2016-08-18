@@ -1,8 +1,8 @@
-package com.qualcomm.ftcrobotcontroller.HDLib;
+package com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement;
 
-import android.util.Log;
-
+import com.qualcomm.ftcrobotcontroller.HDLib.Telemetry.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
+import com.qualcomm.ftcrobotcontroller.HDLib.Telemetry.HDAutoDiagnostics;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
@@ -12,6 +12,7 @@ public abstract class HDOpMode extends LinearOpMode {
     public HDDashboard mDisplay;
     public static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
+    HDAutoDiagnostics mHDAutoDiagnostics;
     public HDOpMode() {
         super();
         instance = this;
@@ -35,8 +36,8 @@ public abstract class HDOpMode extends LinearOpMode {
         try {
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
+            mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay);
             Initialize();
-            HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered, "HDLib Running");
             hdLoopInterface.runInitializeLoopInterface();
             while (!opModeIsActive()) {
                 waitForNextHardwareCycle();

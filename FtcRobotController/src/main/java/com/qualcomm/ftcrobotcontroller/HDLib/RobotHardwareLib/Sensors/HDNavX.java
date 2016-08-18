@@ -2,8 +2,8 @@ package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDLoopInterface;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDLoopInterface;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 
 /**

@@ -1,6 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive;
 
-import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -104,8 +104,13 @@ public class DriveHandler {
     }
 
     public String getEncoderCountDiag(){
-        return "frontLeft: " + DHfrontLeft.getCurrentPosition() + ",frontRight: " + DHfrontRight.getCurrentPosition()
-                + ",backRight: " + DHbackRight.getCurrentPosition() + ",backLeft: " + DHbackLeft.getCurrentPosition();
+        return "frontLeft: " + DHfrontLeft.getCurrentPosition() + ", frontRight: " + DHfrontRight.getCurrentPosition()
+                + ", backRight: " + DHbackRight.getCurrentPosition() + ", backLeft: " + DHbackLeft.getCurrentPosition();
+    }
+
+    public String getMotorSpeedDiag(){
+        return "frontLeft: " + DHfrontLeft.getPower() + ", frontRight: " + DHfrontRight.getPower()
+                + ", backRight: " + DHbackRight.getPower() + ", backLeft: " + DHbackLeft.getPower();
     }
 
     public void setMotorSpeeds(double[] Speeds){

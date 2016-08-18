@@ -1,8 +1,9 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Servo;
 
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDLoopInterface;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDLoopInterface;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.Telemetry.HDAutoDiagnostics;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -22,10 +23,16 @@ public class HDServo implements HDLoopInterface.LoopTimer {
     private double targetPosition = 0.0;
     private double prevTime = 0.0;
     private double maxSpeed = 0.0;
+    private String servoHMName = "";
+    private boolean running = false;
 
     public HDServo(String servoName, double servoStats, double servoInitPosition){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
             throw new NullPointerException("Servo is null");
+        }
+        this.servoHMName = servoName;
+        if(HDAutoDiagnostics.getInstance() != null){
+            HDAutoDiagnostics.servoList.add(this);
         }
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
         this.maxSpeed = ((1/servoStats) * 60.0)/360;
@@ -36,21 +43,29 @@ public class HDServo implements HDLoopInterface.LoopTimer {
         return currPosition;
     }
 
+    public String getServoName(){
+        return servoHMName;
+    }
+
     public void setPosition(double Position){
         HDLoopInterface.getInstance().deregister(this,HDLoopInterface.registrationTypes.ContinuousRun);
+        running = false;
         this.mServo.setPosition(Position);
     }
 
     public void setPosition(double Position, double Speed){
+        if(!running) {
             this.targetPosition = Range.clip(Position, 0, 1);
             this.prevTime = HDGeneralLib.getCurrentTimeSeconds();
-            this.steppingRate = Math.abs(Range.clip(Speed,0,1)) * this.maxSpeed;
+            this.steppingRate = Math.abs(Range.clip(Speed, 0, 1)) * this.maxSpeed;
             this.currPosition = mServo.getPosition();
-            HDLoopInterface.getInstance().register(this,HDLoopInterface.registrationTypes.ContinuousRun);
+            HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.ContinuousRun);
+        }
     }
 
     public void stopServo(){
         targetPosition = currPosition;
+        running = false;
     }
 
 
@@ -71,6 +86,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
                     currPosition = targetPosition;
                 }
             }else{
+                running = false;
                 HDLoopInterface.getInstance().deregister(this,HDLoopInterface.registrationTypes.ContinuousRun);
             }
             prevTime = currTime;

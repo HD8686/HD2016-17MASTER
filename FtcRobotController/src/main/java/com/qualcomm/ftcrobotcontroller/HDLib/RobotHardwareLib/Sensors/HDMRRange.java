@@ -1,6 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors;
 
-import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDOpMode;
 import com.qualcomm.robotcore.hardware.I2cDeviceReader;
 
 /**

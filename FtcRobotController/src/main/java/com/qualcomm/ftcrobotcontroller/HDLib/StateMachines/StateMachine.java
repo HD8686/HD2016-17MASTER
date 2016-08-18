@@ -1,12 +1,12 @@
 package com.qualcomm.ftcrobotcontroller.HDLib.StateMachines;
 
-import com.qualcomm.ftcrobotcontroller.HDLib.HDDashboard;
+import com.qualcomm.ftcrobotcontroller.HDLib.Telemetry.HDAutoDiagnostics;
+import com.qualcomm.ftcrobotcontroller.HDLib.Telemetry.HDDashboard;
 import com.qualcomm.ftcrobotcontroller.HDLib.HDGeneralLib;
-import com.qualcomm.ftcrobotcontroller.HDLib.HDOpMode;
+import com.qualcomm.ftcrobotcontroller.HDLib.OpModeManagement.HDOpMode;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDMRGyro;
 import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
-import com.qualcomm.ftcrobotcontroller.HDLib.Values;
 
 /**
  * Created by Akash on 8/16/2016.
@@ -17,6 +17,7 @@ public class StateMachine {
     public boolean waitingActive = false;
     public double timerExpire = 0.0;
     public double targetEncoder = 0.0;
+    boolean hasRun = false;
     DriveHandler rDrive;
     HDNavX navX;
     WaitTypes currWaitType = WaitTypes.Nothing;
@@ -76,6 +77,14 @@ public class StateMachine {
         timerExpire = 0.0;
         targetEncoder = 0.0;
         currWaitType = WaitTypes.Nothing;
+        hasRun = false;
+    }
+
+    public void runOnce(Runnable code){
+        if(!hasRun){
+            code.run();
+            hasRun = true;
+        }
     }
 
     public Object getState(){
@@ -86,23 +95,23 @@ public class StateMachine {
                         this.resetValues();
                         State = nextState;
                     } else{
-                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - DriveHandler.getInstance().getEncoderCount()))));
-                    }
+                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - DriveHandler.getInstance().getEncoderCount()))));
+                      }
                     break;
                 case Timer:
                     if(this.timerExpire <= HDGeneralLib.getCurrentTimeSeconds()){
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
-                    }
+                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
+                        }
                     break;
                 case PIDTarget:
                     if(navX.yawPIDResult.isOnTarget()){
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
+                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
                     }
                     break;
                 case Nothing:
@@ -112,7 +121,7 @@ public class StateMachine {
             }
 
         }
-        HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "Current State Running: " + State.toString());
+        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1,"Current State Running: " + State.toString());
         return State;
     }
 }

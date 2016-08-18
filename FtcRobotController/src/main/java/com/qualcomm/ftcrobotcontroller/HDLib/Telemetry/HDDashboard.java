@@ -1,11 +1,7 @@
 
-package com.qualcomm.ftcrobotcontroller.HDLib;
-
-import android.util.Log;
+package com.qualcomm.ftcrobotcontroller.HDLib.Telemetry;
 
 import com.qualcomm.robotcore.robocol.Telemetry;
-
-import java.util.NoSuchElementException;
 
 /**
  * This class is a wrapper for the Telemetry class. In addition to providing
@@ -20,7 +16,7 @@ import java.util.NoSuchElementException;
  */
 public class HDDashboard
 {
-    public static final int MAX_NUM_TEXTLINES = 16;
+    public static final int MAX_NUM_TEXTLINES = 30;
     private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";
     private static Telemetry telemetry = null;
