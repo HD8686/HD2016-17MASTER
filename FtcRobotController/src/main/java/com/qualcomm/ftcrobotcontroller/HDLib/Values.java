@@ -38,7 +38,7 @@ public final class Values {
     public static final String DeviceInterfaceModule = "dim";
     public static final String Gyro = "gyro";
     public static final String Range = "range";
-    public static final int NAVX_I2C = 1;
+    public static final int NAVX_I2C_PORT = 1;
     }
 
     public final class ServoInit {

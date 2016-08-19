@@ -11,6 +11,12 @@ import com.qualcomm.ftcrobotcontroller.HDLib.RobotHardwareLib.Sensors.HDNavX;
 /**
  * Created by Akash on 8/16/2016.
  */
+
+/**
+ * This is our state machine library
+ * it manages the changing of states and different waiting types for each sensor
+ *
+ */
 public class StateMachine {
     Object State;
     Object nextState;

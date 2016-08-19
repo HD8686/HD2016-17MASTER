@@ -19,7 +19,7 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
     public HDNavX(){
         instance = this;
         navx_device = AHRS.getInstance(HDOpMode.getInstance().hardwareMap.deviceInterfaceModule.get(Values.HardwareMapKeys.DeviceInterfaceModule),
-                Values.HardwareMapKeys.NAVX_I2C,
+                Values.HardwareMapKeys.NAVX_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Values.NavX.NAVX_DEVICE_UPDATE_RATE_HZ);
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.Start);

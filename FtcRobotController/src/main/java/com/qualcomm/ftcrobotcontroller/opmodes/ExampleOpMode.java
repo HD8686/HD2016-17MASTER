@@ -43,8 +43,6 @@ public class ExampleOpMode extends HDOpMode {
     @Override
     public void InitializeLoop() {
         robotDrive.reverseSide(DriveHandler.Side.Left);
-        Log.w("Test", robotDrive.getEncoderCountDiag());
-        telemetry.addData("Encoders", robotDrive.getEncoderCountDiag());
     }
 
 
@@ -78,7 +76,7 @@ public class ExampleOpMode extends HDOpMode {
                         robotDrive.gyroTurn(0);
                         break;
                     case DONE:
-                        //This is a example of the runOnce state machine method: this will only be ran once even though its in a state machine:
+                        //This is a example of our libraries runOnce state machine method: this will only be ran once even though its in a state machine:
                         Runnable r1 = new Runnable() {
                             @Override
                             public void run() {
