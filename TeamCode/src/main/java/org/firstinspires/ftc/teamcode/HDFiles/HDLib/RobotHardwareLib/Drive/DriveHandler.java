@@ -47,6 +47,11 @@ public class DriveHandler {
         this.DHfrontRight = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.frontRight);
         this.DHbackLeft = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.backLeft);
         this.DHbackRight = mHardwareMap.dcMotor.get(Values.HardwareMapKeys.backRight);
+        DHfrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DHfrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DHbackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DHbackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     public void tankDrive(double LeftPower, double RightPower){
@@ -104,29 +109,35 @@ public class DriveHandler {
                 DHbackRight.getCurrentPosition())/4);
     }
 
-    public String getEncoderCountDiag(){
-        return "frontLeft: " + DHfrontLeft.getCurrentPosition() + ", frontRight: " + DHfrontRight.getCurrentPosition()
-                + ", backRight: " + DHbackRight.getCurrentPosition() + ", backLeft: " + DHbackLeft.getCurrentPosition();
+    public String getEncoderCountDiagFront(){
+        return "   frontLeft: " + DHfrontLeft.getCurrentPosition() + ", frontRight: " + DHfrontRight.getCurrentPosition();
     }
 
-    public String getMotorSpeedDiag(){
-        return "frontLeft: " + DHfrontLeft.getPower() + ", frontRight: " + DHfrontRight.getPower()
-                + ", backRight: " + DHbackRight.getPower() + ", backLeft: " + DHbackLeft.getPower();
+    public String getEncoderCountDiagBack(){
+        return  " backRight: " + DHbackRight.getCurrentPosition() + ", backLeft: " + DHbackLeft.getCurrentPosition();
     }
 
+    public String getMotorSpeedDiagFront(){
+        return "  frontLeft: " + DHfrontLeft.getPower() + ", frontRight: " + DHfrontRight.getPower();
+    }
+
+    public String getMotorSpeedDiagBack(){
+        return " backRight: " + DHbackRight.getPower() + ", backLeft: " + DHbackLeft.getPower();
+    }
     public void setMotorSpeeds(double[] Speeds){
         DHfrontLeft.setPower(Range.clip(Speeds[0], -1, 1));
         DHfrontRight.setPower(Range.clip(Speeds[1], -1, 1));
         DHbackLeft.setPower(Range.clip(Speeds[2], -1, 1));
         DHbackRight.setPower(Range.clip(Speeds[3], -1, 1));
     }
-    
-    public void setPowerFloat(){
-        DHfrontLeft.setPowerFloat();
-        DHfrontRight.setPowerFloat();
-        DHbackLeft.setPowerFloat();
-        DHbackRight.setPowerFloat();
+
+    public void motorBreak(){
+        DHfrontLeft.setPower(0);
+        DHfrontRight.setPower(0);
+        DHbackLeft.setPower(0);
+        DHbackRight.setPower(0);
     }
+
 
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
@@ -140,7 +151,7 @@ public class DriveHandler {
         df = new DecimalFormat("#.##");
         if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
             if (navX.yawPIDResult.isOnTarget()) {
-                setPowerFloat();
+                motorBreak();
                 HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(0.00));
             } else {
                 double output = (navX.yawPIDResult.getOutput());

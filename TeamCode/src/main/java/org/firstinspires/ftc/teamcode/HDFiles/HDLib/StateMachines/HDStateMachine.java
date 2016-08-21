@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry.HDAutoDiagnostics;
  * it manages the changing of states and different waiting types for each sensor
  *
  */
-public class StateMachine {
+public class HDStateMachine {
     Object State;
     Object nextState;
     public boolean waitingActive = false;
@@ -27,7 +27,7 @@ public class StateMachine {
     HDNavX navX;
     WaitTypes currWaitType = WaitTypes.Nothing;
 
-    public StateMachine(DriveHandler robotD, HDNavX navX){
+    public HDStateMachine(DriveHandler robotD, HDNavX navX){
         this.rDrive = robotD;
         this.navX = navX;
     }

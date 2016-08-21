@@ -12,7 +12,6 @@ public abstract class HDOpMode extends LinearOpMode {
     public HDDashboard mDisplay;
     public static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
-    HDAutoDiagnostics mHDAutoDiagnostics;
     public HDOpMode() {
         super();
         instance = this;
@@ -36,7 +35,6 @@ public abstract class HDOpMode extends LinearOpMode {
         try {
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
-            mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay);
             Initialize();
             hdLoopInterface.runInitializeLoopInterface();
             while (!opModeIsActive()) {

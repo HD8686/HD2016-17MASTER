@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package org.firstinspires.ftc.teamcode.HDFiles.OpModes;
 
 import org.firstinspires.ftc.teamcode.NavXLib.ftc.AHRS;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,6 +49,7 @@ import java.text.DecimalFormat;
  * Sensor Status and Timestamp, and World-Frame Linear
  * Acceleration data.
  */
+@Autonomous(name = "NavX Testing")
 public class navXProcessedOp extends OpMode {
 
   /* This is the port on the Core Device Interace Module */

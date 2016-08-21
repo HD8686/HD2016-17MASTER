@@ -141,8 +141,7 @@ public class HDDashboard
     public void refreshDisplay()
     {
         final String funcName = "refreshDisplay";
-
-
+        telemetry.clearAll();
         for (int i = 0; i < display.length; i++)
         {
             telemetry.addData(String.format(displayKeyFormat, i), display[i]);
