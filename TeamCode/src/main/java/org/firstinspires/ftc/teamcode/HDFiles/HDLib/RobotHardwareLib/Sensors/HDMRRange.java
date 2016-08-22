@@ -13,7 +13,7 @@ public class HDMRRange {
     I2cDeviceReader rangeReader;
     byte rangeReadings[];
     public HDMRRange(String rangeHMkey){
-        rangeReader = new I2cDeviceReader(HDOpMode.getInstance().hardwareMap.i2cDevice.get(rangeHMkey), I2cAddr.create7bit(0x28), 0x04, 2);
+        rangeReader = new I2cDeviceReader(HDOpMode.getInstance().hardwareMap.i2cDevice.get(rangeHMkey), I2cAddr.create8bit(0x28), 0x04, 2);
         instance = this;
     }
 

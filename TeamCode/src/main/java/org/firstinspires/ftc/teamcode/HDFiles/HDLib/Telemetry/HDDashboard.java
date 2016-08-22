@@ -2,7 +2,13 @@
 package org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry;
 
 
+import android.app.Activity;
+import android.text.TextPaint;
+import android.widget.TextView;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
+import org.firstinspires.ftc.teamcode.R;
 
 /**
  * This class is a wrapper for the Telemetry class. In addition to providing
@@ -17,6 +23,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class HDDashboard
 {
+    TextPaint mPaint;
+    public static final int SCREEN_WIDTH = 1840;
     public static final int MAX_NUM_TEXTLINES = 30;
     private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";
@@ -41,52 +49,25 @@ public class HDDashboard
      */
     public HDDashboard(Telemetry telemetry)
     {
-
+        mPaint = ((TextView) ((Activity) HDOpMode.getInstance().hardwareMap.appContext).findViewById(R.id.textOpMode)).getPaint();
         instance = this;
         this.telemetry = telemetry;
         telemetry.clearAll();
         clearDisplay();
-    }   //HalDashboard
+    }
 
-    /**
-     * This static method allows the caller to get an instance of
-     * the dashboard so that it can display information on its
-     * display. If no instance found, it will create one. Typically,
-     * this is called by FtcOpMode to create one global instance
-     * of HalDashboard.
-     *
-     * @param telemetry specifies the Telemetry object.
-     * @return global instance of the dashboard object.
-     */
-    /*
-    public static HalDashboard getInstance(Telemetry telemetry)
-    {
-        if (instance == null)
-        {
-            instance = new HalDashboard(telemetry);
-        }
 
-        return instance;
-    }   //getInstance
-    */
-
-    /**
-     * This static method allows any class to get an instance of
-     * the dashboard so that it can display information on its
-     * display.
-     *
-     * @return global instance of the dashboard object.
-     */
     public static HDDashboard getInstance()
     {
         return instance;
-    }   //getInstance
+    }
 
     /**
-     * This method displays a formatted message to the display on the Driver Station.
-     *  @param lineNum specifies the line number on the display.
-     * @param format specifies the format string.
-     * @param args specifies variable number of substitution arguments.
+     * This method displays telemetry on the driver station
+     * @param lineNum Sets the line number
+     * @param tP Sets the text position
+     * @param format String
+     * @param args String formatting settings
      */
     public void displayPrintf(int lineNum, textPosition tP, String format, Object... args)
     {
@@ -94,28 +75,17 @@ public class HDDashboard
         if (lineNum >= 0 && lineNum < display.length)
         {
             if(tP == textPosition.Centered){
-                int spacing = Math.round(MAX_CHAR - display[lineNum].length() + (display[lineNum].length() - display[lineNum].replace(" ","").length())) - 3;
-                StringBuilder builder = new StringBuilder(display[lineNum]);
-                for(int i = 0; i < spacing; i++){
-                    builder.insert(0," ");
-                }
-                display[lineNum] = builder.toString();
+                display[lineNum] = centerText(mPaint, SCREEN_WIDTH, display[lineNum]);
                 telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
             } else if(tP == textPosition.Right){
-                int spacing = Math.round((MAX_CHAR - display[lineNum].length() + (display[lineNum].length() - display[lineNum].replace(" ","").length()))*2)-5;
-                StringBuilder builder = new StringBuilder(display[lineNum]);
-                for(int i = 0; i < spacing; i++){
-                    builder.insert(0," ");
-                }
-                display[lineNum] = builder.toString();
+                display[lineNum] = justifyTextRight(mPaint, SCREEN_WIDTH, display[lineNum]);
                 telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
             } else if(tP == textPosition.Left){
-                display[lineNum] = String.format(format, args);
                 telemetry.addData(String.format(displayKeyFormat, lineNum), display[lineNum]);
             }
 
         }
-    }   //displayPrintf
+    }
 
 
 
@@ -125,30 +95,40 @@ public class HDDashboard
      */
     public void clearDisplay()
     {
-        final String funcName = "clearDisplay";
-
-
         for (int i = 0; i < display.length; i++)
         {
             display[i] = "";
         }
         refreshDisplay();
-    }   //clearDisplay
+    }
 
     /**
      * This method refresh the display lines to the Driver Station.
      */
     public void refreshDisplay()
     {
-        final String funcName = "refreshDisplay";
         telemetry.clearAll();
         for (int i = 0; i < display.length; i++)
         {
             telemetry.addData(String.format(displayKeyFormat, i), display[i]);
         }
         telemetry.update();
-    }   //refreshDisplay
+    }
 
+    public String centerText(TextPaint paint, float width, String text)
+    {
+        float textWidth = paint.measureText(text);
+        int paddingSpaces = Math.round((width - textWidth)/2/paint.measureText(" "));
+        String format = "%" + (paddingSpaces + text.length()) + "s";
+        return String.format(format, text);
+    }
 
+    public String justifyTextRight(TextPaint paint, float width, String text)
+    {
+        float textWidth = paint.measureText(text);
+        int paddingSpaces = Math.round((width - textWidth)/paint.measureText(" "));
+        String format = "%" + (paddingSpaces + text.length()) + "s";
+        return String.format(format, text);
+    }
 
-}   //class HalDashboard
+}

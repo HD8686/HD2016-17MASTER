@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package org.firstinspires.ftc.teamcode.HDFiles.OpModes;
+package org.firstinspires.ftc.teamcode.NavXLib.NavX_Examples;
 
 import org.firstinspires.ftc.teamcode.NavXLib.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -38,20 +38,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.text.DecimalFormat;
 
 /**
- *  navX-Micro Zero Yaw Op
+ *  navX-Micro Processed Data Mode Op
  * <p>
- * Acquires processed data from navX-Micro
+ * Acquires motion-in-progress indicator from navX-Micro
  * and displays it in the Robot DriveStation
- * as telemetry data.  This opmode demonstrates how to "zero"
- * (reset to zero degrees) the yaw.  This causes whatever
- * direction the navX-Model device is currently pointing to
- * now be zero degrees, and is an effective method for dealing
- * with accumulating Yaw Drift.
- *
- * For more information on Yaw drift, please see the online help at:
- * http://navx-micro.kauailabs.com/guidance/yaw-drift/
+ * as telemetry data.
  */
-public class navXZeroYawOp extends OpMode {
+public class navXMotionDetectionOp extends OpMode {
 
   /* This is the port on the Core Device Interace Module */
   /* in which the navX-Micro is connected.  Modify this  */
@@ -92,54 +85,22 @@ public class navXZeroYawOp extends OpMode {
       boolean connected = navx_device.isConnected();
       telemetry.addData("1 navX-Device", connected ?
               "Connected" : "Disconnected" );
-      String gyrocal, magcal, yaw, pitch, roll, compass_heading;
-      String fused_heading, ypr, cf, motion;
+      String gyrocal, motion;
       DecimalFormat df = new DecimalFormat("#.##");
 
       if ( connected ) {
           gyrocal = (navx_device.isCalibrating() ?
                   "CALIBRATING" : "Calibration Complete");
-          magcal = (navx_device.isMagnetometerCalibrated() ?
-                  "Calibrated" : "UNCALIBRATED");
-          yaw = df.format(navx_device.getYaw());
-          pitch = df.format(navx_device.getPitch());
-          roll = df.format(navx_device.getRoll());
-          ypr = yaw + ", " + pitch + ", " + roll;
-          compass_heading = df.format(navx_device.getCompassHeading());
-          fused_heading = df.format(navx_device.getFusedHeading());
-          if (!navx_device.isMagnetometerCalibrated()) {
-              compass_heading = "-------";
-          }
-          cf = compass_heading + ", " + fused_heading;
-          if ( navx_device.isMagneticDisturbance()) {
-              cf += " (Mag. Disturbance)";
-          }
           motion = (navx_device.isMoving() ? "Moving" : "Not Moving");
           if ( navx_device.isRotating() ) {
               motion += ", Rotating";
           }
       } else {
           gyrocal =
-            magcal =
-            ypr =
-            cf =
             motion = "-------";
       }
       telemetry.addData("2 GyroAccel", gyrocal );
-      telemetry.addData("3 Y,P,R", ypr);
-      telemetry.addData("4 Magnetometer", magcal );
-      telemetry.addData("5 Compass,9Axis", cf );
-      telemetry.addData("6 Motion", motion);
-
-      /* If the left 'bumper' button pressed,
-         reset (zero) the current yaw angle.  This causes whatever
-         direction the navX-Model device is currently pointing to
-         now be zero degrees.
-       */
-      //if ( gamepad1.left_bumper ) {
-      if ( ( navx_device.getUpdateCount() % 500 ) == 0 ) {
-        navx_device.zeroYaw();
-      }
+      telemetry.addData("3 Motion", motion);
   }
 
 }
