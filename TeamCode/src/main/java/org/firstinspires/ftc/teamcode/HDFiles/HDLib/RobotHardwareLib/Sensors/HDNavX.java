@@ -14,7 +14,7 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
     public navXPIDController.PIDResult yawPIDResult;
     private AHRS navx_device;
     public navXPIDController yawPIDController;
-    public static HDNavX instance = null;
+    private static HDNavX instance = null;
 
     public HDNavX(){
         instance = this;
@@ -30,6 +30,10 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
         yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
         yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
         yawPIDController.enable(false);
+    }
+
+    public static HDNavX getInstance(){
+        return instance;
     }
 
     public AHRS getSensorData(){

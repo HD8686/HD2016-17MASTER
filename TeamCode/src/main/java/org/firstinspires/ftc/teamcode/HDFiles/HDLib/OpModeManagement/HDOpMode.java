@@ -57,8 +57,8 @@ public abstract class HDOpMode extends LinearOpMode {
         }catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
         }finally {
-            if(HDNavX.instance != null){
-                HDNavX.instance.getSensorData().close();
+            if(HDNavX.getInstance() != null){
+                HDNavX.getInstance().getSensorData().close();
             }
         }
     }

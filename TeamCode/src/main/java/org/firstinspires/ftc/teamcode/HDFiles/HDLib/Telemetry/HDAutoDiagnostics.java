@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDMRGyro;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Servo.HDServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -108,7 +110,20 @@ public class HDAutoDiagnostics implements HDLoopInterface.LoopTimer{
         }
         HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "-----------------------------------Sensors----------------------------------");
         curLine++;
-        HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Sensor Diagnostics in progress.");
+        if(HDNavX.getInstance() != null) {
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "NavX: ");
+            curLine++;
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Status: " + (HDNavX.getInstance().getSensorData().isConnected() ? "Connected" : "Disconnected")
+                    + ", " + (HDNavX.getInstance().getSensorData().isCalibrating() ? "Currently Calibrating" : "Calibration Complete"));
+            curLine++;
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Gyro Yaw: " + df.format(HDNavX.getInstance().getSensorData().getYaw()));
+            curLine++;
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Gyro Pitch: " + df.format(HDNavX.getInstance().getSensorData().getPitch()));
+            curLine++;
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Gyro Roll: " + df.format(HDNavX.getInstance().getSensorData().getRoll()));
+            curLine++;
+        }
+
     }
 
 
