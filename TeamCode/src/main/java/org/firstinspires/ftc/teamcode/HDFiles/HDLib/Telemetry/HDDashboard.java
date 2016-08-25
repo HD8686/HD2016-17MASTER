@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.R;
 public class HDDashboard
 {
     TextPaint mPaint;
-    public static final int SCREEN_WIDTH = 1840;
+    public static final int SCREEN_WIDTH = 667;
     public static final int MAX_NUM_TEXTLINES = 30;
     private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";

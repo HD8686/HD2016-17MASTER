@@ -76,7 +76,6 @@ public class HDAutoDiagnostics implements HDLoopInterface.LoopTimer{
             HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "No Program Specific Telemetry");
             curLine++;
         }
-        if(ProgramSpecificDisplay.length == 0)
         HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "--------------------------------Diagnostics--------------------------------");
         curLine++;
         HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "Program Runtime: " + df.format(runtime.seconds()));

@@ -52,11 +52,11 @@ public class TeleopTestKeepPosition extends HDOpMode {
     @Override
     public void continuousRun() {
         if(SM.ready()){
-            if(Math.abs(gamepad1.left_stick_y) > .1 || Math.abs(gamepad1.right_stick_y) > .1){
+            if(Math.abs(gamepad1.left_stick_y) > 0 || Math.abs(gamepad1.right_stick_y) > 0){
                 robotDrive.firstRun = true;
                 navX.yawPIDController.enable(false);
                 latestGyroUpdate = navX.getSensorData().getYaw();
-                robotDrive.tankDrive(gamepad1.left_stick_y,gamepad1.right_stick_y);
+                robotDrive.tankDrive(-gamepad1.left_stick_y/5,-gamepad1.right_stick_y/5);
             }else{
                 robotDrive.gyroTurn(latestGyroUpdate);
             }
