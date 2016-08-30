@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.View;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,6 +31,7 @@ import java.util.Date;
 
 
 @TeleOp(name = "2015-16 RES-Q Teleop", group = "OldSteve")
+@Disabled
 public class Teleop extends OpMode implements SensorEventListener {
     /**
      * Define hardware and variables for teleop

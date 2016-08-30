@@ -5,6 +5,7 @@ import android.graphics.Color;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry.HDDashboard;
@@ -16,9 +17,13 @@ import java.math.BigDecimal;
  * Created by Height Differential on 1/17/2016.
  */
 @Autonomous(name = "2015-16 RES-Q Autonomous",group = "OldSteve")
+@Disabled
+/**
+ * Created by Height Differential on 1/17/2016.
+ */
 public class SteveAutonomous extends HDAuto {
     public void runOpMode() throws InterruptedException {
-        dashboard = new HDDashboard(telemetry); //Create dashboard for telemetry
+        dashboard = new HDDashboard_2015(telemetry); //Create dashboard for telemetry
         dashboard.clearDisplay(); //Clear Dashboard
         doMenus(); //Run autonomous configuration menus
         AssignHardwareMap(); //Assign hardware devices to map,
@@ -79,14 +84,14 @@ public class SteveAutonomous extends HDAuto {
     void doMenus() throws InterruptedException{ //Runs the menus
         while(Finished == false){   //While user is still in menu
             waitForNextHardwareCycle();
-            dashboard.displayPrintf(3, HDDashboard.textPosition.Centered, "Press A to Continue");
+            dashboard.displayPrintf(3, "Press A to Continue");
             if(alliance.equals(Alliance.RED_ALLIANCE)){ //if Alliance is Red alliance, highlight the red alliance option
-                dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, "*" + String.valueOf(Alliance.RED_ALLIANCE));
-                dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, String.valueOf(Alliance.BLUE_ALLIANCE));
+                dashboard.displayPrintf(1, "*" + String.valueOf(Alliance.RED_ALLIANCE));
+                dashboard.displayPrintf(2, String.valueOf(Alliance.BLUE_ALLIANCE));
             }
             else{   //If alliance is Blue alliance then highlight that option
-                dashboard.displayPrintf(1, HDDashboard.textPosition.Centered,String.valueOf(Alliance.RED_ALLIANCE));
-                dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, "*" + String.valueOf(Alliance.BLUE_ALLIANCE));
+                dashboard.displayPrintf(1, String.valueOf(Alliance.RED_ALLIANCE));
+                dashboard.displayPrintf(2, "*" + String.valueOf(Alliance.BLUE_ALLIANCE));
             }
             if(gamepad1.dpad_right != LastValR) { //If Dpad right wasn't pressed last time loop ran, but is now, then advance the menu options.
                 if (gamepad1.dpad_right) {
@@ -103,14 +108,14 @@ public class SteveAutonomous extends HDAuto {
         Finished = false; //Reset finished for next loop
         while(Finished == false){   //While user is still in menu
             waitForNextHardwareCycle();
-            dashboard.displayPrintf(3, HDDashboard.textPosition.Centered, "Press A to Continue");
+            dashboard.displayPrintf(3, "Press A to Continue");
             if(autonconfigs.equals(AutonomousConfigs.Offense)){ //Display menu options and highlight current option in selection
-                dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, "*" + String.valueOf(AutonomousConfigs.Offense));
-                dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, String.valueOf(AutonomousConfigs.Defense));
+                dashboard.displayPrintf(1, "*" + String.valueOf(AutonomousConfigs.Offense));
+                dashboard.displayPrintf(2, String.valueOf(AutonomousConfigs.Defense));
             }
             else{
-                dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, String.valueOf(AutonomousConfigs.Offense));
-                dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, "*" + String.valueOf(AutonomousConfigs.Defense));
+                dashboard.displayPrintf(1, String.valueOf(AutonomousConfigs.Offense));
+                dashboard.displayPrintf(2, "*" + String.valueOf(AutonomousConfigs.Defense));
             }
             if(gamepad1.dpad_right != LastValR) {//If Dpad right wasn't pressed last time loop ran, but is now, then advance the menu options.
                 if (gamepad1.dpad_right) {
@@ -128,13 +133,13 @@ public class SteveAutonomous extends HDAuto {
         if(autonconfigs == AutonomousConfigs.Offense) {
             while (Finished == false) {   //While user is still in menu
                 waitForNextHardwareCycle();
-                dashboard.displayPrintf(3, HDDashboard.textPosition.Centered, "Press A to Continue");
+                dashboard.displayPrintf(3, "Press A to Continue");
                 if (ballconfig.equals(BallConfigs.NoBallClear)) { //Display menu options and highlight current option in selection
-                    dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, "*" + String.valueOf(BallConfigs.NoBallClear));
-                    dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, String.valueOf(BallConfigs.BallClear));
+                    dashboard.displayPrintf(1, "*" + String.valueOf(BallConfigs.NoBallClear));
+                    dashboard.displayPrintf(2, String.valueOf(BallConfigs.BallClear));
                 } else {
-                    dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, String.valueOf(BallConfigs.NoBallClear));
-                    dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, "*" + String.valueOf(BallConfigs.BallClear));
+                    dashboard.displayPrintf(1, String.valueOf(BallConfigs.NoBallClear));
+                    dashboard.displayPrintf(2, "*" + String.valueOf(BallConfigs.BallClear));
                 }
                 if (gamepad1.dpad_right != LastValR) {//If Dpad right wasn't pressed last time loop ran, but is now, then advance the menu options.
                     if (gamepad1.dpad_right) {
@@ -152,37 +157,37 @@ public class SteveAutonomous extends HDAuto {
             if (ballconfig.equals(BallConfigs.NoBallClear)) {
                 while (Finished == false) {   //While user is still in menu
                     waitForNextHardwareCycle();
-                    dashboard.displayPrintf(6, HDDashboard.textPosition.Centered, "Press A to Continue");
+                    dashboard.displayPrintf(6, "Press A to Continue");
                     if (offenseconfigs.equals(OffenseConfigs.OffenseStay)) { //Display menu options and highlight current option in selection
-                        dashboard.displayPrintf(1, HDDashboard.textPosition.Centered, "*" + String.valueOf(OffenseConfigs.OffenseStay));
-                        dashboard.displayPrintf(2, HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
-                        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
-                        dashboard.displayPrintf(4,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
-                        dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
+                        dashboard.displayPrintf(1, "*" + String.valueOf(OffenseConfigs.OffenseStay));
+                        dashboard.displayPrintf(2, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
+                        dashboard.displayPrintf(3, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
+                        dashboard.displayPrintf(4, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
+                        dashboard.displayPrintf(5, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
                     } else if(offenseconfigs.equals(OffenseConfigs.OffenseLeaveDefense)){
-                        dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseStay));
-                        dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, "*" + String.valueOf(OffenseConfigs.OffenseLeaveDefense));
-                        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
-                        dashboard.displayPrintf(4,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
-                        dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
+                        dashboard.displayPrintf(1, String.valueOf(OffenseConfigs.OffenseStay));
+                        dashboard.displayPrintf(2, "*" + String.valueOf(OffenseConfigs.OffenseLeaveDefense));
+                        dashboard.displayPrintf(3, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
+                        dashboard.displayPrintf(4, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
+                        dashboard.displayPrintf(5, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
                     } else if(offenseconfigs.equals(OffenseConfigs.OffenseLeaveFloorGoal)){
-                        dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseStay));
-                        dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
-                        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, "*" + String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
-                        dashboard.displayPrintf(4,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
-                        dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
+                        dashboard.displayPrintf(1, String.valueOf(OffenseConfigs.OffenseStay));
+                        dashboard.displayPrintf(2, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
+                        dashboard.displayPrintf(3, "*" + String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
+                        dashboard.displayPrintf(4, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
+                        dashboard.displayPrintf(5, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
                     } else if(offenseconfigs.equals(OffenseConfigs.OffenseLeaveCorner)){
-                        dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseStay));
-                        dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
-                        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
-                        dashboard.displayPrintf(4,HDDashboard.textPosition.Centered, "*" + String.valueOf(OffenseConfigs.OffenseLeaveCorner));
-                        dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
+                        dashboard.displayPrintf(1, String.valueOf(OffenseConfigs.OffenseStay));
+                        dashboard.displayPrintf(2, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
+                        dashboard.displayPrintf(3, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
+                        dashboard.displayPrintf(4, "*" + String.valueOf(OffenseConfigs.OffenseLeaveCorner));
+                        dashboard.displayPrintf(5, String.valueOf(OffenseConfigs.OffenseLeaveBackup));
                     } else{
-                        dashboard.displayPrintf(1, HDDashboard.textPosition.Centered,String.valueOf(OffenseConfigs.OffenseStay));
-                        dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
-                        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
-                        dashboard.displayPrintf(4,HDDashboard.textPosition.Centered, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
-                        dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, "*" + String.valueOf(OffenseConfigs.OffenseLeaveBackup));
+                        dashboard.displayPrintf(1, String.valueOf(OffenseConfigs.OffenseStay));
+                        dashboard.displayPrintf(2, String.valueOf(OffenseConfigs.OffenseLeaveDefense));
+                        dashboard.displayPrintf(3, String.valueOf(OffenseConfigs.OffenseLeaveFloorGoal));
+                        dashboard.displayPrintf(4, String.valueOf(OffenseConfigs.OffenseLeaveCorner));
+                        dashboard.displayPrintf(5, "*" + String.valueOf(OffenseConfigs.OffenseLeaveBackup));
                     }
                     if (gamepad1.dpad_right != LastValR) {//If Dpad right wasn't pressed last time loop ran, but is now, then advance the menu options.
                         if (gamepad1.dpad_right) {
@@ -202,19 +207,19 @@ public class SteveAutonomous extends HDAuto {
             Finished = false;
             while (Finished == false) {   //While user is still in menu
                 waitForNextHardwareCycle();
-                dashboard.displayPrintf(5,HDDashboard.textPosition.Centered, "Press A to Continue");
+                dashboard.displayPrintf(5, "Press A to Continue");
                 if (defenseconfigs.equals(DefenseConfigs.SideDefend)) { //Display menu options and highlight current option in selection
-                    dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, "*" + String.valueOf(DefenseConfigs.SideDefend));
-                    dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.ForwardAndDefend));
-                    dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.Protect));
+                    dashboard.displayPrintf(1, "*" + String.valueOf(DefenseConfigs.SideDefend));
+                    dashboard.displayPrintf(2, String.valueOf(DefenseConfigs.ForwardAndDefend));
+                    dashboard.displayPrintf(3, String.valueOf(DefenseConfigs.Protect));
                 } else if (defenseconfigs.equals(DefenseConfigs.ForwardAndDefend)) {
-                    dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.SideDefend));
-                    dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, "*" + String.valueOf(DefenseConfigs.ForwardAndDefend));
-                    dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.Protect));
+                    dashboard.displayPrintf(1, String.valueOf(DefenseConfigs.SideDefend));
+                    dashboard.displayPrintf(2, "*" + String.valueOf(DefenseConfigs.ForwardAndDefend));
+                    dashboard.displayPrintf(3, String.valueOf(DefenseConfigs.Protect));
                 } else {
-                    dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.SideDefend));
-                    dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, String.valueOf(DefenseConfigs.ForwardAndDefend));
-                    dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, "*" + String.valueOf(DefenseConfigs.Protect));
+                    dashboard.displayPrintf(1, String.valueOf(DefenseConfigs.SideDefend));
+                    dashboard.displayPrintf(2, String.valueOf(DefenseConfigs.ForwardAndDefend));
+                    dashboard.displayPrintf(3, "*" + String.valueOf(DefenseConfigs.Protect));
                 }
                 if (gamepad1.dpad_right != LastValR) {//If Dpad right wasn't pressed last time loop ran, but is now, then advance the menu options.
                     if (gamepad1.dpad_right) {
@@ -233,8 +238,8 @@ public class SteveAutonomous extends HDAuto {
             if (defenseconfigs == DefenseConfigs.ForwardAndDefend || defenseconfigs == DefenseConfigs.SideDefend) {
                 while (Finished == false) {   //While user is still in menu
                     waitForNextHardwareCycle();
-                    dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, "Tiles To Go: " + String.valueOf(DefenseTiles));
-                    dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, "Press A to Continue");
+                    dashboard.displayPrintf(1, "Tiles To Go: " + String.valueOf(DefenseTiles));
+                    dashboard.displayPrintf(2, "Press A to Continue");
                     if (gamepad1.dpad_right != LastValR) {  //This part allows you to choose how many tiles to go for defense before you cross the 10 second line. Similar to delay selection code
                         if (gamepad1.dpad_right) {
                             DefenseTiles = DefenseTiles + 1;
@@ -259,8 +264,8 @@ public class SteveAutonomous extends HDAuto {
         dashboard.clearDisplay();
         while (Finished == false) {   //While user is still in menu
             waitForNextHardwareCycle();
-            dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, "Delay: " + String.valueOf(delay));  //Delay code to delay autonomous
-            dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, "Press A to Continue");
+            dashboard.displayPrintf(1, "Delay: " + String.valueOf(delay));  //Delay code to delay autonomous
+            dashboard.displayPrintf(2, "Press A to Continue");
             if(delay < 0){  //Delay selection which uses DPad to allow infinite delay options.
                 delay = 0;
             }
@@ -284,15 +289,15 @@ public class SteveAutonomous extends HDAuto {
         }
 
         dashboard.clearDisplay();   //Clear the display and then show selected options
-        dashboard.displayPrintf(0,HDDashboard.textPosition.Centered, alliance.toString());
-        dashboard.displayPrintf(3,HDDashboard.textPosition.Centered, "Delay: " + delay);
+        dashboard.displayPrintf(0, alliance.toString());
+        dashboard.displayPrintf(3, "Delay: " + delay);
         if(autonconfigs.equals(AutonomousConfigs.Offense)) {    //Show offense options if offense was selected and vice versa for defense.
-            dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, offenseconfigs.toString());
-            dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, ballconfig.toString());
+            dashboard.displayPrintf(1, offenseconfigs.toString());
+            dashboard.displayPrintf(2, ballconfig.toString());
         }
         else{
-            dashboard.displayPrintf(1,HDDashboard.textPosition.Centered, autonconfigs.toString());
-            dashboard.displayPrintf(2,HDDashboard.textPosition.Centered, defenseconfigs.toString());
+            dashboard.displayPrintf(1, autonconfigs.toString());
+            dashboard.displayPrintf(2, defenseconfigs.toString());
         }
         Finished = false;
         GyroTimer.reset();
@@ -328,12 +333,12 @@ public class SteveAutonomous extends HDAuto {
     void BeforeStartGyroCal() throws InterruptedException{  //Gyro calibration method (Waits 30 seconds before recalibration)
         while(!opModeIsActive()){   //While still in init phase
             waitForNextHardwareCycle();
-            dashboard.displayPrintf(4, HDDashboard.textPosition.Centered, "Time until new gyro calibration: " + String.valueOf(round(33.5 - GyroTimer.time(), 3))); //Display time left until new gyro calibration
+            dashboard.displayPrintf(4, "Time until new gyro calibration: " + String.valueOf(HDUtil.round(33.5 - GyroTimer.time(), 3))); //Display time left until new gyro calibration
             if(GyroTimer.time() <  .5){ //If gyro timer is less than .5 seconds(When it is reset)
                 mGyro.calibrate();  //Calibrate gyro
                 while (!opModeIsActive() && GyroTimer.time()< 3.5){ //Wait 3.5 seconds for gyro recalibration
                     waitForNextHardwareCycle();
-                    dashboard.displayPrintf(4, HDDashboard.textPosition.Centered, "Gyro Calibrating :" + String.valueOf(round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    dashboard.displayPrintf(4, "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
             if(GyroTimer.time() > 33.5){ //Once it has been 33.5 seconds (30 + 3.5 gyro calibration time) reset the gyrotimer to restart the calibration.
@@ -347,8 +352,8 @@ public class SteveAutonomous extends HDAuto {
             if(mGyro.isCalibrating()){
                 while (opModeIsActive() && GyroTimer.time()< 3.5){ //If gyro was calibrating then finish the calibration
                     waitForNextHardwareCycle();
-                    telemetry.addData("GyroTimer", round(GyroTimer.time(), 3));
-                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    telemetry.addData("GyroTimer", HDUtil.round(GyroTimer.time(), 3));
+                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
             else { //If gyro wasn't calibrating and time was less than 3.5 seconds it must have not gotten to calibration command in time, so start calibration and wait 3.5 seconds.
@@ -356,7 +361,7 @@ public class SteveAutonomous extends HDAuto {
                 while (opModeIsActive() && GyroTimer.time()< 3.5){
                     waitForNextHardwareCycle();
                     telemetry.addData("GyroTimer", GyroTimer.time());
-                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
         }
@@ -381,15 +386,9 @@ public class SteveAutonomous extends HDAuto {
         Tilt.setPosition(.68);
         Pinion.setPosition(.5);
         mColor.enableLed(false);
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);    //Run using encoders in order to use speed control
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    public static double round(double value, int Digits){  //Function that rounds decimal for easier to read telemetry.
-        BigDecimal BD = new BigDecimal(value);  //Create big decimal class
-        BD = BD.setScale(Digits, BigDecimal.ROUND_HALF_UP); //Set class to round half up
-        return BD.doubleValue();    //ReturnRoundedValue
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);    //Run using encoders in order to use speed control
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public abstract class HDAuto extends LinearOpMode {
     public View relativeLayout;
-    public HDDashboard dashboard;
+    public HDDashboard_2015 dashboard;
     public Boolean LEDON = true;
     public Servo PenguinRight,PenguinLeft,ClimberServo,WinchServo,Pinion,Tilt,WinchLock,AllClear,AllClear2;
     public DcMotor frontLeft, frontRight, backLeft, backRight;
@@ -530,7 +530,7 @@ public abstract class HDAuto extends LinearOpMode {
                     }
                     break;
             }
-            dashboard.displayPrintf(0, HDDashboard.textPosition.Centered,  "State: %s", mCurrState); //Display our current state
+            dashboard.displayPrintf(0, "State: %s", mCurrState); //Display our current state
             waitOneFullHardwareCycle();
         }
         StopMotors();
@@ -890,9 +890,9 @@ public abstract class HDAuto extends LinearOpMode {
                     }
                     break;
             }
-            dashboard.displayPrintf(0, HDDashboard.textPosition.Centered, "State: %s", mCurrState); //Display our current state
-            dashboard.displayPrintf(4, HDDashboard.textPosition.Centered, "Program Run Time: %s", String.valueOf(ProgramRunTime.time()));
-            dashboard.displayPrintf(6, HDDashboard.textPosition.Centered, "CurrentClimberPos: %s", String.valueOf(ClimberServo.getPosition()));
+            dashboard.displayPrintf(0, "State: %s", mCurrState); //Display our current state
+            dashboard.displayPrintf(4, "Program Run Time: %s", String.valueOf(ProgramRunTime.time()));
+            dashboard.displayPrintf(6, "CurrentClimberPos: %s", String.valueOf(ClimberServo.getPosition()));
             waitOneFullHardwareCycle();
         }
         StopMotors();
@@ -915,7 +915,7 @@ public abstract class HDAuto extends LinearOpMode {
             telemetry.addData("1: ", "Delay Left " + String.valueOf(delay - GeneralTime.time())); //Display how much time is left of our delay
         }
         while (auton.opModeIsActive() && Finished == false) {
-            dashboard.displayPrintf(0, HDDashboard.textPosition.Centered, "State: %s", mCurrState); //Display our current state
+            dashboard.displayPrintf(0, "State: %s", mCurrState); //Display our current state
             waitForNextHardwareCycle();
             LEDSubsystem();
             switch (mCurrState) {
@@ -988,7 +988,7 @@ public abstract class HDAuto extends LinearOpMode {
             telemetry.addData("1: ", "Delay Left " + String.valueOf(delay - GeneralTime.time())); //Display how much time is left of our delay
         }
         while (auton.opModeIsActive() && Finished == false) {
-            dashboard.displayPrintf(0, HDDashboard.textPosition.Centered, "State: %s", mCurrState); //Display our current state
+            dashboard.displayPrintf(0, "State: %s", mCurrState); //Display our current state
             waitForNextHardwareCycle();
             LEDSubsystem();
             switch (mCurrState) {
@@ -1057,7 +1057,7 @@ public abstract class HDAuto extends LinearOpMode {
             telemetry.addData("1: ", "Delay Left " + String.valueOf(delay - GeneralTime.time())); //Display how much time is left of our delay
         }
         while (auton.opModeIsActive() && Finished == false) {
-            dashboard.displayPrintf(0, HDDashboard.textPosition.Centered, "State: %s", mCurrState); //Display our current state
+            dashboard.displayPrintf(0, "State: %s", mCurrState); //Display our current state
             waitForNextHardwareCycle();
             LEDSubsystem();
             switch (mCurrState) {
