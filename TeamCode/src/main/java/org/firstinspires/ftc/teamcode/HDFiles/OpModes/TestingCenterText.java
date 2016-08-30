@@ -59,13 +59,12 @@ public class TestingCenterText extends OpMode
     public void init()
     {
         mPaint = ((TextView) ((Activity) hardwareMap.appContext).findViewById(R.id.textOpMode)).getPaint();
-        float totalWidth = 1840;
-        /*
-        This piece of code is to test how large the screen is, you want to keep testing total width values until the ! barely reaches the first line
+        float totalWidth = 667;
+        //This piece of code is to test how large the screen is, you want to keep testing total width values until the ! barely reaches the first line
         int paddingSpaces = Math.round((totalWidth - mPaint.measureText("!"))/mPaint.measureText(" "));
         String format = "%" + (paddingSpaces + "!".length()) + "s";
         telemetry.addData("01", String.format(format, "!"));
-        */
+
 
         for (int i = 1; i <= 10; i++) {
             char ch = (char)('A' + (int)(Math.random()*26));

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.WaitTypes;
