@@ -33,6 +33,8 @@ package org.firstinspires.ftc.teamcode.NavXLib.NavX_Examples;
 
 import org.firstinspires.ftc.teamcode.NavXLib.ftc.AHRS;
 import org.firstinspires.ftc.teamcode.NavXLib.ftc.IDataArrivalSubscriber;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -62,11 +64,13 @@ import java.text.DecimalFormat;
  * Note that this example uses the "callback" mechanism to be informed
  * precisely when new data is received from the navX-Micro.
  */
+
+@Autonomous
 public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubscriber {
   /* This is the port on the Core Device Interace Module */
   /* in which the navX-Micro is connected.  Modify this  */
   /* depending upon which I2C port you are using.        */
-  private final int NAVX_DIM_I2C_PORT = 0;
+  private final int NAVX_DIM_I2C_PORT = 1;
 
   /* Tune this threshold to adjust the sensitivy of the */
   /* Collision detection.                               */
@@ -86,6 +90,9 @@ public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubs
 
   private long sensor_timestamp_delta = 0;
   private long system_timestamp_delta = 0;
+    double currJerkX = 0.0;
+    double currJerkY = 0.0;
+
 
   @Override
   public void init() {
@@ -121,7 +128,6 @@ public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubs
    */
   @Override
   public void loop() {
-
       boolean connected = navx_device.isConnected();
       telemetry.addData("1 navX-Device", connected ?
               "Connected" : "Disconnected" );
@@ -145,6 +151,9 @@ public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubs
       telemetry.addData("5 Timing", Long.toString(sensor_timestamp_delta) + ", " +
                                     Long.toString(system_timestamp_delta) );
       telemetry.addData("6 Events", Double.toString(navx_device.getUpdateCount()));
+      telemetry.addData("Current Jerk X", currJerkX*100);
+      telemetry.addData("Current Jerk Y", currJerkY*100);
+      telemetry.update();
   }
 
   private String getCollisionString() {
@@ -186,8 +195,10 @@ public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubs
                 ( Math.abs(currentJerkY) > COLLISION_THRESHOLD_DELTA_G) ) {
             collisionDetected = true;
         }
-
+        currJerkX = currentJerkX;
+        currJerkY = currentJerkY;
         setCollisionState( collisionDetected );
+
     }
 
     @Override

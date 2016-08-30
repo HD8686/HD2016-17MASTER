@@ -5,6 +5,7 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
@@ -28,14 +29,16 @@ public class TeleopTestKeepPosition extends HDOpMode {
     DriveHandler robotDrive;
     HDStateMachine SM;
     double latestGyroUpdate = 0.0;
-
+    ElapsedTime keepPosition;
     @Override
     public void Initialize() {
+        keepPosition = new ElapsedTime();
         navX = new HDNavX();
         robotDrive = new DriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
         robotDrive.resetEncoders();
+        keepPosition.reset();
     }
 
     @Override
@@ -56,9 +59,14 @@ public class TeleopTestKeepPosition extends HDOpMode {
                 robotDrive.firstRun = true;
                 navX.yawPIDController.enable(false);
                 latestGyroUpdate = navX.getSensorData().getYaw();
-                robotDrive.tankDrive(-gamepad1.left_stick_y/5,-gamepad1.right_stick_y/5);
-            }else{
+                robotDrive.tankDrive(-gamepad1.left_stick_y/3,-gamepad1.right_stick_y/3);
+                keepPosition.reset();
+                mHDAutoDiagnostics.addProgramSpecificTelemetry(1,"Timer", String.valueOf(keepPosition.time()));
+            }else if(keepPosition.time() > 1){
                 robotDrive.gyroTurn(latestGyroUpdate);
+            }else{
+                robotDrive.motorBreak();
+                latestGyroUpdate = navX.getSensorData().getYaw();
             }
 
         }
