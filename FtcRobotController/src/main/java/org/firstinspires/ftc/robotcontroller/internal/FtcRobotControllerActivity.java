@@ -45,7 +45,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -195,7 +194,9 @@ public class FtcRobotControllerActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    RobotLog.writeLogcatToDisk();
     RobotLog.vv(TAG, "onCreate()");
+
     receivedUsbAttachmentNotifications = new ConcurrentLinkedQueue<UsbDevice>();
     eventLoop = null;
 
@@ -249,11 +250,9 @@ public class FtcRobotControllerActivity extends Activity {
     wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "");
 
     hittingMenuButtonBrightensScreen();
-    Log.w("TextView", String.valueOf(textOpMode.getTypeface().toString()));
+
     if (USE_DEVICE_EMULATION) { HardwareFactory.enableDeviceEmulation(); }
 
-    // save 4MB of logcat to the SD card
-    RobotLog.writeLogcatToDisk(this, 4 * 1024);
     wifiLock.acquire();
     callback.networkConnectionUpdate(WifiDirectAssistant.Event.DISCONNECTED);
     bindToService();
@@ -326,7 +325,7 @@ public class FtcRobotControllerActivity extends Activity {
 
     unbindFromService();
     wifiLock.release();
-    RobotLog.cancelWriteLogcatToDisk(this);
+    RobotLog.cancelWriteLogcatToDisk();
   }
 
   protected void bindToService() {
@@ -396,10 +395,16 @@ public class FtcRobotControllerActivity extends Activity {
     int id = item.getItemId();
 
     if (id == R.id.action_programming_mode) {
-      Intent programmingModeIntent = new Intent(ProgrammingModeActivity.launchIntent);
-      programmingModeIntent.putExtra(
-          LaunchActivityConstantsList.PROGRAMMING_MODE_ACTIVITY_NETWORK_TYPE, networkType);
-      startActivity(programmingModeIntent);
+      if (cfgFileMgr.getActiveConfig().isNoConfig()) {
+        // Tell the user they must configure the robot before starting programming mode.
+        AppUtil.getInstance().showToast(
+            context, context.getString(R.string.toastConfigureRobotBeforeProgrammingMode));
+      } else {
+        Intent programmingModeIntent = new Intent(ProgrammingModeActivity.launchIntent);
+        programmingModeIntent.putExtra(
+            LaunchActivityConstantsList.PROGRAMMING_MODE_ACTIVITY_NETWORK_TYPE, networkType);
+        startActivity(programmingModeIntent);
+      }
       return true;
     } else if (id == R.id.action_inspection_mode) {
       Intent inspectionModeIntent = new Intent(RcInspectionActivity.rcLaunchIntent);

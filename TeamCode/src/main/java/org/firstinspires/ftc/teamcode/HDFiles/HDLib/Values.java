@@ -6,7 +6,13 @@ package org.firstinspires.ftc.teamcode.HDFiles.HDLib;
  */
 public final class Values {
     //HDOpMode Settings
+    public final class Constants{
+        public static final float mmPerInch = 25.4f;
+    }
 
+    public final class Vuforia{
+        public static final String VuforiaKey = "AZRKRX7/////AAAAGcjcJ3tvlkTjn8e4xEVqyXhl9BWco/Vc+Xkv2384x9sMZzG3BzUJLKDyqcaA0txYsQo00NqXurmoRHm90/OJcQYIkWWV9plQZ6nLVv07yFl8PqTGnRNVazOgi1IzxPWqGBznN5sGboRXvAUn+VQsdyN3e0KU6lB/Cl5vre2Wi7DtntufCGNcdqU0pdN9LlKpQr6byV4zYQ7p81g3cEHY5AkI3egvEy+thpk3NjyUMeFK9SeCfIKgDvHEx9G4bCBFmmj/+knydr5BM0bJ0Jh5GmNRLNErQewCvA+SET/K2jYRZvEcpvZTxSPQS4ho+JBxC4pk7i4KmPwrWHHnHSCqmwboLv301r2njWgHcs6UZK1+";
+    }
     public final class NavX{
         public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     }

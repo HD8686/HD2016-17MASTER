@@ -185,9 +185,9 @@ public class DriveHandler {
             } else {
                 double output = navX.yawPIDResult.getOutput();
                 if(direction == DcMotor.Direction.FORWARD) {
-                    tankDrive(limit((Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limit((Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
+                    tankDrive(limitVLF((Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limitVLF((Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
                 }else{
-                    tankDrive(limit((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limit((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
+                    tankDrive(limitVLF((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET + output)), limitVLF((-Values.PIDSettings.DRIVE_SPEED_ON_TARGET - output)));
                 }
             }
         } else {
@@ -197,8 +197,12 @@ public class DriveHandler {
         }
     }
 
-    public double limit(double a) {
+    public double limitVLF(double a) {
         return Math.min(Math.max(a, Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE), Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
+    }
+
+    public double limitMecanum(double a) {
+        return Math.min(Math.max(a, -1), 1);
     }
 
     /**
@@ -230,6 +234,31 @@ public class DriveHandler {
         Motors[1] = -xIn + yIn - rotation; //kFrontRight Motor
         Motors[2] = -xIn + yIn + rotation; //kRearLeft Motor
         Motors[3] = xIn + yIn - rotation; //kRearRight Motor
+
+        double maxMagnitude = Math.abs(NumberUtils.max(Motors));
+
+        if (maxMagnitude > 1.0) {
+            for (int i=0; i < Motors.length ; i++) {
+                Motors[i] = Motors[i] / maxMagnitude;
+            }
+        }
+
+        setMotorSpeeds(Motors);
+    }
+
+    public void mecanumDrive_Polar(double magnitude, double direction, double rotation){
+        magnitude = limitMecanum(magnitude) * Math.sqrt(2.0);
+
+        double dirInRad = (direction + 45.0) * Math.PI/180;
+
+        double cosD = Math.cos(dirInRad);
+        double sinD = Math.sin(dirInRad);
+
+        double Motors[] = new double[4];
+        Motors[0] = sinD * magnitude + rotation; //kFrontLeft Motor
+        Motors[1] = cosD * magnitude - rotation; //kFrontRight Motor
+        Motors[2] = cosD  * magnitude - rotation; //kRearLeft Motor
+        Motors[3] = sinD * magnitude - rotation; //kRearRight Motor
 
         double maxMagnitude = Math.abs(NumberUtils.max(Motors));
 
