@@ -5,13 +5,16 @@ package org.firstinspires.ftc.teamcode.HDFiles.HDLib;
  * Created by akash on 5/1/2016.
  */
 public final class Values {
-    //HDOpMode Settings
     public final class Constants{
         public static final float mmPerInch = 25.4f;
     }
 
     public final class Vuforia{
-        public static final String VuforiaKey = "AZRKRX7/////AAAAGcjcJ3tvlkTjn8e4xEVqyXhl9BWco/Vc+Xkv2384x9sMZzG3BzUJLKDyqcaA0txYsQo00NqXurmoRHm90/OJcQYIkWWV9plQZ6nLVv07yFl8PqTGnRNVazOgi1IzxPWqGBznN5sGboRXvAUn+VQsdyN3e0KU6lB/Cl5vre2Wi7DtntufCGNcdqU0pdN9LlKpQr6byV4zYQ7p81g3cEHY5AkI3egvEy+thpk3NjyUMeFK9SeCfIKgDvHEx9G4bCBFmmj/+knydr5BM0bJ0Jh5GmNRLNErQewCvA+SET/K2jYRZvEcpvZTxSPQS4ho+JBxC4pk7i4KmPwrWHHnHSCqmwboLv301r2njWgHcs6UZK1+";
+        public static final String VuforiaKey = "AZRKRX7/////AAAAGcjcJ3tvlkTjn8e4xEVqyXhl9BWco/Vc+Xkv238" +
+                "4x9sMZzG3BzUJLKDyqcaA0txYsQo00NqXurmoRHm90/OJcQYIkWWV9plQZ6nLVv07yFl8PqTGnRNVazOgi1IzxP" +
+                "WqGBznN5sGboRXvAUn+VQsdyN3e0KU6lB/Cl5vre2Wi7DtntufCGNcdqU0pdN9LlKpQr6byV4zYQ7p81g3cEHY5" +
+                "AkI3egvEy+thpk3NjyUMeFK9SeCfIKgDvHEx9G4bCBFmmj/+knydr5BM0bJ0Jh5GmNRLNErQewCvA+SET/K2jYR" +
+                "ZvEcpvZTxSPQS4ho+JBxC4pk7i4KmPwrWHHnHSCqmwboLv301r2njWgHcs6UZK1+";
     }
     public final class NavX{
         public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
@@ -19,7 +22,7 @@ public final class Values {
 
     public final class PIDSettings{
         public static final double DRIVE_SPEED_ON_TARGET = .325;
-        public static final double TOLERANCE_DEGREES = 2.0;
+        public static final double TOLERANCE_DEGREES = 1.0;
         public static final double VLF_MIN_MOTOR_OUTPUT_VALUE = -0.65;
         public static final double VLF_MAX_MOTOR_OUTPUT_VALUE = 0.65;
         public static final double GYRO_MIN_MOTOR_OUTPUT_VALUE = -0.50;
@@ -51,11 +54,7 @@ public final class Values {
         //Servo Init Values
         public static final double climberServoInit = .8;
 
-
-
     }
-
-
 
     public final class ServoSpeedStats {
         //Time to travel 60 degrees

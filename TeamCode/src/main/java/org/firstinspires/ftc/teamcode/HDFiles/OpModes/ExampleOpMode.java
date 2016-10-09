@@ -4,16 +4,12 @@ import android.util.Log;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
-import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.WaitTypes;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDWaitTypes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry.HDAutoDiagnostics;
 
@@ -66,22 +62,22 @@ public class ExampleOpMode extends HDOpMode {
             exampleStates states = (exampleStates) SM.getState();
                 switch (states){
                     case delay:
-                        SM.setNextState(exampleStates.driveForward, WaitTypes.Timer, 200.5);
+                        SM.setNextState(exampleStates.driveForward, HDWaitTypes.Timer, 200.5);
                         break;
                     case driveForward:
-                        SM.setNextState(exampleStates.gyroTurn, WaitTypes.EncoderCounts, 2500);
+                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.EncoderCounts, 2500);
                         robotDrive.VLF(0, DcMotor.Direction.FORWARD);
                         break;
                     case gyroTurn:
-                        SM.setNextState(exampleStates.driveBack, WaitTypes.PIDTarget);
+                        SM.setNextState(exampleStates.driveBack, HDWaitTypes.PIDTarget);
                         robotDrive.gyroTurn(90);
                         break;
                     case driveBack:
-                        SM.setNextState(exampleStates.gyroTurn1, WaitTypes.EncoderCounts, 2100);
+                        SM.setNextState(exampleStates.gyroTurn1, HDWaitTypes.EncoderCounts, 2100);
                         robotDrive.VLF(90, DcMotor.Direction.REVERSE);
                         break;
                     case gyroTurn1:
-                        SM.setNextState(exampleStates.DONE, WaitTypes.PIDTarget);
+                        SM.setNextState(exampleStates.DONE, HDWaitTypes.PIDTarget);
                         robotDrive.gyroTurn(0);
                         break;
                     case DONE:

@@ -25,7 +25,7 @@ public class HDStateMachine {
     boolean hasRun = false;
     DriveHandler rDrive;
     HDNavX navX;
-    WaitTypes currWaitType = WaitTypes.Nothing;
+    HDWaitTypes currWaitType = HDWaitTypes.Nothing;
 
     public HDStateMachine(DriveHandler robotD, HDNavX navX){
         this.rDrive = robotD;
@@ -36,17 +36,17 @@ public class HDStateMachine {
         State = sL;
     }
 
-    public void setNextState(Object sL, WaitTypes typetoWait, double Argument){
+    public void setNextState(Object sL, HDWaitTypes typetoWait, Object Argument){
         if(!waitingActive) {
             currWaitType = typetoWait;
             switch (typetoWait) {
                 case Timer:
                     waitingActive = true;
-                    timerExpire = HDGeneralLib.getCurrentTimeSeconds() + Argument;
+                    timerExpire = HDGeneralLib.getCurrentTimeSeconds() + ((double) Argument);
                     break;
                 case EncoderCounts:
                     waitingActive = true;
-                    targetEncoder = Argument;
+                    targetEncoder = ((double) Argument);
                     break;
                 case PIDTarget:
                     waitingActive = true;
@@ -58,7 +58,7 @@ public class HDStateMachine {
         }
     }
 
-    public void setNextState(Object sL, WaitTypes typetoWait){
+    public void setNextState(Object sL, HDWaitTypes typetoWait){
         setNextState(sL, typetoWait, 0);
     }
 
@@ -81,7 +81,7 @@ public class HDStateMachine {
         waitingActive = false;
         timerExpire = 0.0;
         targetEncoder = 0.0;
-        currWaitType = WaitTypes.Nothing;
+        currWaitType = HDWaitTypes.Nothing;
         hasRun = false;
     }
 

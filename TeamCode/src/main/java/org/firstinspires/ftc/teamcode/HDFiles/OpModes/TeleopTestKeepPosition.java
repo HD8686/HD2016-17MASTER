@@ -1,17 +1,12 @@
 package org.firstinspires.ftc.teamcode.HDFiles.OpModes;
 
-import android.util.Log;
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.WaitTypes;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry.HDAutoDiagnostics;
 
 /**

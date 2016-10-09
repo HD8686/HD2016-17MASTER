@@ -271,6 +271,47 @@ public class DriveHandler {
         setMotorSpeeds(Motors);
     }
 
+    public void mecanumDrive_Polar_keepFrontPos(double magnitude, double direction, double angleToMaintain){
+        double rotation = 0;
+        if(firstRun){
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
+            navX.yawPIDController.setSetpoint(angleToMaintain);
+            firstRun = false;
+        }
+        navX.yawPIDController.enable(true);
+        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
+            if (navX.yawPIDResult.isOnTarget()) {
+                    rotation = 0;
+            } else {
+                double output = navX.yawPIDResult.getOutput();
+                    rotation = output;
+            }
+        }
+        magnitude = limitMecanum(magnitude) * Math.sqrt(2.0);
+
+        double dirInRad = (direction + 45.0) * Math.PI/180;
+
+        double cosD = Math.cos(dirInRad);
+        double sinD = Math.sin(dirInRad);
+
+        double Motors[] = new double[4];
+        Motors[0] = sinD * magnitude + rotation; //kFrontLeft Motor
+        Motors[1] = cosD * magnitude - rotation; //kFrontRight Motor
+        Motors[2] = cosD  * magnitude + rotation; //kRearLeft Motor
+        Motors[3] = sinD * magnitude - rotation; //kRearRight Motor
+
+        double maxMagnitude = Math.abs(NumberUtils.max(Motors));
+
+        if (maxMagnitude > 1.0) {
+            for (int i=0; i < Motors.length ; i++) {
+                Motors[i] = Motors[i] / maxMagnitude;
+            }
+        }
+
+        setMotorSpeeds(Motors);
+
+    }
+
 
 
 

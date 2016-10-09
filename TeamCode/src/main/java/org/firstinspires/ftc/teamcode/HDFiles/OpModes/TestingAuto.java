@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.HDFiles.OpModes;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Drive.DriveHandler;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.WaitTypes;
+import org.firstinspires.ftc.teamcode.HDFiles.HDLib.StateMachines.HDWaitTypes;
 import org.firstinspires.ftc.teamcode.HDFiles.HDLib.Telemetry.HDAutoDiagnostics;
 
 /**
@@ -59,15 +56,15 @@ public class TestingAuto extends HDOpMode {
             exampleStates states = (exampleStates) SM.getState();
                 switch (states){
                     case delay:
-                        SM.setNextState(exampleStates.driveToBeacon, WaitTypes.Timer, 2);
+                        SM.setNextState(exampleStates.driveToBeacon, HDWaitTypes.Timer, 2);
                         break;
                     case driveToBeacon:
-                        SM.setNextState(exampleStates.gyroTurn, WaitTypes.Timer, 2);
-                        robotDrive.mecanumDrive_Polar(.5,44,0);
+                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.Timer, 2);
+                        robotDrive.mecanumDrive_Polar(.5,44,0); //Change this to maintain frontal position. To Test :)
                         break;
                     case gyroTurn:
-                        SM.setNextState(exampleStates.DONE, WaitTypes.PIDTarget);
-                        robotDrive.gyroTurn(2);
+                        SM.setNextState(exampleStates.DONE, HDWaitTypes.PIDTarget);
+                        robotDrive.gyroTurn(1);
                     case DONE:
                         //This is a example of our libraries runOnce state machine method: this will only be ran once even though its in a state machine:
                         Runnable r1 = new Runnable() {
