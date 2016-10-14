@@ -8,5 +8,6 @@ public enum HDWaitTypes {
     Timer,
     Nothing,
     PIDTarget,
-    ODS,
+    ODStoLine,
+    ODStoField,
 }

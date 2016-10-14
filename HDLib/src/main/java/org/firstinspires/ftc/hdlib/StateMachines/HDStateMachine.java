@@ -10,18 +10,18 @@ package org.firstinspires.ftc.hdlib.StateMachines;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
-import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
 
 /**
- * This is our state machine library
- * it manages the changing of states and different waiting types for each sensor
- *
+ * This is our Height Differential state machine library.
+ * It controls the state of Autonomous and general robot checks like gyro(either NavX or Modern Robotics) calibration which is why we use it in Teleop and Autonomous.
+ * The purpose of this library is to make it very easy to define end conditions, and as they are developed they are easy to reuse.
  */
 public class HDStateMachine {
+
     Object State;
     Object nextState;
     OpticalDistanceSensor currODS;
@@ -33,15 +33,31 @@ public class HDStateMachine {
     HDNavX navX;
     HDWaitTypes currWaitType = HDWaitTypes.Nothing;
 
+
+    /**
+     * This is the definition for the State Machine Class
+     * @param robotD The Robot Drive handler for the robot, which controls the drive base.
+     * @param navX The HD NavX class, which provides NavX data.
+     */
     public HDStateMachine(DriveHandler robotD, HDNavX navX){
         this.rDrive = robotD;
         this.navX = navX;
     }
 
+    /**
+     * Use this function to set the current state of the state machine
+     * @param sL This is the state that you want to set the state machine to
+     */
     public void setState(Object sL){
         State = sL;
     }
 
+    /**
+     * Use this function to set a condition to wait for, and then switch to the next state which you set
+     * @param sL This is the next state you want it to switch to once your end condition has been met
+     * @param typetoWait The type of end condition you want, could be Time, Encoder Counts, PID Target(gyroTurn), etc.
+     * @param Argument The argument that goes with the end condition you want for example Seconds, Encoder Ticks, Degrees and others.
+     */
     public void setNextState(Object sL, HDWaitTypes typetoWait, Object Argument){
         if(!waitingActive) {
             currWaitType = typetoWait;
@@ -57,9 +73,14 @@ public class HDStateMachine {
                 case PIDTarget:
                     waitingActive = true;
                     break;
-                case ODS:
+                case ODStoLine:
                     waitingActive = true;
                     currODS = ((OpticalDistanceSensor) Argument);
+                    break;
+                case ODStoField:
+                    waitingActive = true;
+                    currODS = ((OpticalDistanceSensor) Argument);
+                    break;
                 case Nothing:
                     break;
             }
@@ -67,6 +88,12 @@ public class HDStateMachine {
         }
     }
 
+    /**
+     *Use this function to set a condition to wait for, and then switch to the next state which you set
+     * @param sL This is the next state you want it to switch to once your end condition has been met
+     * @param typetoWait The type of end condition you want, could be Time, Encoder Counts, PID Target(gyroTurn), etc.
+     * This function is for the wait types that don't require a argument.
+     */
     public void setNextState(Object sL, HDWaitTypes typetoWait){
         setNextState(sL, typetoWait, 0);
     }
@@ -77,7 +104,7 @@ public class HDStateMachine {
             HDGyroWhatToReturn = HDMRGyro.isReady;
         }
         if(navX.getSensorData().isCalibrating()){
-            HDOpMode.instance.telemetry.addData("navX-Micro", "Startup Calibration in Progress");
+            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1, "NavX is currently configuring, please wait...");
         }
         return !navX.getSensorData().isCalibrating() && HDGyroWhatToReturn;
     }
@@ -129,8 +156,16 @@ public class HDStateMachine {
                         HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
                     }
                     break;
-                case ODS:
+                case ODStoLine:
                     if(currODS.getRawLightDetected() > .75){
+                        this.resetValues();
+                        State = nextState;
+                    }else{
+                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                    }
+                    break;
+                case ODStoField:
+                    if(currODS.getRawLightDetected() < .75){
                         this.resetValues();
                         State = nextState;
                     }else{

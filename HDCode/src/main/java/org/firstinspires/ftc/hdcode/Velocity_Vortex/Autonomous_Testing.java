@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.StateMachines.HDWaitTypes;
 import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
@@ -64,14 +65,13 @@ public class Autonomous_Testing extends HDOpMode {
                         SM.setNextState(exampleStates.driveToBeacon, HDWaitTypes.Timer, 2.0);
                         break;
                     case driveToBeacon:
-                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.ODS, ODS_Right);
+                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.ODStoLine, ODS_Right);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 40.0, 0.0);
                         break;
                     case gyroTurn:
                         SM.setNextState(exampleStates.DONE, HDWaitTypes.PIDTarget);
                         robotDrive.gyroTurn(0);
                     case DONE:
-                        //This is a example of our libraries runOnce state machine method: this will only be ran once even though its in a state machine:
                         Runnable r1 = new Runnable() {
                             @Override
                             public void run() {
