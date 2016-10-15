@@ -135,7 +135,7 @@ public abstract class HDAuto extends LinearOpMode {
     {
         STATE_Delay, //Give the gyro time to calibrate
         STATE_DriveForward1,//Drive forward so we can turn
-        STATE_Wait,//Wait for the 10 second rule
+        STATE_Wait,//wait for the 10 second rule
         STATE_DriveForward2//Drive forward to defend
     }
     public enum ProtectStates
@@ -149,7 +149,7 @@ public abstract class HDAuto extends LinearOpMode {
     {
         STATE_Delay, //Give the gyro time to calibrate
         STATE_DriveForward1,//Drive forward so we can turn
-        STATE_Wait,//Wait for the 10 second rule
+        STATE_Wait,//wait for the 10 second rule
         STATE_DriveForward2,//Drive forward to be in the opposing floor goal
         STATE_GyroTurn1,//Turn to face the rescue beacon
         STATE_DriveForward3//Drive forward into the rescue beacon zone

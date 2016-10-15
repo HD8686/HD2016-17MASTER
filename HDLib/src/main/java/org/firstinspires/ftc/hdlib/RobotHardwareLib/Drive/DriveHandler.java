@@ -247,9 +247,9 @@ public class DriveHandler {
         setMotorSpeeds(Motors);
     }
 
-    public void mecanumDrive_Polar(double magnitude, double direction, double rotation){
+    public void mecanumDrive_Polar(double magnitude, double direction, double rotation, double gyroAngle){
         magnitude = limitMecanum(magnitude) * Math.sqrt(2.0);
-
+        direction = direction - gyroAngle;
         double dirInRad = (direction + 45.0) * Math.PI/180;
 
         double cosD = Math.cos(dirInRad);
@@ -272,10 +272,11 @@ public class DriveHandler {
         setMotorSpeeds(Motors);
     }
 
-    public void mecanumDrive_Polar_keepFrontPos(double magnitude, double direction, double angleToMaintain){
+    public void mecanumDrive_Polar_keepFrontPos(double magnitude, double direction, double angleToMaintain, double gyroAngle){
         double rotation = 0;
+        direction = direction - gyroAngle;
         if(firstRun){
-            navX.yawPIDController.setOutputRange(Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.STURN_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.STURN_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(angleToMaintain);
             firstRun = false;
         }

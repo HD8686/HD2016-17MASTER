@@ -28,7 +28,7 @@ public class SteveAutonomous extends HDAuto {
         AssignHardwareMap(); //Assign hardware devices to map,
         Init(); //Sets servo values
         BeforeStartGyroCal(); //Custom gyro calibration method, which calibrates the gyro every 30 seconds.
-        waitForStart(); //Wait for start button to be pressed
+        waitForStart(); //wait for start button to be pressed
         AfterStartGyroCal(); //If the gyro was in a middle of a calibration, wait for it to finish
         ProgramRunTime.reset(); //Reset program run timer.
         Finished = false; //Set finished variable to false(Change this to true to exit state machine loops)
@@ -335,7 +335,7 @@ public class SteveAutonomous extends HDAuto {
             dashboard.displayPrintf(4, "Time until new gyro calibration: " + String.valueOf(HDUtil.round(33.5 - GyroTimer.time(), 3))); //Display time left until new gyro calibration
             if(GyroTimer.time() <  .5){ //If gyro timer is less than .5 seconds(When it is reset)
                 mGyro.calibrate();  //Calibrate gyro
-                while (!opModeIsActive() && GyroTimer.time()< 3.5){ //Wait 3.5 seconds for gyro recalibration
+                while (!opModeIsActive() && GyroTimer.time()< 3.5){ //wait 3.5 seconds for gyro recalibration
                     waitForNextHardwareCycle();
                     dashboard.displayPrintf(4, "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }

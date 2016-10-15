@@ -10,4 +10,5 @@ public enum HDWaitTypes {
     PIDTarget,
     ODStoLine,
     ODStoField,
+    Range,
 }

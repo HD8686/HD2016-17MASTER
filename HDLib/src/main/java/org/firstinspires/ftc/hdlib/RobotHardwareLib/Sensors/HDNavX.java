@@ -48,7 +48,6 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
 
     @Override
     public void StartOp() {
-        navx_device.zeroYaw();
         yawPIDResult = new navXPIDController.PIDResult();
     }
 

@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
 
@@ -25,9 +26,11 @@ public class HDStateMachine {
     Object State;
     Object nextState;
     OpticalDistanceSensor currODS;
+    HDRange currRange;
     public boolean waitingActive = false;
     public double timerExpire = 0.0;
     public double targetEncoder = 0.0;
+    public double targetRange = 0.0;
     boolean hasRun = false;
     DriveHandler rDrive;
     HDNavX navX;
@@ -58,7 +61,7 @@ public class HDStateMachine {
      * @param typetoWait The type of end condition you want, could be Time, Encoder Counts, PID Target(gyroTurn), etc.
      * @param Argument The argument that goes with the end condition you want for example Seconds, Encoder Ticks, Degrees and others.
      */
-    public void setNextState(Object sL, HDWaitTypes typetoWait, Object Argument){
+    public void setNextState(Object sL, HDWaitTypes typetoWait, Object Argument, Object Argument2){
         if(!waitingActive) {
             currWaitType = typetoWait;
             switch (typetoWait) {
@@ -81,11 +84,26 @@ public class HDStateMachine {
                     waitingActive = true;
                     currODS = ((OpticalDistanceSensor) Argument);
                     break;
+                case Range:
+                    waitingActive = true;
+                    currRange = ((HDRange) Argument);
+                    targetRange = ((double) Argument2);
+                    break;
                 case Nothing:
                     break;
             }
             nextState = sL;
         }
+    }
+
+    /**
+     * Use this function to set a condition to wait for, and then switch to the next state which you set
+     * @param sL This is the next state you want it to switch to once your end condition has been met
+     * @param typetoWait The type of end condition you want, could be Time, Encoder Counts, PID Target(gyroTurn), etc.
+     * @param Argument The argument that goes with the end condition you want for example Seconds, Encoder Ticks, Degrees and others.
+     */
+    public void setNextState(Object sL, HDWaitTypes typetoWait, Object Argument){
+        setNextState(sL,typetoWait,Argument, 0);
     }
 
     /**
@@ -118,8 +136,10 @@ public class HDStateMachine {
         timerExpire = 0.0;
         targetEncoder = 0.0;
         currODS = null;
+        currRange = null;
         currWaitType = HDWaitTypes.Nothing;
         hasRun = false;
+        targetRange = 0.0;
     }
 
     public void runOnce(Runnable code){
@@ -157,7 +177,7 @@ public class HDStateMachine {
                     }
                     break;
                 case ODStoLine:
-                    if(currODS.getRawLightDetected() > .75){
+                    if(currODS.getRawLightDetected() > .4){
                         this.resetValues();
                         State = nextState;
                     }else{
@@ -165,11 +185,19 @@ public class HDStateMachine {
                     }
                     break;
                 case ODStoField:
-                    if(currODS.getRawLightDetected() < .75){
+                    if(currODS.getRawLightDetected() < .4){
                         this.resetValues();
                         State = nextState;
                     }else{
                         HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                    }
+                    break;
+                case Range:
+                    if(HDGeneralLib.isDifferenceWithin(currRange.getUSValue(), targetRange, 2)){
+                        this.resetValues();
+                        State = nextState;
+                    }else{
+                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Range Value: " + (String.valueOf(currRange.getUSValue())));
                     }
                     break;
                 case Nothing:
