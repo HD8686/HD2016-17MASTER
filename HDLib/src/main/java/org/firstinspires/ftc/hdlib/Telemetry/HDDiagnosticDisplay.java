@@ -82,7 +82,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         displayCenteredText("--------------------Program Specific Telemetry--------------------");
         boolean ProgramSpecificDisplayEmpty = true;
         for (int i = 0; i < ProgramSpecificDisplay.length; i++)
-        {   
+        {
             if(ProgramSpecificDisplay[i] != null) {
                 ProgramSpecificDisplayEmpty = false;
                 displayCenteredText(ProgramSpecificDisplay[i]);
