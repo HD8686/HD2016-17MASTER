@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
 /**
@@ -18,23 +18,23 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
 @Autonomous(name = "EmptyOpMode", group = "HDSamples")
 public class EmptyOpMode extends HDOpMode {
 
-    HDAutoDiagnostics mHDAutoDiagnostics;
+    HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    DriveHandler robotDrive;
+    HDDriveHandler robotDrive;
     HDStateMachine SM;
 
     @Override
     public void Initialize() {
         navX = new HDNavX();
-        robotDrive = new DriveHandler(navX);
+        robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
     }
 
     @Override
     public void InitializeLoop() {
-        robotDrive.reverseSide(DriveHandler.Side.Left);
+        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
     @Override

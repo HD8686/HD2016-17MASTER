@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 import org.firstinspires.ftc.hdlib.Values;
 
 
@@ -19,9 +19,9 @@ import org.firstinspires.ftc.hdlib.Values;
 @Autonomous(name = "Range Testing", group = "Testing")
 public class Range_Testing extends HDOpMode {
 
-    HDAutoDiagnostics mHDAutoDiagnostics;
+    HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    DriveHandler robotDrive;
+    HDDriveHandler robotDrive;
     HDStateMachine SM;
     HDRange mRange;
     OpticalDistanceSensor ODS_Back;
@@ -30,15 +30,15 @@ public class Range_Testing extends HDOpMode {
         ODS_Back = hardwareMap.opticalDistanceSensor.get(Values.HardwareMapKeys.Right_ODS);
         mRange = new HDRange(Values.HardwareMapKeys.Range);
         navX = new HDNavX();
-        robotDrive = new DriveHandler(navX);
+        robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
     }
 
     @Override
     public void InitializeLoop() {
-        robotDrive.reverseSide(DriveHandler.Side.Left);
+        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class Range_Testing extends HDOpMode {
     @Override
     public void continuousRun() {
         if(SM.ready()){
-            mHDAutoDiagnostics.addProgramSpecificTelemetry(3, "Range Sensor: " + mRange.getUSValue());
-            mHDAutoDiagnostics.addProgramSpecificTelemetry(4, "ODS: " + ODS_Back.getRawLightDetected());
+            mHDDiagnosticDisplay.addProgramSpecificTelemetry(3, "Range Sensor: " + mRange.getUSValue());
+            mHDDiagnosticDisplay.addProgramSpecificTelemetry(4, "ODS: " + ODS_Back.getRawLightDetected());
         }
     }
 

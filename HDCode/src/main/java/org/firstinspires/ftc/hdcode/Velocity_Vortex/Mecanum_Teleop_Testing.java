@@ -3,10 +3,10 @@ package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
 /**
@@ -19,23 +19,23 @@ public class Mecanum_Teleop_Testing extends HDOpMode {
      *to make sure that the motor hardware map
      * names are defined in the Values class.
      */
-    HDAutoDiagnostics mHDAutoDiagnostics;
+    HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    DriveHandler robotDrive;
+    HDDriveHandler robotDrive;
     HDStateMachine SM;
 
     @Override
     public void Initialize() {
         navX = new HDNavX();
-        robotDrive = new DriveHandler(navX);
+        robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
     }
 
     @Override
     public void InitializeLoop() {
-        robotDrive.reverseSide(DriveHandler.Side.Left);
+        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
 
@@ -46,8 +46,8 @@ public class Mecanum_Teleop_Testing extends HDOpMode {
     @Override
     public void continuousRun() {
         if(SM.ready()){
-            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1,"GamepadX:" + gamepad1.left_stick_x/2);
-            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1,"GamepadY:" + gamepad1.left_stick_y/2);
+            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadX:" + gamepad1.left_stick_x/2);
+            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadY:" + gamepad1.left_stick_y/2);
             robotDrive.mecanumDrive_Cartesian(gamepad1.left_stick_x/2,-gamepad1.left_stick_y/2,gamepad1.right_stick_x/2,navX.getSensorData().getYaw());
 
 

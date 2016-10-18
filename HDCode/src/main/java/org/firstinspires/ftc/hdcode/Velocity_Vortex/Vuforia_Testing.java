@@ -6,10 +6,10 @@ import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.hdcode.R;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 import org.firstinspires.ftc.hdlib.Values;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -28,18 +28,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class Vuforia_Testing extends HDOpMode {
 
 
-    HDAutoDiagnostics mHDAutoDiagnostics;
+    HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    DriveHandler robotDrive;
+    HDDriveHandler robotDrive;
     HDStateMachine SM;
     VuforiaTrackables beacons;
     @Override
     public void Initialize() {
         navX = new HDNavX();
-        robotDrive = new DriveHandler(navX);
+        robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
         params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         params.vuforiaLicenseKey = Values.Vuforia.VuforiaKey;
@@ -57,7 +57,7 @@ public class Vuforia_Testing extends HDOpMode {
 
     @Override
     public void InitializeLoop() {
-        robotDrive.reverseSide(DriveHandler.Side.Left);
+        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
     @Override
@@ -74,13 +74,13 @@ public class Vuforia_Testing extends HDOpMode {
                     if(pose != null){
                         VectorF translation = pose.getTranslation();
                         if(beac.getName() == "Wheels")
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
                         if(beac.getName() == "Tools")
-                            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
+                            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
                         if(beac.getName() == "Lego")
-                            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(3, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
+                            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(3, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
                         if(beac.getName() == "Gears")
-                            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(4, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
+                            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(4, (beac.getName() + "- Translation: " + Math.round(translation.get(1)/Values.Constants.mmPerInch)));
                     }
                 }
                 telemetry.update();

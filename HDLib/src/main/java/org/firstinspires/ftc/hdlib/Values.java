@@ -16,6 +16,7 @@ public final class Values {
                 "AkI3egvEy+thpk3NjyUMeFK9SeCfIKgDvHEx9G4bCBFmmj/+knydr5BM0bJ0Jh5GmNRLNErQewCvA+SET/K2jYR" +
                 "ZvEcpvZTxSPQS4ho+JBxC4pk7i4KmPwrWHHnHSCqmwboLv301r2njWgHcs6UZK1+";
     }
+
     public final class NavX{
         public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     }

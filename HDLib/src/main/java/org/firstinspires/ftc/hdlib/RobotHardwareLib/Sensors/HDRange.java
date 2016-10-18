@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceReader;
 
@@ -11,21 +12,22 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  */
 public class HDRange {
     private static HDRange instance = null;
-    I2cDeviceReader rangeReader;
-    byte rangeReadings[];
+    private ModernRoboticsI2cRangeSensor rangeRead;
     public HDRange(String rangeHMkey){
-        rangeReader = new I2cDeviceReader(HDOpMode.getInstance().hardwareMap.i2cDevice.get(rangeHMkey), I2cAddr.create8bit(0x28), 0x04, 2);
+        rangeRead = HDOpMode.getInstance().hardwareMap.get(ModernRoboticsI2cRangeSensor.class, rangeHMkey);
         instance = this;
     }
 
     public double getUSValue(){
-        rangeReadings = rangeReader.getReadBuffer();
-        return (rangeReadings[0] & 0xFF);
+        return rangeRead.rawUltrasonic();
     }
 
     public double getODSValue(){
-        rangeReadings = rangeReader.getReadBuffer();
-        return (rangeReadings[1] & 0xFF);
+        return rangeRead.rawOptical();
+    }
+
+    public double getODSValueCM(){
+        return rangeRead.cmOptical();
     }
 
 }

@@ -10,11 +10,11 @@ package org.firstinspires.ftc.hdlib.StateMachines;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 /**
  * This is our Height Differential state machine library.
@@ -32,7 +32,7 @@ public class HDStateMachine {
     public double targetEncoder = 0.0;
     public double targetRange = 0.0;
     boolean hasRun = false;
-    DriveHandler rDrive;
+    HDDriveHandler rDrive;
     HDNavX navX;
     HDWaitTypes currWaitType = HDWaitTypes.Nothing;
 
@@ -42,7 +42,7 @@ public class HDStateMachine {
      * @param robotD The Robot Drive handler for the robot, which controls the drive base.
      * @param navX The HD NavX class, which provides NavX data.
      */
-    public HDStateMachine(DriveHandler robotD, HDNavX navX){
+    public HDStateMachine(HDDriveHandler robotD, HDNavX navX){
         this.rDrive = robotD;
         this.navX = navX;
     }
@@ -122,7 +122,7 @@ public class HDStateMachine {
             HDGyroWhatToReturn = HDMRGyro.isReady;
         }
         if(navX.getSensorData().isCalibrating()){
-            HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1, "NavX is currently configuring, please wait...");
+            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1, "NavX is currently configuring, please wait...");
         }
         return !navX.getSensorData().isCalibrating() && HDGyroWhatToReturn;
     }
@@ -153,11 +153,11 @@ public class HDStateMachine {
         if(this.waitingActive){
             switch(this.currWaitType){
                 case EncoderCounts:
-                    if(HDGeneralLib.isDifferenceWithin(this.targetEncoder,DriveHandler.getInstance().getEncoderCount(),50)){
+                    if(HDGeneralLib.isDifferenceWithin(this.targetEncoder, HDDriveHandler.getInstance().getEncoderCount(),50)){
                         this.resetValues();
                         State = nextState;
                     } else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - DriveHandler.getInstance().getEncoderCount()))));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - HDDriveHandler.getInstance().getEncoderCount()))));
                       }
                     break;
                 case Timer:
@@ -165,7 +165,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
                         }
                     break;
                 case PIDTarget:
@@ -173,7 +173,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
                     }
                     break;
                 case ODStoLine:
@@ -181,7 +181,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
                     }
                     break;
                 case ODStoField:
@@ -189,7 +189,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
                     }
                     break;
                 case Range:
@@ -197,7 +197,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(2,"Range Value: " + (String.valueOf(currRange.getUSValue())));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Range Value: " + (String.valueOf(currRange.getUSValue())));
                     }
                     break;
                 case Nothing:
@@ -207,7 +207,7 @@ public class HDStateMachine {
             }
 
         }
-        HDAutoDiagnostics.getInstance().addProgramSpecificTelemetry(1,"Current State Running: " + State.toString());
+        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"Current State Running: " + State.toString());
         return State;
     }
 }

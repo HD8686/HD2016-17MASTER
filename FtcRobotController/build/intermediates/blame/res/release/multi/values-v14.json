@@ -26,32 +26,6 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-v14\\values-v14.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endLine": 4,
-                    "endColumn": 12,
-                    "endOffset": 201
-                },
-                "from": {
-                    "file": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\src\\main\\res\\values-v14\\styles.xml",
-                    "position": {
-                        "startLine": 40,
-                        "startColumn": 4,
-                        "startOffset": 1869,
-                        "endLine": 42,
-                        "endColumn": 12,
-                        "endOffset": 2015
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-v14\\values-v14.xml",
         "map": [
             {
@@ -65,6 +39,32 @@
                 },
                 "from": {
                     "file": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\src\\main\\res\\values-v14\\styles.xml",
+                    "position": {
+                        "startLine": 40,
+                        "startColumn": 4,
+                        "startOffset": 1869,
+                        "endLine": 42,
+                        "endColumn": 12,
+                        "endOffset": 2015
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-v14\\values-v14.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 201
+                },
+                "from": {
+                    "file": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\src\\main\\res\\values-v14\\styles.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 4,

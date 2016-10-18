@@ -43,6 +43,7 @@ public abstract class HDOpMode extends LinearOpMode {
                 hdLoopInterface.runInitializeLoopInterface();
                 InitializeLoop();
                 HDDashboard.getInstance().refreshDisplay();
+                idle();
             }
 
             waitForStart();
@@ -54,6 +55,7 @@ public abstract class HDOpMode extends LinearOpMode {
                 HDDashboard.getInstance().refreshDisplay();
                 continuousRun();
                 hdLoopInterface.runContinuousRunInterface();
+                idle();
             }
         }catch(InterruptedException ex) {
             Thread.currentThread().interrupt();

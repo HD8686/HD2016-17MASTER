@@ -5,12 +5,12 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.DriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.StateMachines.HDWaitTypes;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 import org.firstinspires.ftc.hdlib.Values;
 
 
@@ -24,10 +24,10 @@ public class Autonomous_Testing_Red extends HDOpMode {
      *to make sure that the motor hardware map
      * names are defined in the Values class.
      */
-    HDAutoDiagnostics mHDAutoDiagnostics;
+    HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
     HDRange range;
-    DriveHandler robotDrive;
+    HDDriveHandler robotDrive;
     HDStateMachine SM;
     OpticalDistanceSensor ODS_Back;
     private enum exampleStates{
@@ -52,15 +52,15 @@ public class Autonomous_Testing_Red extends HDOpMode {
         ODS_Back = hardwareMap.opticalDistanceSensor.get(Values.HardwareMapKeys.Right_ODS);
         navX = new HDNavX();
         range = new HDRange(Values.HardwareMapKeys.Range);
-        robotDrive = new DriveHandler(navX);
+        robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDAutoDiagnostics = new HDAutoDiagnostics(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
     }
 
     @Override
     public void InitializeLoop() {
-        robotDrive.reverseSide(DriveHandler.Side.Left);
+        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
 

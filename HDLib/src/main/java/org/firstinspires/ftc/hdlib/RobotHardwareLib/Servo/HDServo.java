@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.Telemetry.HDAutoDiagnostics;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
 /**
@@ -33,8 +33,8 @@ public class HDServo implements HDLoopInterface.LoopTimer {
             throw new NullPointerException("Servo is null");
         }
         this.servoHMName = servoName;
-        if(HDAutoDiagnostics.getInstance() != null){
-            HDAutoDiagnostics.servoList.add(this);
+        if(HDDiagnosticDisplay.getInstance() != null){
+            HDDiagnosticDisplay.servoList.add(this);
         }
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
         this.maxSpeed = ((1/servoStats) * 60.0)/360;
