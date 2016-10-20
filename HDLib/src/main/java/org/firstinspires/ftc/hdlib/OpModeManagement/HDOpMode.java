@@ -11,8 +11,10 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
  */
 public abstract class HDOpMode extends LinearOpMode {
     public HDDashboard mDisplay;
-    public static HDOpMode instance = null;
+    private static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
+    public HDDiagnosticBackend hdDiagnosticBackend;
+
     public HDOpMode() {
         super();
         instance = this;
@@ -34,6 +36,7 @@ public abstract class HDOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         try {
+            hdDiagnosticBackend = new HDDiagnosticBackend();
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
             Initialize();

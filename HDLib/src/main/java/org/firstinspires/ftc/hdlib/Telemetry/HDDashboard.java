@@ -27,7 +27,7 @@ public class HDDashboard
 {
     TextPaint mPaint;
     public static final int SCREEN_WIDTH = 667;
-    public static final int MAX_NUM_TEXTLINES = 30;
+    public static final int MAX_NUM_TEXTLINES = 40;
     private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";
     private static Telemetry telemetry = null;
@@ -117,7 +117,7 @@ public class HDDashboard
         telemetry.update();
     }
 
-    public String centerText(TextPaint paint, float width, String text)
+    private String centerText(TextPaint paint, float width, String text)
     {
         float textWidth = paint.measureText(text);
         int paddingSpaces = Math.round((width - textWidth)/2/paint.measureText(" "));
@@ -125,7 +125,7 @@ public class HDDashboard
         return String.format(format, text);
     }
 
-    public String justifyTextRight(TextPaint paint, float width, String text)
+    private String justifyTextRight(TextPaint paint, float width, String text)
     {
         float textWidth = paint.measureText(text);
         int paddingSpaces = Math.round((width - textWidth)/paint.measureText(" "));

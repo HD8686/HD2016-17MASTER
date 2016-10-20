@@ -7,7 +7,7 @@ import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.StateMachines.HDWaitTypes;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
@@ -26,7 +26,7 @@ public class Autonomous_Testing_Red extends HDOpMode {
      */
     HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    HDRange range;
+    HDMRRange range;
     HDDriveHandler robotDrive;
     HDStateMachine SM;
     OpticalDistanceSensor ODS_Back;
@@ -49,9 +49,9 @@ public class Autonomous_Testing_Red extends HDOpMode {
 
     @Override
     public void Initialize() {
-        ODS_Back = hardwareMap.opticalDistanceSensor.get(Values.HardwareMapKeys.Right_ODS);
+        ODS_Back = hardwareMap.opticalDistanceSensor.get(Values.HardwareMapKeys.ODS_Back);
         navX = new HDNavX();
-        range = new HDRange(Values.HardwareMapKeys.Range);
+        range = new HDMRRange(Values.HardwareMapKeys.Button_Pusher_Range);
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();

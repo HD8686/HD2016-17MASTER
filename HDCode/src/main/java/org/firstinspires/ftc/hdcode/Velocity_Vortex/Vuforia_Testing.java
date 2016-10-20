@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 /**
  * Created by Height Differential on 10/8/2016.
  */
+@Disabled
 @Autonomous(name = "Vuforia Testing", group = "Testing")
 public class Vuforia_Testing extends HDOpMode {
 

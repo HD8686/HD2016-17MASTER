@@ -139,9 +139,6 @@ public class HDDriveHandler {
         DHbackRight.setPower(0);
     }
 
-
-
-    //Angle is -180 to 180 degrees. Uses values from the Values Class.
     public void gyroTurn(double targetAngle){
         if(firstRun){
             navX.yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
@@ -203,7 +200,7 @@ public class HDDriveHandler {
     }
 
     public double limitMecanum(double a) {
-        return Math.min(Math.max(a, -1), 1);
+        return Math.min(Math.max(a, Values.PIDSettings.MECANUM_MIN_MOTOR_OUTPUT_VALUE), Values.PIDSettings.MECANUM_MAX_MOTOR_OUTPUT_VALUE);
     }
 
     /**

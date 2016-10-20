@@ -12,7 +12,8 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
@@ -25,8 +26,8 @@ public class HDStateMachine {
 
     Object State;
     Object nextState;
-    OpticalDistanceSensor currODS;
-    HDRange currRange;
+    HDMROpticalDistance currODS;
+    HDMRRange currRange;
     public boolean waitingActive = false;
     public double timerExpire = 0.0;
     public double targetEncoder = 0.0;
@@ -78,15 +79,15 @@ public class HDStateMachine {
                     break;
                 case ODStoLine:
                     waitingActive = true;
-                    currODS = ((OpticalDistanceSensor) Argument);
+                    currODS = ((HDMROpticalDistance) Argument);
                     break;
                 case ODStoField:
                     waitingActive = true;
-                    currODS = ((OpticalDistanceSensor) Argument);
+                    currODS = ((HDMROpticalDistance) Argument);
                     break;
                 case Range:
                     waitingActive = true;
-                    currRange = ((HDRange) Argument);
+                    currRange = ((HDMRRange) Argument);
                     targetRange = ((double) Argument2);
                     break;
                 case Nothing:
@@ -197,7 +198,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Range Value: " + (String.valueOf(currRange.getUSValue())));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Button_Pusher_Range Value: " + (String.valueOf(currRange.getUSValue())));
                     }
                     break;
                 case Nothing:

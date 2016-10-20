@@ -30,6 +30,8 @@ public final class Values {
         public static final double GYRO_MAX_MOTOR_OUTPUT_VALUE = 0.50;
         public static final double STURN_MIN_MOTOR_OUTPUT_VALUE = -0.125;
         public static final double STURN_MAX_MOTOR_OUTPUT_VALUE = 0.125;
+        public static final double MECANUM_MIN_MOTOR_OUTPUT_VALUE = -1;
+        public static final double MECANUM_MAX_MOTOR_OUTPUT_VALUE = 1;
         public static final double YAW_PID_P = 0.006;
         public static final double YAW_PID_I = 0.0;
         public static final double YAW_PID_D = 0.0;
@@ -49,8 +51,8 @@ public final class Values {
     //Sensors
     public static final String DeviceInterfaceModule = "dim";
     public static final String Gyro = "gyro";
-    public static final String Range = "range";
-    public static final String Right_ODS = "ODS_Right";
+    public static final String Button_Pusher_Range = "Button_Pusher_Range";
+    public static final String ODS_Back = "ODS_Back";
     public static final int NAVX_I2C_PORT = 1;
     }
 

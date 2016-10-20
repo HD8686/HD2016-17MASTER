@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.StateMachines.HDWaitTypes;
@@ -26,10 +26,11 @@ public class Autonomous_Testing_Blue extends HDOpMode {
      */
     HDDiagnosticDisplay mHDDiagnosticDisplay;
     HDNavX navX;
-    HDRange range;
+    HDMRRange range;
     HDDriveHandler robotDrive;
     HDStateMachine SM;
-    OpticalDistanceSensor ODS_Back;
+    HDMROpticalDistance ODS_Back;
+
     private enum exampleStates{
         fastDriveToBeacon,
         driveToBeacon,
@@ -49,9 +50,9 @@ public class Autonomous_Testing_Blue extends HDOpMode {
 
     @Override
     public void Initialize() {
-        ODS_Back = hardwareMap.opticalDistanceSensor.get(Values.HardwareMapKeys.Right_ODS);
+        ODS_Back = new HDMROpticalDistance(Values.HardwareMapKeys.ODS_Back);
         navX = new HDNavX();
-        range = new HDRange(Values.HardwareMapKeys.Range);
+        range = new HDMRRange(Values.HardwareMapKeys.Button_Pusher_Range);
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
@@ -102,6 +103,7 @@ public class Autonomous_Testing_Blue extends HDOpMode {
                         }
                         break;
                     case buttonPush1:
+                        //Remeber to turn color Light off.
                         SM.setNextState(exampleStates.fastDriveToBeacon2, HDWaitTypes.Timer, 1.5);
                         robotDrive.motorBreak();
                         break;

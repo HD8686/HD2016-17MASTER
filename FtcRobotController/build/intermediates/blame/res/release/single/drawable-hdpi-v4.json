@@ -1,26 +1,26 @@
 [
     {
-        "merged": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\button_shape.xml",
-        "source": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable-hdpi-v4\\button_shape.xml"
-    },
-    {
-        "merged": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     },
     {
         "merged": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\button_shape.xml",
         "source": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable-hdpi-v4\\button_shape.xml"
     },
     {
-        "merged": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\button_shape.xml",
-        "source": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable-hdpi-v4\\button_shape.xml"
-    },
-    {
-        "merged": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     },
     {
         "merged": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\button_shape.xml",
+        "source": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable-hdpi-v4\\button_shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\button_shape.xml",
+        "source": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\drawable-hdpi-v4\\button_shape.xml"
     }
 ]
