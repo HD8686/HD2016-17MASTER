@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceReader;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
 /**
@@ -12,10 +13,13 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  */
 public class HDRange {
     private static HDRange instance = null;
+    private static String  rangeHMKey;
     private ModernRoboticsI2cRangeSensor rangeRead;
     public HDRange(String rangeHMkey){
         rangeRead = HDOpMode.getInstance().hardwareMap.get(ModernRoboticsI2cRangeSensor.class, rangeHMkey);
         instance = this;
+        this.rangeHMKey = rangeHMkey;
+        HDDiagnosticDisplay.rangeList.add(this);
     }
 
     public double getUSValue(){
@@ -24,6 +28,10 @@ public class HDRange {
 
     public double getODSValue(){
         return rangeRead.rawOptical();
+    }
+
+    public String getName(){
+        return rangeHMKey;
     }
 
     public double getODSValueCM(){

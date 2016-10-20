@@ -12,6 +12,7 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 
 import java.text.DecimalFormat;
@@ -28,17 +29,18 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
     HDDriveHandler curDrive;
     HardwareMap mHardwareMap;
     public static List<HDServo> servoList = new ArrayList<HDServo>();
+    public static List<HDRange> rangeList = new ArrayList<>();
     private static HDDiagnosticDisplay instance = null;
     private ElapsedTime runtime = new ElapsedTime();
     private static String[] ProgramSpecificDisplay = new String[20];
     private int curLine;
 
-    public HDDiagnosticDisplay(HDOpMode OpModeInstance, HDDashboard DBInstance, HDDriveHandler driveHandler, HardwareMap hardwareMap){
+    public HDDiagnosticDisplay(HDOpMode OpModeInstance, HDDashboard DBInstance, HDDriveHandler driveHandler){
         instance = this;
         this.curDashboard = DBInstance;
         this.curOpMode = OpModeInstance;
         this.curDrive = driveHandler;
-        this.mHardwareMap = hardwareMap;
+        this.mHardwareMap = HDOpMode.getInstance().hardwareMap;
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.ContinuousRun);
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.InitializeLoop);
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.Start);
@@ -111,8 +113,6 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         }}
         displayCenteredText("-----------------------------------Sensors----------------------------------");
         displayNavXDiag(df);
-        displayODSDiag(df);
-        displayColorDiag(df);
         displayRangeDiag(df);
     }
 
@@ -130,35 +130,14 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
     }
 
 
-    private void displayODSDiag(DecimalFormat df){
-        displayCenteredText("Optical Distance Sensor: ");
-        if(mHardwareMap.getAll(OpticalDistanceSensor.class).isEmpty()){
-            displayCenteredText("No Optical Distance Sensor's Detected");
-        }else{
-            for (OpticalDistanceSensor curInstance: mHardwareMap.getAll(OpticalDistanceSensor.class)) {
-                displayCenteredText(curInstance.getDeviceName() + " Current Value: " + df.format(curInstance.getRawLightDetected()));
-            }
-        }
-    }
-
-    private void displayColorDiag(DecimalFormat df){
-        displayCenteredText("Color Sensor: ");
-        if(mHardwareMap.getAll(ColorSensor.class).isEmpty()){
-            displayCenteredText("No Color Sensor's Detected");
-        }else{
-            for (ColorSensor curInstance: mHardwareMap.getAll(ColorSensor.class)) {
-                displayCenteredText(curInstance.getDeviceName() + " Current Values: " + " Red: " + df.format(curInstance.red())+ ", Green: " + df.format(curInstance.green())+ ", Blue: " + df.format(curInstance.blue()));
-            }
-        }
-    }
 
     private void displayRangeDiag(DecimalFormat df){
         displayCenteredText("Range Sensor: ");
-        if(mHardwareMap.getAll(ColorSensor.class).isEmpty()){
+        if(rangeList.isEmpty()){
             displayCenteredText("No Range Sensor's Detected");
         }else{
-            for (ModernRoboticsI2cRangeSensor curInstance: mHardwareMap.getAll(ModernRoboticsI2cRangeSensor.class)) {
-                displayCenteredText(curInstance.getDeviceName() + " Current Values: " + " US: " + df.format(curInstance.rawUltrasonic())+ ", ODS: " + df.format(curInstance.rawOptical()));
+            for (HDRange curInstance: rangeList) {
+                displayCenteredText(curInstance.getName() + " Current Values: " + " US: " + df.format(curInstance.getUSValue())+ ", ODS: " + df.format(curInstance.getODSValue()));
             }
         }
     }
