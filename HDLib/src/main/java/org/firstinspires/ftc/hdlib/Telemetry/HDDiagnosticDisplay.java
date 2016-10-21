@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.hdlib.Telemetry;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,19 +19,18 @@ import java.text.DecimalFormat;
  * Created by Akash on 8/18/2016.
  */
 public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
-    HDOpMode curOpMode;
     HDDashboard curDashboard;
     HDDriveHandler curDrive;
     HardwareMap mHardwareMap;
     private static HDDiagnosticDisplay instance = null;
-    private ElapsedTime runtime = new ElapsedTime();
+
     private static String[] ProgramSpecificDisplay = new String[20];
+    private static String[] LibrarySpecificDisplay = new String[20];
     private int curLine;
 
-    public HDDiagnosticDisplay(HDOpMode OpModeInstance, HDDashboard DBInstance, HDDriveHandler driveHandler){
+    public HDDiagnosticDisplay(HDDashboard DBInstance, HDDriveHandler driveHandler){
         instance = this;
         this.curDashboard = DBInstance;
-        this.curOpMode = OpModeInstance;
         this.curDrive = driveHandler;
         this.mHardwareMap = HDOpMode.getInstance().hardwareMap;
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.ContinuousRun);
@@ -46,6 +43,10 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
     }
 
     public void addProgramSpecificTelemetry(int lineNum, String format, Object... args){
+        ProgramSpecificDisplay[lineNum] = String.format(format, args);
+    }
+
+    public void addLibrarySpecificTelemetry(int lineNum, String format, Object... args){
         ProgramSpecificDisplay[lineNum] = String.format(format, args);
     }
 
@@ -66,9 +67,9 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
 
     @Override
     public void StartOp() {
+        HDDashboard.getInstance().clearDisplay();
         HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered, "HD Library Running");
         HDDashboard.getInstance().refreshDisplay();
-        runtime.reset();
     }
 
     @Override
@@ -76,6 +77,19 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         DecimalFormat df = new DecimalFormat("#.##");
         curLine = 0;
         displayCenteredText("HD Library Running");
+        displayCenteredText("--------------------Library Specific Telemetry--------------------");
+        boolean LibrarySpecificDisplayEmpty = true;
+        for (int i = 0; i < LibrarySpecificDisplay.length; i++)
+        {
+            if(LibrarySpecificDisplay[i] != null) {
+                LibrarySpecificDisplayEmpty = false;
+                displayCenteredText(ProgramSpecificDisplay[i]);
+            }
+        }
+        if(LibrarySpecificDisplayEmpty){
+            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "No Library Specific Telemetry");
+            curLine++;
+        }
         displayCenteredText("--------------------Program Specific Telemetry--------------------");
         boolean ProgramSpecificDisplayEmpty = true;
         for (int i = 0; i < ProgramSpecificDisplay.length; i++)
@@ -90,8 +104,8 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             curLine++;
         }
         displayCenteredText("--------------------------------Diagnostics--------------------------------");
-        displayCenteredText("Program Runtime: " + df.format(runtime.seconds()));
-        displayCenteredText("------------------------------------Motors-----------------------------------");
+        displayCenteredText("Program Runtime: " + df.format(HDOpMode.getInstance().elapsedTime.seconds()));
+        displayCenteredText("------------------------------------Drive-----------------------------------");
         displayCenteredText("Current Encoder Counts: ");
         displayCenteredText(curDrive.getEncoderCountDiagFront());
         displayCenteredText(curDrive.getEncoderCountDiagBack());
@@ -138,7 +152,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             displayCenteredText("No Range Sensor's Detected");
         }else{
             for (HDMRRange curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getRange()) {
-                displayCenteredText(curInstance.getName() + " Current Values: " + " US: " + df.format(curInstance.getUSValue())+ ", ODS: " + df.format(curInstance.getODSValue()));
+                displayCenteredText(curInstance.getName() + "  Values: " + " US: " + df.format(curInstance.getUSValue())+ ", ODS: " + df.format(curInstance.getODSValue()));
             }
         }
     }
@@ -149,8 +163,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             displayCenteredText("No Color Sensor's Detected");
         }else{
             for (HDMRColor curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getColor()) {
-                Log.w("Color", HDOpMode.getInstance().hdDiagnosticBackend.getColor().toString());
-                displayCenteredText(curInstance.getName() + " Current Values: " + " Red: " + df.format(curInstance.getData().red())+ ", Green: " + df.format(curInstance.getData().green())+ ", Blue: " + df.format(curInstance.getData().blue()));
+                displayCenteredText(curInstance.getName() + " Values: " + " Red: " + df.format(curInstance.getSensor().red())+ ", Green: " + df.format(curInstance.getSensor().green())+ ", Blue: " + df.format(curInstance.getSensor().blue()));
             }
         }
     }
@@ -161,7 +174,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             displayCenteredText("No Optical Distance Sensor's Detected");
         }else{
             for (HDMROpticalDistance curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getODS()) {
-                displayCenteredText(curInstance.getName() + " Current Value: " + df.format(curInstance.getRawLightDetected()));
+                displayCenteredText(curInstance.getName() + " Value: " + df.format(curInstance.getRawLightDetected()));
             }
         }
     }

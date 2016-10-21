@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
@@ -32,24 +30,24 @@ public class DiagnosticViewer extends HDOpMode {
     HDMRColor Color_Left_Button_Pusher;
     HDMRColor Color_Right_Button_Pusher;
     @Override
-    public void Initialize() {
+    public void initialize() {
         navX = new HDNavX();
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
         Range_Button_Pusher = new HDMRRange(Values.HardwareMapKeys.Range_Button_Pusher);
         ODS_Back = new HDMROpticalDistance(Values.HardwareMapKeys.ODS_Back);
         Color_Left_Button_Pusher = new HDMRColor(Values.HardwareMapKeys.Color_Left_Button_Pusher);
         Color_Right_Button_Pusher = new HDMRColor(Values.HardwareMapKeys.Color_Right_Button_Pusher);
-        Color_Left_Button_Pusher.getData().setI2cAddress(I2cAddr.create8bit(0x3a));
-        Color_Left_Button_Pusher.getData().enableLed(false);
-        Color_Right_Button_Pusher.getData().setI2cAddress(I2cAddr.create8bit(0x3c));
-        Color_Right_Button_Pusher.getData().enableLed(false);
+        Color_Left_Button_Pusher.getSensor().setI2cAddress(I2cAddr.create8bit(0x3a));
+        Color_Left_Button_Pusher.getSensor().enableLed(false);
+        Color_Right_Button_Pusher.getSensor().setI2cAddress(I2cAddr.create8bit(0x3c));
+        Color_Right_Button_Pusher.getSensor().enableLed(false);
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
@@ -59,7 +57,7 @@ public class DiagnosticViewer extends HDOpMode {
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
 
         }

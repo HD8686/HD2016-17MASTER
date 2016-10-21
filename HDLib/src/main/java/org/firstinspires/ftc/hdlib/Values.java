@@ -59,11 +59,6 @@ public final class Values {
     public static final int NAVX_I2C_PORT = 4;
     }
 
-    public final class ServoInit {
-        //Servo Init Values
-        public static final double climberServoInit = .8;
-
-    }
 
     public final class ServoSpeedStats {
         //Time to travel 60 degrees

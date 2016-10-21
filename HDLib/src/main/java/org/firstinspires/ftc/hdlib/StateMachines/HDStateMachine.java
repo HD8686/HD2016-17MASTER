@@ -123,7 +123,7 @@ public class HDStateMachine {
             HDGyroWhatToReturn = HDMRGyro.isReady;
         }
         if(navX.getSensorData().isCalibrating()){
-            HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1, "NavX is currently configuring, please wait...");
+            HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(1, "NavX is currently configuring, please wait...");
         }
         return !navX.getSensorData().isCalibrating() && HDGyroWhatToReturn;
     }
@@ -158,7 +158,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     } else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - HDDriveHandler.getInstance().getEncoderCount()))));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Degrees Left: " + (String.valueOf(Math.abs(this.targetEncoder - HDDriveHandler.getInstance().getEncoderCount()))));
                       }
                     break;
                 case Timer:
@@ -166,7 +166,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
                         }
                     break;
                 case PIDTarget:
@@ -174,7 +174,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
                     }
                     break;
                 case ODStoLine:
@@ -182,7 +182,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
                     }
                     break;
                 case ODStoField:
@@ -190,7 +190,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
                     }
                     break;
                 case Range:
@@ -198,7 +198,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Range_Button_Pusher Value: " + (String.valueOf(currRange.getUSValue())));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Range_Button_Pusher Value: " + (String.valueOf(currRange.getUSValue())));
                     }
                     break;
                 case Nothing:
@@ -208,7 +208,7 @@ public class HDStateMachine {
             }
 
         }
-        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"Current State Running: " + State.toString());
+        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(1,"Current State Running: " + State.toString());
         return State;
     }
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
@@ -18,6 +19,12 @@ import org.firstinspires.ftc.hdlib.Values;
  * Created by Akash on 5/7/2016.
  */
 
+
+/**
+ * THIS CLASS ONLY EXISTS FOR TESTING HDAutonomous, IT SHOULD BE DELETED ONCE WE ARE SURE.
+ */
+@Deprecated
+@Disabled
 @Autonomous(name = "Autonomous Testing Blue", group = "Testing")
 public class Autonomous_Testing_Blue extends HDOpMode {
     /* Remember that for robot drive, you need
@@ -31,7 +38,7 @@ public class Autonomous_Testing_Blue extends HDOpMode {
     HDStateMachine SM;
     HDMROpticalDistance ODS_Back;
 
-    private enum exampleStates{
+    private enum State {
         fastDriveToBeacon,
         driveToBeacon,
         wait,
@@ -49,51 +56,51 @@ public class Autonomous_Testing_Blue extends HDOpMode {
     }
 
     @Override
-    public void Initialize() {
+    public void initialize() {
         ODS_Back = new HDMROpticalDistance(Values.HardwareMapKeys.ODS_Back);
         navX = new HDNavX();
         range = new HDMRRange(Values.HardwareMapKeys.Range_Button_Pusher);
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
 
     @Override
     public void Start() {
-        SM.setState(exampleStates.fastDriveToBeacon);
+        SM.setState(State.fastDriveToBeacon);
         navX.getSensorData().zeroYaw();
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
-            exampleStates states = (exampleStates) SM.getState();
+            State states = (State) SM.getState();
                 switch (states){
                     case fastDriveToBeacon:
-                        SM.setNextState(exampleStates.driveToBeacon, HDWaitTypes.Timer, 2.6);
+                        SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 2.6);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.25, 41.0, -90.0, navX.getSensorData().getYaw());
                         break;
                     case driveToBeacon:
-                        SM.setNextState(exampleStates.wait, HDWaitTypes.ODStoLine, ODS_Back);
+                        SM.setNextState(State.wait, HDWaitTypes.ODStoLine, ODS_Back);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 41.0, -90.0, navX.getSensorData().getYaw());
                         break;
                     case wait:
-                        SM.setNextState(exampleStates.driveToDistance, HDWaitTypes.Timer, 0.1);
+                        SM.setNextState(State.driveToDistance, HDWaitTypes.Timer, 0.1);
                         robotDrive.motorBreak();
                         break;
                     case driveToDistance:
-                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.Range, range, 15.0);
+                        SM.setNextState(State.gyroTurn, HDWaitTypes.Range, range, 15.0);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 90.0, -90.0, navX.getSensorData().getYaw());
                         break;
                     case gyroTurn:
-                        SM.setNextState(exampleStates.buttonPush1, HDWaitTypes.Timer, 1.0);
+                        SM.setNextState(State.buttonPush1, HDWaitTypes.Timer, 1.0);
                         if(HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), -90, .5)){
                         robotDrive.motorBreak();
                         }else if(navX.getSensorData().getYaw() < -90){
@@ -104,23 +111,23 @@ public class Autonomous_Testing_Blue extends HDOpMode {
                         break;
                     case buttonPush1:
                         //Remeber to turn color Light off.
-                        SM.setNextState(exampleStates.fastDriveToBeacon2, HDWaitTypes.Timer, 1.5);
+                        SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 1.5);
                         robotDrive.motorBreak();
                         break;
                     case fastDriveToBeacon2:
-                        SM.setNextState(exampleStates.driveToBeacon2, HDWaitTypes.Timer, 1.25);
+                        SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.25);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(.4, 0.0, -90.0, navX.getSensorData().getYaw());
                         break;
                     case driveToBeacon2:
-                        SM.setNextState(exampleStates.wait2, HDWaitTypes.ODStoLine, ODS_Back);
+                        SM.setNextState(State.wait2, HDWaitTypes.ODStoLine, ODS_Back);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(.1, 0.0, -90.0, navX.getSensorData().getYaw());
                         break;
                     case wait2:
-                        SM.setNextState(exampleStates.driveToDistance2, HDWaitTypes.Timer, 0.1);
+                        SM.setNextState(State.driveToDistance2, HDWaitTypes.Timer, 0.1);
                         robotDrive.motorBreak();
                         break;
                     case driveToDistance2:
-                        SM.setNextState(exampleStates.gyroTurn2, HDWaitTypes.Range, range, 15.0);
+                        SM.setNextState(State.gyroTurn2, HDWaitTypes.Range, range, 15.0);
                         if(range.getUSValue() > 15){
                             robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 90.0, -90.0, navX.getSensorData().getYaw());
                         }else{
@@ -128,7 +135,7 @@ public class Autonomous_Testing_Blue extends HDOpMode {
                         }
                         break;
                     case gyroTurn2:
-                        SM.setNextState(exampleStates.buttonPush2, HDWaitTypes.Timer, 1.0);
+                        SM.setNextState(State.buttonPush2, HDWaitTypes.Timer, 1.0);
                         if(HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), -90, .5)){
                             robotDrive.motorBreak();
                         }else if(navX.getSensorData().getYaw() < -90){
@@ -138,11 +145,11 @@ public class Autonomous_Testing_Blue extends HDOpMode {
                         }
                         break;
                     case buttonPush2:
-                        SM.setNextState(exampleStates.hitCap, HDWaitTypes.Timer, 1.5);
+                        SM.setNextState(State.hitCap, HDWaitTypes.Timer, 1.5);
                         robotDrive.motorBreak();
                         break;
                     case hitCap:
-                        SM.setNextState(exampleStates.DONE, HDWaitTypes.Timer, 4.25);
+                        SM.setNextState(State.DONE, HDWaitTypes.Timer, 4.25);
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.2, 215.0, 35.0, navX.getSensorData().getYaw());
                     case DONE:
                         Runnable r1 = new Runnable() {

@@ -31,7 +31,7 @@ import java.util.Date;
 
 @Disabled
 @TeleOp(name = "2015-16 RES-Q Teleop", group = "RES-Q")
-public class Teleop extends OpMode implements SensorEventListener {
+public class Teleop_2015 extends OpMode implements SensorEventListener {
     /**
      * Define hardware and variables for teleop
      */

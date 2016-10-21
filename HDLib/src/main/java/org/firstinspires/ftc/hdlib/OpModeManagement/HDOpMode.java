@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdlib.OpModeManagement;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
@@ -14,6 +15,7 @@ public abstract class HDOpMode extends LinearOpMode {
     private static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
     public HDDiagnosticBackend hdDiagnosticBackend;
+    public ElapsedTime elapsedTime = new ElapsedTime();
 
     public HDOpMode() {
         super();
@@ -25,13 +27,13 @@ public abstract class HDOpMode extends LinearOpMode {
         return instance;
     }   //getInstance
 
-    public abstract void Initialize();
+    public abstract void initialize();
 
-    public abstract void InitializeLoop();
+    public abstract void initializeLoop();
 
     public abstract void Start();
 
-    public abstract void continuousRun();
+    public abstract void continuousRun(double elapsedTime);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,24 +41,24 @@ public abstract class HDOpMode extends LinearOpMode {
             hdDiagnosticBackend = new HDDiagnosticBackend();
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
-            Initialize();
+            initialize();
             hdLoopInterface.runInitializeLoopInterface();
             while (!opModeIsActive()) {
                 waitForNextHardwareCycle();
                 hdLoopInterface.runInitializeLoopInterface();
-                InitializeLoop();
+                initializeLoop();
                 HDDashboard.getInstance().refreshDisplay();
                 idle();
             }
 
             waitForStart();
-
+            elapsedTime.reset();
             Start();
             hdLoopInterface.runStartInterface();
 
             while (opModeIsActive()) {
                 HDDashboard.getInstance().refreshDisplay();
-                continuousRun();
+                continuousRun(elapsedTime.seconds());
                 hdLoopInterface.runContinuousRunInterface();
                 idle();
             }

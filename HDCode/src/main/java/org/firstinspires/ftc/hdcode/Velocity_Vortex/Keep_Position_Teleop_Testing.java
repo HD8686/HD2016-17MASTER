@@ -27,18 +27,18 @@ public class Keep_Position_Teleop_Testing extends HDOpMode {
     double latestGyroUpdate = 0.0;
     ElapsedTime keepPosition;
     @Override
-    public void Initialize() {
+    public void initialize() {
         keepPosition = new ElapsedTime();
         navX = new HDNavX();
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
         robotDrive.resetEncoders();
         keepPosition.reset();
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
@@ -49,7 +49,7 @@ public class Keep_Position_Teleop_Testing extends HDOpMode {
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
             if(Math.abs(gamepad1.left_stick_y) > 0 || Math.abs(gamepad1.right_stick_y) > 0){
                 robotDrive.firstRun = true;

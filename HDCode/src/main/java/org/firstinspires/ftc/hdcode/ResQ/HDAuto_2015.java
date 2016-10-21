@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Define hardware for autonomous
  */
-public abstract class HDAuto extends LinearOpMode {
+public abstract class HDAuto_2015 extends LinearOpMode {
     public View relativeLayout;
     public HDDashboard_2015 dashboard;
     public Boolean LEDON = true;
@@ -190,7 +190,7 @@ public abstract class HDAuto extends LinearOpMode {
     /**
      * Blue climber program
      */
-    public void CLIMBERBLUE(SteveAutonomous auton) throws InterruptedException {
+    public void CLIMBERBLUE(SteveAutonomous_2015 auton) throws InterruptedException {
         BlueClimbers mCurrState = BlueClimbers.STATE_Delay;
         /**
          * Run all motors with encoders
@@ -538,7 +538,7 @@ public abstract class HDAuto extends LinearOpMode {
     /**
      * Red climber program
      */
-    public void CLIMBERRED(SteveAutonomous auton) throws InterruptedException {
+    public void CLIMBERRED(SteveAutonomous_2015 auton) throws InterruptedException {
         RedClimbers mCurrState = RedClimbers.STATE_Delay;
         /**
          * Run all motors with encoders
@@ -896,7 +896,7 @@ public abstract class HDAuto extends LinearOpMode {
         StopMotors();
     }
 
-    public void Protect(SteveAutonomous auton) throws InterruptedException {
+    public void Protect(SteveAutonomous_2015 auton) throws InterruptedException {
         ProtectStates mCurrState = ProtectStates.STATE_Delay;
         GeneralTime.reset();
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -969,7 +969,7 @@ public abstract class HDAuto extends LinearOpMode {
         StopMotors();
     }
 
-    public void ForwardAndDefend(SteveAutonomous auton) throws InterruptedException {
+    public void ForwardAndDefend(SteveAutonomous_2015 auton) throws InterruptedException {
         ForwardAndDefend mCurrState = ForwardAndDefend.STATE_Delay;
         GeneralTime.reset();
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -1038,7 +1038,7 @@ public abstract class HDAuto extends LinearOpMode {
         backRight.setPower(0);
     }
 
-    public void SideDefend(SteveAutonomous auton) throws InterruptedException {
+    public void SideDefend(SteveAutonomous_2015 auton) throws InterruptedException {
         SideDefend mCurrState = SideDefend.STATE_Delay;
         GeneralTime.reset();
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

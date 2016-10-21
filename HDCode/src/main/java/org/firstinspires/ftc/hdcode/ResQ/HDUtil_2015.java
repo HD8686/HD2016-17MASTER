@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Created by Akash on 8/29/2016.
  */
-public class HDUtil {
+public class HDUtil_2015 {
 
     public static void HDSleep(long sleepT){ //Sleep function which allows us to wait
         long TimeUntilDone = System.currentTimeMillis() + sleepT;   //Add sleeptime to Systemtime to find when to stop waiting

@@ -20,7 +20,7 @@ import org.firstinspires.ftc.hdcode.R;
 /**
  * Created by Height Differential on 1/17/2016.
  */
-public class SteveAutonomous extends HDAuto {
+public class SteveAutonomous_2015 extends HDAuto_2015 {
     public void runOpMode() throws InterruptedException {
         dashboard = new HDDashboard_2015(telemetry); //Create dashboard for telemetry
         dashboard.clearDisplay(); //Clear Dashboard
@@ -28,7 +28,7 @@ public class SteveAutonomous extends HDAuto {
         AssignHardwareMap(); //Assign hardware devices to map,
         Init(); //Sets servo values
         BeforeStartGyroCal(); //Custom gyro calibration method, which calibrates the gyro every 30 seconds.
-        waitForStart(); //wait for start button to be pressed
+        waitForStart(); //wait for Start button to be pressed
         AfterStartGyroCal(); //If the gyro was in a middle of a calibration, wait for it to finish
         ProgramRunTime.reset(); //Reset program run timer.
         Finished = false; //Set finished variable to false(Change this to true to exit state machine loops)
@@ -332,12 +332,12 @@ public class SteveAutonomous extends HDAuto {
     void BeforeStartGyroCal() throws InterruptedException{  //Gyro calibration method (Waits 30 seconds before recalibration)
         while(!opModeIsActive()){   //While still in init phase
             waitForNextHardwareCycle();
-            dashboard.displayPrintf(4, "Time until new gyro calibration: " + String.valueOf(HDUtil.round(33.5 - GyroTimer.time(), 3))); //Display time left until new gyro calibration
+            dashboard.displayPrintf(4, "Time until new gyro calibration: " + String.valueOf(HDUtil_2015.round(33.5 - GyroTimer.time(), 3))); //Display time left until new gyro calibration
             if(GyroTimer.time() <  .5){ //If gyro timer is less than .5 seconds(When it is reset)
                 mGyro.calibrate();  //Calibrate gyro
                 while (!opModeIsActive() && GyroTimer.time()< 3.5){ //wait 3.5 seconds for gyro recalibration
                     waitForNextHardwareCycle();
-                    dashboard.displayPrintf(4, "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    dashboard.displayPrintf(4, "Gyro Calibrating :" + String.valueOf(HDUtil_2015.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
             if(GyroTimer.time() > 33.5){ //Once it has been 33.5 seconds (30 + 3.5 gyro calibration time) reset the gyrotimer to restart the calibration.
@@ -351,22 +351,22 @@ public class SteveAutonomous extends HDAuto {
             if(mGyro.isCalibrating()){
                 while (opModeIsActive() && GyroTimer.time()< 3.5){ //If gyro was calibrating then finish the calibration
                     waitForNextHardwareCycle();
-                    telemetry.addData("GyroTimer", HDUtil.round(GyroTimer.time(), 3));
-                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    telemetry.addData("GyroTimer", HDUtil_2015.round(GyroTimer.time(), 3));
+                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil_2015.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
-            else { //If gyro wasn't calibrating and time was less than 3.5 seconds it must have not gotten to calibration command in time, so start calibration and wait 3.5 seconds.
+            else { //If gyro wasn't calibrating and time was less than 3.5 seconds it must have not gotten to calibration command in time, so Start calibration and wait 3.5 seconds.
                 mGyro.calibrate();
                 while (opModeIsActive() && GyroTimer.time()< 3.5){
                     waitForNextHardwareCycle();
                     telemetry.addData("GyroTimer", GyroTimer.time());
-                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
+                    telemetry.addData("1", "Gyro Calibrating :" + String.valueOf(HDUtil_2015.round(4- GyroTimer.time(),3)) + " Seconds Remaining");
                 }
             }
         }
     }
 
-    void Init() throws InterruptedException{    //Reset drive encoders and then set all devices start positions.
+    void Init() throws InterruptedException{    //Reset drive encoders and then set all devices Start positions.
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

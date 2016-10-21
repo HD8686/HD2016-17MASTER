@@ -25,16 +25,16 @@ public class Mecanum_Teleop_Testing extends HDOpMode {
     HDStateMachine SM;
 
     @Override
-    public void Initialize() {
+    public void initialize() {
         navX = new HDNavX();
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
@@ -44,7 +44,7 @@ public class Mecanum_Teleop_Testing extends HDOpMode {
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
             HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadX:" + gamepad1.left_stick_x/2);
             HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadY:" + gamepad1.left_stick_y/2);

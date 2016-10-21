@@ -23,7 +23,7 @@ public class HDMRColor{
         return this.colorHMKey;
     }
 
-    public ModernRoboticsI2cColorSensor getData(){
+    public ModernRoboticsI2cColorSensor getSensor(){
         return colorSensor;
     }
 

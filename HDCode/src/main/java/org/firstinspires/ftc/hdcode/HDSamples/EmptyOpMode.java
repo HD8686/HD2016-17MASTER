@@ -24,16 +24,16 @@ public class EmptyOpMode extends HDOpMode {
     HDStateMachine SM;
 
     @Override
-    public void Initialize() {
+    public void initialize() {
         navX = new HDNavX();
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
@@ -43,7 +43,7 @@ public class EmptyOpMode extends HDOpMode {
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
 
         }

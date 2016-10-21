@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.firstinspires.ftc.hdlib.Alliance;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Values;
@@ -31,6 +32,7 @@ public class HDDriveHandler {
     private static HDDriveHandler instance = null;
     private DcMotor.RunMode currRunMode = DcMotor.RunMode.RUN_USING_ENCODER;
     private HDNavX navX;
+    private Alliance alliance = Alliance.BLUE_ALLIANCE;
 
     public HDDriveHandler(HDNavX sensor){
         if(HDOpMode.getInstance() == null){
@@ -41,6 +43,12 @@ public class HDDriveHandler {
         setMode(currRunMode);
         instance = this;
     }
+
+    public void setAlliance(Alliance alliance){
+        this.alliance = alliance;
+    }
+
+
 
     private void InitMotors(){
         this.mHardwareMap = HDOpMode.getInstance().hardwareMap;
@@ -140,6 +148,9 @@ public class HDDriveHandler {
     }
 
     public void gyroTurn(double targetAngle){
+        if(alliance == Alliance.RED_ALLIANCE){
+            targetAngle = -targetAngle;
+        }
         if(firstRun){
             navX.yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(targetAngle);
@@ -166,6 +177,9 @@ public class HDDriveHandler {
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.
     public void VLF(double targetAngle, DcMotor.Direction direction){
+        if(alliance == Alliance.RED_ALLIANCE){
+            targetAngle = -targetAngle;
+        }
         if(firstRun){
             navX.yawPIDController.setOutputRange(Values.PIDSettings.VLF_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.VLF_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(targetAngle);
@@ -245,6 +259,11 @@ public class HDDriveHandler {
     }
 
     public void mecanumDrive_Polar(double magnitude, double direction, double rotation, double gyroAngle){
+        if(alliance == Alliance.RED_ALLIANCE){
+            direction = -direction;
+            rotation = -rotation;
+        }
+
         magnitude = limitMecanum(magnitude) * Math.sqrt(2.0);
         direction = direction - gyroAngle;
         double dirInRad = (direction + 45.0) * Math.PI/180;
@@ -270,6 +289,11 @@ public class HDDriveHandler {
     }
 
     public void mecanumDrive_Polar_keepFrontPos(double magnitude, double direction, double angleToMaintain, double gyroAngle){
+        if(alliance == Alliance.RED_ALLIANCE){
+            direction = -direction;
+            angleToMaintain = -angleToMaintain;
+        }
+
         double rotation = 0;
         direction = direction - gyroAngle;
         if(firstRun){

@@ -30,7 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.hdcode.Velocity_Vortex;
+package org.firstinspires.ftc.hdcode.HDSamples;
 
 import android.app.Activity;
 import android.text.TextPaint;
@@ -44,7 +44,7 @@ import org.firstinspires.ftc.hdcode.R;
 
 
 @Disabled
-@Autonomous(name="Test Center Text", group="Testing")
+@Autonomous(name="Center Text Testing", group="Testing")
 public class Center_Text_Testing extends OpMode
 {
     TextPaint mPaint;
@@ -58,8 +58,6 @@ public class Center_Text_Testing extends OpMode
         int paddingSpaces = Math.round((totalWidth - mPaint.measureText("!"))/mPaint.measureText(" "));
         String format = "%" + (paddingSpaces + "!".length()) + "s";
         telemetry.addData("01", String.format(format, "!"));
-
-
         for (int i = 1; i <= 10; i++) {
             char ch = (char)('A' + (int)(Math.random()*26));
             int len = (int)(Math.random()*16) + 2;

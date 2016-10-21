@@ -36,12 +36,12 @@ public class Vuforia_Testing extends HDOpMode {
     HDStateMachine SM;
     VuforiaTrackables beacons;
     @Override
-    public void Initialize() {
+    public void initialize() {
         navX = new HDNavX();
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(this, mDisplay,robotDrive);
+        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
         params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         params.vuforiaLicenseKey = Values.Vuforia.VuforiaKey;
@@ -58,7 +58,7 @@ public class Vuforia_Testing extends HDOpMode {
     }
 
     @Override
-    public void InitializeLoop() {
+    public void initializeLoop() {
         robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
@@ -68,7 +68,7 @@ public class Vuforia_Testing extends HDOpMode {
     }
 
     @Override
-    public void continuousRun() {
+    public void continuousRun(double elapsedTime) {
         if(SM.ready()){
                 for(VuforiaTrackable beac : beacons){
                     OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) beac.getListener()).getPose();
