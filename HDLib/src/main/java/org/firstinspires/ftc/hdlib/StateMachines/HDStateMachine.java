@@ -198,7 +198,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Button_Pusher_Range Value: " + (String.valueOf(currRange.getUSValue())));
+                        HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(2,"Range_Button_Pusher Value: " + (String.valueOf(currRange.getUSValue())));
                     }
                     break;
                 case Nothing:

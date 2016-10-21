@@ -52,7 +52,7 @@ public class Autonomous_Testing_Blue extends HDOpMode {
     public void Initialize() {
         ODS_Back = new HDMROpticalDistance(Values.HardwareMapKeys.ODS_Back);
         navX = new HDNavX();
-        range = new HDMRRange(Values.HardwareMapKeys.Button_Pusher_Range);
+        range = new HDMRRange(Values.HardwareMapKeys.Range_Button_Pusher);
         robotDrive = new HDDriveHandler(navX);
         SM = new HDStateMachine(robotDrive, navX);
         robotDrive.resetEncoders();

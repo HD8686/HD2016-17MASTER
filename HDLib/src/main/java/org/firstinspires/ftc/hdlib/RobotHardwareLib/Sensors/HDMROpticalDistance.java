@@ -9,7 +9,7 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  * Created by Akash on 10/19/2016.
  */
 public class HDMROpticalDistance {
-    private static String odsHMKey;
+    private String odsHMKey;
     private OpticalDistanceSensor ODS;
 
     public HDMROpticalDistance(String rangeHMkey){

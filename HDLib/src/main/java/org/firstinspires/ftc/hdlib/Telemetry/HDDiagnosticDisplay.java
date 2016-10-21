@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.hdlib.Telemetry;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -131,9 +133,9 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
 
 
     private void displayRangeDiag(DecimalFormat df){
-        displayCenteredText("Button_Pusher_Range Sensor: ");
+        displayCenteredText("Range Sensor: ");
         if(HDOpMode.getInstance().hdDiagnosticBackend.getRange().isEmpty()){
-            displayCenteredText("No Button_Pusher_Range Sensor's Detected");
+            displayCenteredText("No Range Sensor's Detected");
         }else{
             for (HDMRRange curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getRange()) {
                 displayCenteredText(curInstance.getName() + " Current Values: " + " US: " + df.format(curInstance.getUSValue())+ ", ODS: " + df.format(curInstance.getODSValue()));
@@ -147,6 +149,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             displayCenteredText("No Color Sensor's Detected");
         }else{
             for (HDMRColor curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getColor()) {
+                Log.w("Color", HDOpMode.getInstance().hdDiagnosticBackend.getColor().toString());
                 displayCenteredText(curInstance.getName() + " Current Values: " + " Red: " + df.format(curInstance.getData().red())+ ", Green: " + df.format(curInstance.getData().green())+ ", Blue: " + df.format(curInstance.getData().blue()));
             }
         }

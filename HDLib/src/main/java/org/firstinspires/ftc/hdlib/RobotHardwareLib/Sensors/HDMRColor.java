@@ -8,7 +8,7 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  * Created by Akash on 10/19/2016.
  */
 public class HDMRColor{
-    private static String colorHMKey;
+    private String colorHMKey;
     private ModernRoboticsI2cColorSensor colorSensor;
 
     public HDMRColor(String rangeHMkey){
@@ -20,7 +20,7 @@ public class HDMRColor{
 
 
     public String getName(){
-        return colorHMKey;
+        return this.colorHMKey;
     }
 
     public ModernRoboticsI2cColorSensor getData(){

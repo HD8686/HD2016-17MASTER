@@ -9,7 +9,7 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  * Created by Akash on 8/16/2016.
  */
 public class HDMRRange {
-    private static String  rangeHMKey;
+    private String  rangeHMKey;
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
     public HDMRRange(String rangeHMkey){
