@@ -59,6 +59,13 @@ public final class Values {
     public static final int NAVX_I2C_PORT = 4;
     }
 
+    public final class ServoConstants {
+        public static final double leftButtonPusherExtended = 1;
+        public static final double rightButtonPusherExtended = 1;
+        public static final double leftButtonPusherRetracted = 0;
+        public static final double rightButtonPusherRetracted = 0;
+    }
+
 
     public final class ServoSpeedStats {
         //Time to travel 60 degrees

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDBeaconReader;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
@@ -33,7 +33,7 @@ public class Button_Pusher_Test extends HDOpMode {
     HDMRColor Color_Right_Button_Pusher;
     HDServo Servo_Button_Pusher_Left;
     HDServo Servo_Button_Pusher_Right;
-    HDBeaconReader HDBeaconReader;
+    HDButtonPusher HDButtonPusher;
 
     @Override
     public void initialize() {
@@ -47,15 +47,17 @@ public class Button_Pusher_Test extends HDOpMode {
         Color_Right_Button_Pusher = new HDMRColor(Values.HardwareMapKeys.Color_Right_Button_Pusher);
         Color_Left_Button_Pusher.getSensor().setI2cAddress(I2cAddr.create8bit(0x3a));
         Color_Right_Button_Pusher.getSensor().setI2cAddress(I2cAddr.create8bit(0x3c));
-        HDBeaconReader = new HDBeaconReader(Color_Left_Button_Pusher, Color_Right_Button_Pusher);
 
         Servo_Button_Pusher_Left = new HDServo(Values.HardwareMapKeys.Servo_Button_Pusher_Left, Values.ServoSpeedStats.HS_785HB, 0, true);
         Servo_Button_Pusher_Right = new HDServo(Values.HardwareMapKeys.Servo_Button_Pusher_Right, Values.ServoSpeedStats.HS_785HB, 0, false);
         robotDrive = new HDDriveHandler(navX);
+        HDButtonPusher = new HDButtonPusher(Color_Left_Button_Pusher, Color_Right_Button_Pusher, Servo_Button_Pusher_Left, Servo_Button_Pusher_Right);
 
         robotDrive.resetEncoders();
         Color_Right_Button_Pusher.getSensor().enableLed(false);
         Color_Left_Button_Pusher.getSensor().enableLed(false);
+        Servo_Button_Pusher_Left.scaleRange(Values.ServoConstants.leftButtonPusherRetracted, Values.ServoConstants.leftButtonPusherExtended);
+        Servo_Button_Pusher_Left.scaleRange(Values.ServoConstants.rightButtonPusherRetracted, Values.ServoConstants.rightButtonPusherExtended);
 
     }
 
@@ -72,8 +74,8 @@ public class Button_Pusher_Test extends HDOpMode {
     @Override
     public void continuousRun(double elapsedTime) {
         if(SM.ready()){
-            mHDDiagnosticDisplay.addProgramSpecificTelemetry(1, "leftColorStatus: " + HDBeaconReader.readLeftColor().toString());
-            mHDDiagnosticDisplay.addProgramSpecificTelemetry(2, "rightColorStatus: " + HDBeaconReader.readRightColor().toString());
+            mHDDiagnosticDisplay.addProgramSpecificTelemetry(1, "leftColorStatus: " + HDButtonPusher.readLeftColor().toString());
+            mHDDiagnosticDisplay.addProgramSpecificTelemetry(2, "rightColorStatus: " + HDButtonPusher.readRightColor().toString());
         }
     }
 
