@@ -15,6 +15,7 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 /**
@@ -36,6 +37,9 @@ public class HDStateMachine {
     HDDriveHandler rDrive;
     HDNavX navX;
     HDWaitTypes currWaitType = HDWaitTypes.Nothing;
+    HDButtonPusher.beaconColor origLeftColor = null;
+    HDButtonPusher.beaconColor origRightColor = null;
+    HDButtonPusher currHDButtonPusher = null;
 
 
     /**
@@ -54,6 +58,7 @@ public class HDStateMachine {
      */
     public void setState(Object sL){
         State = sL;
+        resetValues();
     }
 
     /**
@@ -89,6 +94,12 @@ public class HDStateMachine {
                     waitingActive = true;
                     currRange = ((HDMRRange) Argument);
                     targetRange = ((double) Argument2);
+                    break;
+                case ChangeColor:
+                    waitingActive = true;
+                    currHDButtonPusher = ((HDButtonPusher) Argument);
+                    origLeftColor = currHDButtonPusher.readLeftColor();
+                    origRightColor = currHDButtonPusher.readRightColor();
                     break;
                 case Nothing:
                     break;
@@ -141,6 +152,9 @@ public class HDStateMachine {
         currWaitType = HDWaitTypes.Nothing;
         hasRun = false;
         targetRange = 0.0;
+        currHDButtonPusher = null;
+        origRightColor = null;
+        origLeftColor = null;
     }
 
     public void runOnce(Runnable code){
@@ -199,6 +213,15 @@ public class HDStateMachine {
                         State = nextState;
                     }else{
                         HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Range_Button_Pusher Value: " + (String.valueOf(currRange.getUSValue())));
+                    }
+                    break;
+                case ChangeColor:
+                    if(currHDButtonPusher.readLeftColor() != origLeftColor || currHDButtonPusher.readRightColor() != origRightColor){
+                        this.resetValues();
+                        State = nextState;
+                    }else{
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Left Color Sensor Reading: " + currHDButtonPusher.readLeftColor());
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(3,"Right Color Sensor Reading: " + currHDButtonPusher.readRightColor());
                     }
                     break;
                 case Nothing:

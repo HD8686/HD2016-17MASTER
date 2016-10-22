@@ -11,4 +11,5 @@ public enum HDWaitTypes {
     ODStoLine,
     ODStoField,
     Range,
+    ChangeColor,
 }

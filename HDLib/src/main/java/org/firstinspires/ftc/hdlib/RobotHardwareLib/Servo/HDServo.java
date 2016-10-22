@@ -28,19 +28,16 @@ public class HDServo implements HDLoopInterface.LoopTimer {
     private String servoHMName = "";
     private boolean running = false;
 
-    public HDServo(String servoName, double servoStats, double servoInitPosition, boolean reverse){
+    public HDServo(String servoName, double servoStats, double servoInitPosition, double servoScaleMin, double servoScaleMax, Servo.Direction direction){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
             throw new NullPointerException("Servo is null");
         }
         this.servoHMName = servoName;
         HDOpMode.getInstance().hdDiagnosticBackend.addServo(this);
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
-        if(!reverse) {
-            mServo.setDirection(Servo.Direction.FORWARD);
-        }else {
-            mServo.setDirection(Servo.Direction.REVERSE);
-        }
         this.maxSpeed = ((1/servoStats) * 60.0)/360;
+        this.mServo.setDirection(direction);
+        this.mServo.scaleRange(servoScaleMin,servoScaleMax);
         this.mServo.setPosition(servoInitPosition);
         this.currPosition = servoInitPosition;
     }
@@ -72,6 +69,10 @@ public class HDServo implements HDLoopInterface.LoopTimer {
     public void stopServo(){
         targetPosition = currPosition;
         running = false;
+    }
+
+    public void setReverse(Servo.Direction direction){
+        mServo.setDirection(direction);
     }
 
     public void scaleRange(double min, double max){

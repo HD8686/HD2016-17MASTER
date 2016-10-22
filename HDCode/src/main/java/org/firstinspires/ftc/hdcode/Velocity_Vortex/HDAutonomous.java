@@ -28,7 +28,7 @@ public class HDAutonomous extends HDOpMode{
 
     private HDAuto mHDAuto = null;
     private double delay = 0.0;
-    private Strategy strategy = Strategy.DO_NOTHING;
+    private Strategy strategy = Strategy.BEACON_CAP_BALL;
     private Alliance alliance = Alliance.RED_ALLIANCE;
     private StartPosition startPosition = StartPosition.CORNER_VORTEX;
 
@@ -39,7 +39,7 @@ public class HDAutonomous extends HDOpMode{
 
         switch (strategy){
             case DO_NOTHING:
-
+                mHDAuto = new AutoDoNothing();
                 break;
             case BEACON_CAP_BALL:
                 mHDAuto = new AutoBeaconCapBall(delay, alliance, startPosition);
