@@ -47,7 +47,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
     }
 
     public void addLibrarySpecificTelemetry(int lineNum, String format, Object... args){
-        ProgramSpecificDisplay[lineNum] = String.format(format, args);
+        LibrarySpecificDisplay[lineNum] = String.format(format, args);
     }
 
     public void clearProgramSpecificTelemetry(){
@@ -83,12 +83,11 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         {
             if(LibrarySpecificDisplay[i] != null) {
                 LibrarySpecificDisplayEmpty = false;
-                displayCenteredText(ProgramSpecificDisplay[i]);
+                displayCenteredText(LibrarySpecificDisplay[i]);
             }
         }
         if(LibrarySpecificDisplayEmpty){
-            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "No Library Specific Telemetry");
-            curLine++;
+            displayCenteredText("No Library Specific Telemetry");
         }
         displayCenteredText("--------------------Program Specific Telemetry--------------------");
         boolean ProgramSpecificDisplayEmpty = true;
@@ -100,8 +99,7 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
             }
         }
         if(ProgramSpecificDisplayEmpty){
-            HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Centered, "No Program Specific Telemetry");
-            curLine++;
+            displayCenteredText("No Program Specific Telemetry");
         }
         displayCenteredText("--------------------------------Diagnostics--------------------------------");
         displayCenteredText("Program Runtime: " + df.format(HDOpMode.getInstance().elapsedTime.seconds()));

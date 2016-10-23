@@ -71,7 +71,7 @@ public class HDServo implements HDLoopInterface.LoopTimer {
         running = false;
     }
 
-    public void setReverse(Servo.Direction direction){
+    public void setDirection(Servo.Direction direction){
         mServo.setDirection(direction);
     }
 

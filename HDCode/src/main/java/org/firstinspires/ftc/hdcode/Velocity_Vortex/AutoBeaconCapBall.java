@@ -58,7 +58,7 @@ public class AutoBeaconCapBall implements HDAuto{
         gyroTurn2,
         buttonPush2,
         hitCap,
-        DONE,
+        done,
     }
 
     public AutoBeaconCapBall(double delay, Alliance alliance, HDAutonomous.StartPosition startPosition){
@@ -119,44 +119,19 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case driveToDistance:
                     SM.setNextState(State.gyroTurn, HDWaitTypes.Range, rangeButtonPusher, 15.0);
-                    if(rangeButtonPusher.getUSValue() > 15){
+                    if(rangeButtonPusher.getUSValue() > 15.0)
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 90.0, -90.0, navX.getSensorData().getYaw());
-                    }else{
+                    else
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, -90.0, -90.0, navX.getSensorData().getYaw());
-                    }
                     break;
                 case gyroTurn:
                     SM.setNextState(State.buttonPush1, HDWaitTypes.Timer, 1.25);
-                    if(alliance == Alliance.BLUE_ALLIANCE) {
-                        if (HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), -90, .5))
-                            robotDrive.motorBreak();
-                        else if (navX.getSensorData().getYaw() < -90)
-                            robotDrive.tankDrive(.1, -.1);
-                        else if (navX.getSensorData().getYaw() > -90)
-                            robotDrive.tankDrive(-.1, .1);
-                    }else if(alliance == Alliance.RED_ALLIANCE){
-                        if(HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), 90, .5))
-                            robotDrive.motorBreak();
-                        else if(navX.getSensorData().getYaw() > 90)
-                            robotDrive.tankDrive(-.1, .1);
-                        else if(navX.getSensorData().getYaw() < 90)
-                            robotDrive.tankDrive(.1, -.1);
-                    }
+                    robotDrive.constantGyroTurnLowSpeed(-90);
                     break;
                 case buttonPush1:
                     SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.ChangeColor, mHDButtonPusher);
                     robotDrive.motorBreak();
-                    if(mHDButtonPusher.readRightColor() == HDButtonPusher.beaconColor.RED){
-                        if(alliance == Alliance.RED_ALLIANCE)
-                            mHDButtonPusher.extendRightServo();
-                        else
-                            mHDButtonPusher.extendLeftServo();
-                    }else{
-                        if(alliance == Alliance.BLUE_ALLIANCE)
-                            mHDButtonPusher.extendRightServo();
-                        else
-                            mHDButtonPusher.extendLeftServo();
-                    }
+                    mHDButtonPusher.pushButton(alliance);
                     break;
                 case fastDriveToBeacon2:
                     SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
@@ -182,52 +157,27 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case driveToDistance2:
                     SM.setNextState(State.gyroTurn2, HDWaitTypes.Range, rangeButtonPusher, 15.0);
-                    if(rangeButtonPusher.getUSValue() > 15){
+                    if(rangeButtonPusher.getUSValue() > 15)
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, 90.0, -90.0, navX.getSensorData().getYaw());
-                    }else{
+                    else
                         robotDrive.mecanumDrive_Polar_keepFrontPos(0.1, -90.0, -90.0, navX.getSensorData().getYaw());
-                    }
                     break;
                 case gyroTurn2:
                     SM.setNextState(State.buttonPush2, HDWaitTypes.Timer, 1.25);
-                    if(alliance == Alliance.BLUE_ALLIANCE) {
-                        if (HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), -90, .5))
-                            robotDrive.motorBreak();
-                        else if (navX.getSensorData().getYaw() < -90)
-                            robotDrive.tankDrive(.1, -.1);
-                        else if (navX.getSensorData().getYaw() > -90)
-                            robotDrive.tankDrive(-.1, .1);
-                    }else if(alliance == Alliance.RED_ALLIANCE){
-                        if(HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), 90, .5))
-                            robotDrive.motorBreak();
-                        else if(navX.getSensorData().getYaw() > 90)
-                            robotDrive.tankDrive(-.1, .1);
-                        else if(navX.getSensorData().getYaw() < 90)
-                            robotDrive.tankDrive(.1, -.1);
-                    }
+                    robotDrive.constantGyroTurnLowSpeed(-90);
                     break;
                 case buttonPush2:
                     SM.setNextState(State.hitCap, HDWaitTypes.ChangeColor, mHDButtonPusher);
                     robotDrive.motorBreak();
-                    if(mHDButtonPusher.readRightColor() == HDButtonPusher.beaconColor.RED){
-                        if(alliance == Alliance.RED_ALLIANCE)
-                            mHDButtonPusher.extendRightServo();
-                        else
-                            mHDButtonPusher.extendLeftServo();
-                    }else{
-                        if(alliance == Alliance.BLUE_ALLIANCE)
-                            mHDButtonPusher.extendRightServo();
-                        else
-                            mHDButtonPusher.extendLeftServo();
-                    }
+                    mHDButtonPusher.pushButton(alliance);
                     break;
                 case hitCap:
                     mHDButtonPusher.retractLeftServo();
                     mHDButtonPusher.retractRightServo();
-                    SM.setNextState(State.DONE, HDWaitTypes.Timer, 4.25);
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 4.25);
                     robotDrive.mecanumDrive_Polar_keepFrontPos(0.2, 215.0, 35.0, navX.getSensorData().getYaw());
                     break;
-                case DONE:
+                case done:
                     Runnable r1 = new Runnable() {
                         @Override
                         public void run() {
@@ -236,7 +186,6 @@ public class AutoBeaconCapBall implements HDAuto{
                     };
                     SM.runOnce(r1);
                     break;
-
             }
         }
     }

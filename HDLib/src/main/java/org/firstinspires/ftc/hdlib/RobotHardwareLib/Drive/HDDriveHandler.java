@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.firstinspires.ftc.hdlib.Alliance;
+import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.Values;
@@ -119,19 +120,19 @@ public class HDDriveHandler {
     }
 
     public String getEncoderCountDiagFront(){
-        return "   frontLeft: " + DHfrontLeft.getCurrentPosition() + ", frontRight: " + DHfrontRight.getCurrentPosition();
+        return "frontLeft: " + DHfrontLeft.getCurrentPosition() + ", frontRight: " + DHfrontRight.getCurrentPosition();
     }
 
     public String getEncoderCountDiagBack(){
-        return  " backRight: " + DHbackRight.getCurrentPosition() + ", backLeft: " + DHbackLeft.getCurrentPosition();
+        return  "backRight: " + DHbackRight.getCurrentPosition() + ", backLeft: " + DHbackLeft.getCurrentPosition();
     }
 
     public String getMotorSpeedDiagFront(){
-        return "  frontLeft: " + DHfrontLeft.getPower() + ", frontRight: " + DHfrontRight.getPower();
+        return "frontLeft: " + DHfrontLeft.getPower() + ", frontRight: " + DHfrontRight.getPower();
     }
 
     public String getMotorSpeedDiagBack(){
-        return " backRight: " + DHbackRight.getPower() + ", backLeft: " + DHbackLeft.getPower();
+        return "backRight: " + DHbackRight.getPower() + ", backLeft: " + DHbackLeft.getPower();
     }
     public void setMotorSpeeds(double[] Speeds){
         DHfrontLeft.setPower(Range.clip(Speeds[0], -1, 1));
@@ -161,18 +162,23 @@ public class HDDriveHandler {
         if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
             if (navX.yawPIDResult.isOnTarget()) {
                 motorBreak();
-                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(0.00));
             } else {
                 double output = (navX.yawPIDResult.getOutput());
                 tankDrive(output, -output);
-                HDOpMode.getInstance().telemetry.addData("Motor Output", df.format(output) + ", " +
-                        df.format(-output));
             }
-        } else {
-            /* No sensor update has been received since the last time  */
-            /* the loop() function was invoked.  Therefore, there's no */
-            /* need to update the motors at this time.                 */
         }
+    }
+
+    public void constantGyroTurnLowSpeed(double targetAngle){
+        if(alliance == Alliance.RED_ALLIANCE){
+            targetAngle = -targetAngle;
+        }
+        if (HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), targetAngle, .5))
+            motorBreak();
+        else if (navX.getSensorData().getYaw() < targetAngle)
+            tankDrive(.1, -.1);
+        else if (navX.getSensorData().getYaw() > targetAngle)
+            tankDrive(-.1, .1);
     }
 
     //Angle is -180 to 180 degrees. Uses values from the Values Class.

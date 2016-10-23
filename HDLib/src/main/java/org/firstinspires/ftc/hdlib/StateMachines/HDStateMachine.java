@@ -18,6 +18,8 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
+import java.text.DecimalFormat;
+
 /**
  * This is our Height Differential state machine library.
  * It controls the state of Autonomous and general robot checks like gyro(either NavX or Modern Robotics) calibration which is why we use it in Teleop and Autonomous.
@@ -40,7 +42,7 @@ public class HDStateMachine {
     HDButtonPusher.beaconColor origLeftColor = null;
     HDButtonPusher.beaconColor origRightColor = null;
     HDButtonPusher currHDButtonPusher = null;
-
+    DecimalFormat df;
 
     /**
      * This is the definition for the State Machine Class
@@ -50,6 +52,7 @@ public class HDStateMachine {
     public HDStateMachine(HDDriveHandler robotD, HDNavX navX){
         this.rDrive = robotD;
         this.navX = navX;
+        df = new DecimalFormat("#.##");
     }
 
     /**
@@ -180,7 +183,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Delay Left: " + (String.valueOf(Math.round(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"Delay Left: " + (String.valueOf(df.format(this.timerExpire - HDGeneralLib.getCurrentTimeSeconds()))));
                         }
                     break;
                 case PIDTarget:
@@ -188,7 +191,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"PID Error: " + (String.valueOf(Math.round(navX.yawPIDController.getError()))));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"PID Error: " + (String.valueOf(df.format(navX.yawPIDController.getError()))));
                     }
                     break;
                 case ODStoLine:
@@ -196,7 +199,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(df.format(currODS.getRawLightDetected()))));
                     }
                     break;
                 case ODStoField:
@@ -204,7 +207,7 @@ public class HDStateMachine {
                         this.resetValues();
                         State = nextState;
                     }else{
-                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(currODS.getRawLightDetected())));
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2,"ODS Value: " + (String.valueOf(df.format(currODS.getRawLightDetected()))));
                     }
                     break;
                 case Range:

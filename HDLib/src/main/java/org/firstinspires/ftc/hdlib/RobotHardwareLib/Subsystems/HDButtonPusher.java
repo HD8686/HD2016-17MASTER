@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
+import org.firstinspires.ftc.hdlib.Alliance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 
@@ -77,6 +78,20 @@ public class HDButtonPusher {
             return beaconColor.BLUE;
         } else{
             return beaconColor.INCONCLUSIVE;
+        }
+    }
+
+    public void pushButton(Alliance alliance){
+        if(readRightColor() == HDButtonPusher.beaconColor.RED){
+            if(alliance == Alliance.RED_ALLIANCE)
+                extendRightServo();
+            else
+                extendLeftServo();
+        }else{
+            if(alliance == Alliance.BLUE_ALLIANCE)
+                extendRightServo();
+            else
+                extendLeftServo();
         }
     }
 
