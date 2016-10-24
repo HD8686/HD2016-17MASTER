@@ -6,7 +6,8 @@ import org.firstinspires.ftc.hdlib.Alliance;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
-import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
+import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDMenu;
+import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDNumberMenu;
 
 /**
  * Created by Akash on 10/20/2016.
@@ -35,7 +36,10 @@ public class HDAutonomous extends HDOpMode{
     @Override
     public void initialize() {
 
-        //Start with menus (yet to implement)
+        HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null, gamepad1);
+        HDMenu.runMenus(delayMenu);
+
+        delay = delayMenu.getValue();
 
         switch (strategy){
             case DO_NOTHING:
@@ -46,13 +50,14 @@ public class HDAutonomous extends HDOpMode{
                 break;
         }
 
-        mDisplay.displayPrintf(1, HDDashboard.textPosition.Centered, "Strategy: %s(alliance=%s, delay=%.0f)", strategy.toString(), alliance.toString(), delay);
-
+        mDisplay.displayPrintf(1, HDDashboard.textPosition.Centered, "Strategy: " + strategy.toString());
+        mDisplay.displayPrintf(2, HDDashboard.textPosition.Centered, "Alliance: " + alliance.toString());
+        mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Delay: " + delay + " Seconds");
+        mDisplay.displayPrintf(4, HDDashboard.textPosition.Centered, "Start Position: " + startPosition.toString());
     }
 
     @Override
     public void initializeLoop() {
-
     }
 
     @Override
