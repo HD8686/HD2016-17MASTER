@@ -14,7 +14,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
  */
 
 @TeleOp(name = "Mecanum Teleop Testing", group = "Testing")
-public class Teleop extends HDOpMode {
+public class HDTeleop extends HDOpMode {
     /* Remember that for robot drive, you need
      *to make sure that the motor hardware map
      * names are defined in the Values class.

@@ -12,23 +12,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 
-/**
- * This class is a wrapper for the Telemetry class. In addition to providing
- * a way to send named data to the Driver Station to be displayed, it also
- * simulates an LCD display similar to the NXT Mindstorms. The Mindstorms
- * has only 8 lines but this dashboard can support as many lines as the
- * Driver Station can support. By default, we set the number of lines to 16.
- * By changing a constant here, you can have as many lines as you want. This
- * dashboard display is very useful for displaying debug information. In
- * particular, the TrcMenu class uses the dashboard to display a choice menu
- * and interact with the user for choosing autonomous strategies and options.
- */
 public class HDDashboard
 {
     TextPaint mPaint;
     public static final int SCREEN_WIDTH = 667;
     public static final int MAX_NUM_TEXTLINES = 40;
-    private static final int MAX_CHAR = 49;
     private static final String displayKeyFormat = "%02d";
     private static Telemetry telemetry = null;
     private static HDDashboard instance = null;
@@ -40,15 +28,6 @@ public class HDDashboard
     }
 
 
-    /**
-     * Constructor: Creates an instance of the object.
-     * There should only be one global instance of this object.
-     * Typically, only the FtcOpMode object should construct an
-     * instance of this object via getInstance(telemetry) and
-     * nobody else.
-     *
-     * @param telemetry specifies the Telemetry object.
-     */
     public HDDashboard(Telemetry telemetry)
     {
         mPaint = ((TextView) ((Activity) HDOpMode.getInstance().hardwareMap.appContext).findViewById(R.id.textOpMode)).getPaint();
@@ -64,13 +43,6 @@ public class HDDashboard
         return instance;
     }
 
-    /**
-     * This method displays telemetry on the driver station
-     * @param lineNum Sets the line number
-     * @param tP Sets the text position
-     * @param format String
-     * @param args String formatting settings
-     */
     public void displayPrintf(int lineNum, textPosition tP, String format, Object... args)
     {
         display[lineNum] = String.format(format, args);
@@ -92,9 +64,7 @@ public class HDDashboard
 
 
 
-    /**
-     * This method clears all the display lines.
-     */
+
     public void clearDisplay()
     {
         for (int i = 0; i < display.length; i++)
@@ -104,9 +74,7 @@ public class HDDashboard
         refreshDisplay();
     }
 
-    /**
-     * This method refresh the display lines to the Driver Station.
-     */
+
     public void refreshDisplay()
     {
         telemetry.clearAll();

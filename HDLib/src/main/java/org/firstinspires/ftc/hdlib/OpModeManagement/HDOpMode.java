@@ -36,7 +36,7 @@ public abstract class HDOpMode extends LinearOpMode {
     public abstract void continuousRun(double elapsedTime);
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         try {
             hdDiagnosticBackend = new HDDiagnosticBackend();
             mDisplay = new HDDashboard(telemetry);
@@ -44,10 +44,9 @@ public abstract class HDOpMode extends LinearOpMode {
             initialize();
             hdLoopInterface.runInitializeLoopInterface();
             while (!opModeIsActive()) {
-                waitForNextHardwareCycle();
                 hdLoopInterface.runInitializeLoopInterface();
                 initializeLoop();
-                HDDashboard.getInstance().refreshDisplay();
+                mDisplay.refreshDisplay();
                 idle();
             }
 
@@ -57,13 +56,11 @@ public abstract class HDOpMode extends LinearOpMode {
             hdLoopInterface.runStartInterface();
 
             while (opModeIsActive()) {
-                HDDashboard.getInstance().refreshDisplay();
+                mDisplay.refreshDisplay();
                 continuousRun(elapsedTime.seconds());
                 hdLoopInterface.runContinuousRunInterface();
                 idle();
             }
-        }catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
         }finally {
             if(HDNavX.getInstance() != null){
                 HDNavX.getInstance().getSensorData().close();

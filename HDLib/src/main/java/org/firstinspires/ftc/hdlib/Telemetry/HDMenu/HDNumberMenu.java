@@ -2,6 +2,7 @@ package org.firstinspires.ftc.hdlib.Telemetry.HDMenu;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 
 /**
@@ -13,7 +14,6 @@ public class HDNumberMenu extends HDMenu{
     private double minValue;
     private double maxValue;
     private double stepSize;
-    private double startValue;
     private Gamepad gamepad1;
     private HDMenu nextMenu;
     private double currValue;
@@ -26,7 +26,6 @@ public class HDNumberMenu extends HDMenu{
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.stepSize = stepSize;
-        this.startValue = startValue;
         this.gamepad1 = gamepad1;
         this.nextMenu = nextMenu;
         this.currValue = startValue;
@@ -37,7 +36,7 @@ public class HDNumberMenu extends HDMenu{
     @Override
     public void runMenu() {
         while(!gamepad1.a) {
-            HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "HD Value Menu: %s", menuName);
+            HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "HD Number Menu: %s", menuName);
             HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Current Value: %d %s", currValue, units);
             HDDashboard.getInstance().displayPrintf(3, HDDashboard.textPosition.Centered, "Press the A button to continue");
             if(gamepad1.dpad_left != oldLeft && gamepad1.dpad_left){
@@ -52,6 +51,7 @@ public class HDNumberMenu extends HDMenu{
                 currValue = maxValue;
             oldLeft = gamepad1.dpad_left;
             oldRight = gamepad1.dpad_right;
+            HDOpMode.getInstance().idle();
         }
     }
 
