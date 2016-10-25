@@ -5,24 +5,22 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 /**
  * Created by Akash on 10/16/2016.
  */
-public class HDTextMenu extends HDMenu{
+public class HDTextMenu extends HDMenuManager {
     private TreeMap<String, Object> choices = new TreeMap<String, Object>();
     private String menuName;
     private Gamepad gamepad1;
-    private HDMenu nextMenu;
+    private HDMenuManager nextMenu;
     private int currSelection = 0;
     private boolean oldLeft = true;
     private boolean oldRight = true;
 
-    public HDTextMenu(String menuName, HDMenu nextMenu, Gamepad gamepad1){
+    public HDTextMenu(String menuName, HDMenuManager nextMenu, Gamepad gamepad1){
         this.menuName = menuName;
         this.nextMenu = nextMenu;
         this.gamepad1 = gamepad1;
@@ -58,6 +56,11 @@ public class HDTextMenu extends HDMenu{
         }
     }
 
+    @Override
+    public String getSelectionDisplay() {
+        return menuName + ": " + choices.keySet().toArray()[currSelection];
+    }
+
     public void addChoice(String choiceName, Object choice){
         choices.put(choiceName, choice);
     }
@@ -67,7 +70,7 @@ public class HDTextMenu extends HDMenu{
     }
 
     @Override
-    public HDMenu getNextMenu() {
+    public HDMenuManager getNextMenu() {
         return nextMenu;
     }
 }

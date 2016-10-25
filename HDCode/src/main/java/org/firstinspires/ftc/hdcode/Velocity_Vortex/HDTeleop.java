@@ -49,9 +49,6 @@ public class HDTeleop extends HDOpMode {
             HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadX:" + gamepad1.left_stick_x/2);
             HDDiagnosticDisplay.getInstance().addProgramSpecificTelemetry(1,"GamepadY:" + gamepad1.left_stick_y/2);
             robotDrive.mecanumDrive_Cartesian(gamepad1.left_stick_x/2,-gamepad1.left_stick_y/2,gamepad1.right_stick_x/2,navX.getSensorData().getYaw());
-
-
-
         }
 
 

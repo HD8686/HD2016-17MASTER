@@ -2,12 +2,11 @@ package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.hdcode.ResQ.HDAuto_2015;
 import org.firstinspires.ftc.hdlib.Alliance;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
-import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDMenu;
+import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDMenuManager;
 import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDNumberMenu;
 import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDTextMenu;
 
@@ -38,7 +37,6 @@ public class HDAutonomous extends HDOpMode{
     @Override
     public void initialize() {
 
-
         HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null, gamepad1);
 
         HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu, gamepad1);
@@ -49,10 +47,12 @@ public class HDAutonomous extends HDOpMode{
         allianceMenu.addChoice("Red Alliance", Alliance.RED_ALLIANCE);
         allianceMenu.addChoice("Blue Alliance", Alliance.BLUE_ALLIANCE);
 
-        HDMenu.runMenus(allianceMenu);
+        HDMenuManager.runMenus(allianceMenu);
 
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
+
+        HDMenuManager.displaySelections(allianceMenu, 1);
 
         switch (strategy){
             case DO_NOTHING:
@@ -62,16 +62,11 @@ public class HDAutonomous extends HDOpMode{
                 mHDAuto = new AutoBeaconCapBall(delay, alliance, startPosition);
                 break;
         }
-
-        mDisplay.displayPrintf(1, HDDashboard.textPosition.Centered, "Selected Options: ");
-        mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Alliance: " + alliance.toString());
-        mDisplay.displayPrintf(2, HDDashboard.textPosition.Centered, "Strategy: " + strategy.toString());
-        mDisplay.displayPrintf(4, HDDashboard.textPosition.Centered, "Delay: " + delay + " Seconds");
-        mDisplay.displayPrintf(5, HDDashboard.textPosition.Centered, "Start Position: " + startPosition.toString());
     }
 
     @Override
     public void initializeLoop() {
+
     }
 
     @Override
