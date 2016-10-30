@@ -52,6 +52,7 @@ public class HDTextMenu extends HDMenuManager {
                 currSelection = choices.entrySet().size();
             oldLeft = gamepad1.dpad_left;
             oldRight = gamepad1.dpad_right;
+            HDDashboard.getInstance().refreshDisplay();
             HDOpMode.getInstance().idle();
         }
     }

@@ -51,6 +51,7 @@ public class HDNumberMenu extends HDMenuManager {
                 currValue = maxValue;
             oldLeft = gamepad1.dpad_left;
             oldRight = gamepad1.dpad_right;
+            HDDashboard.getInstance().refreshDisplay();
             HDOpMode.getInstance().idle();
         }
     }

@@ -42,6 +42,7 @@ public abstract class HDOpMode extends LinearOpMode {
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
             initialize();
+            mDisplay.refreshDisplay();
             hdLoopInterface.runInitializeLoopInterface();
             while (!opModeIsActive()) {
                 hdLoopInterface.runInitializeLoopInterface();

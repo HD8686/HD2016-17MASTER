@@ -31,6 +31,7 @@ public abstract class HDMenuManager {
             HDOpMode.getInstance().mDisplay.displayPrintf(lineToStart, HDDashboard.textPosition.Centered, currMenu.getSelectionDisplay());
             currMenu = currMenu.getNextMenu();
             HDOpMode.getInstance().idle();
+            HDDashboard.getInstance().refreshDisplay();
             lineToStart++;
         }
     }
