@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.hdlib.Alliance;
-import org.firstinspires.ftc.hdlib.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;

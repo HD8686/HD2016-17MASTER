@@ -11,7 +11,7 @@ public class HDGeneralLib {
     }
 
     public static boolean isDifferenceWithin(double x1, double x2, double difference){
-        return (Math.abs(x1-x2) < difference);
+        return (Math.abs(x1-x2) <= difference);
 
     }
 }

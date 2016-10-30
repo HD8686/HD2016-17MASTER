@@ -7,10 +7,8 @@ package org.firstinspires.ftc.hdlib.StateMachines;
  */
 
 
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-
 import org.firstinspires.ftc.hdlib.HDGeneralLib;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Drive.HDDriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
@@ -211,7 +209,7 @@ public class HDStateMachine {
                     }
                     break;
                 case Range:
-                    if(HDGeneralLib.isDifferenceWithin(currRange.getUSValue(), targetRange, 2)){
+                    if(HDGeneralLib.isDifferenceWithin(currRange.getUSValue(), targetRange, 1)){
                         this.resetValues();
                         State = nextState;
                     }else{
