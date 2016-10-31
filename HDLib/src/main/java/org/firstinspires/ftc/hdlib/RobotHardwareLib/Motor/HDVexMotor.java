@@ -3,7 +3,7 @@ package org.firstinspires.ftc.hdlib.RobotHardwareLib.Motor;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.hdlib.HDGeneralLib;
+import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 
 /**
@@ -11,18 +11,19 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
  */
 public class HDVexMotor {
     private Servo mServo;
-    private double currSpeed = 0.0;
     private String servoHMName = "";
-    private static final double ForwardSpeedValue = 1.0;
-    private static final double BackwardSpeedValue = 0.0;
-    private static final double scaledRangeBackwards = -1.0;
-    private static final double scaledRangeForwards = 1.0;
+    private double currPower = 0.0;
+    private static final double forwardSpeedValue = 1.0;
+    private static final double backwardSpeedValue = 0.0;
+    private static final double scaledBackwardSpeedValue = -1.0;
+    private static final double scaledForwardSpeedValue = 1.0;
 
     HDVexMotor(String servoName, Servo.Direction direction){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
             throw new NullPointerException("Servo is null");
         }
         this.servoHMName = servoName;
+        HDOpMode.getInstance().hdDiagnosticBackend.addVexMotor(this);
         this.mServo = HDOpMode.getInstance().hardwareMap.servo.get(servoName);
         this.mServo.setDirection(direction);
         this.mServo.setPosition(.5);
@@ -34,7 +35,8 @@ public class HDVexMotor {
 
     public void setPower(double Power){
         if(HDGeneralLib.isDifferenceWithin(Power, 0, 1)){
-            this.mServo.setPosition((((ForwardSpeedValue-BackwardSpeedValue)*(Power - scaledRangeBackwards))/(scaledRangeForwards-scaledRangeBackwards)) + BackwardSpeedValue);
+            this.mServo.setPosition((((forwardSpeedValue - backwardSpeedValue)*(Power - scaledBackwardSpeedValue))/(scaledForwardSpeedValue - scaledBackwardSpeedValue)) + backwardSpeedValue);
+            currPower = Power;
         }else{
             throw new NullPointerException("HDVexMotor received value not within range");
         }
@@ -42,5 +44,9 @@ public class HDVexMotor {
 
     public String getName(){
         return servoHMName;
+    }
+
+    public double getCurrPower(){
+        return currPower;
     }
 }

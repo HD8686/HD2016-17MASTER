@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Motor.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
@@ -112,6 +113,8 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         displayCenteredText(curDrive.getMotorSpeedDiagBack());
         displayCenteredText("------------------------------------Servos-----------------------------------");
         displayServoDiag(df);
+        displayCenteredText("Vex Motors: ");
+        displayVexMotorDiag(df);
         displayCenteredText("-----------------------------------Sensors----------------------------------");
         displayNavXDiag(df);
         displayRangeDiag(df);
@@ -138,6 +141,15 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
         }else{
             for (HDServo curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getServo()) {
                 displayCenteredText(curInstance.getName() + " Current Pos: " + curInstance.getCurrPosition());
+            }}
+    }
+
+    private void displayVexMotorDiag(DecimalFormat df){
+        if(HDOpMode.getInstance().hdDiagnosticBackend.getServo().isEmpty()){
+            displayCenteredText("No Vex Motors's Detected");
+        }else{
+            for (HDVexMotor curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getVexMotor()) {
+                displayCenteredText(curInstance.getName() + " Current Power: " + df.format(curInstance.getCurrPower()));
             }}
     }
 

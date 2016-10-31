@@ -3,7 +3,7 @@ package org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.Values;
+import org.firstinspires.ftc.hdlib.General.Values;
 import org.firstinspires.ftc.navx.ftc.AHRS;
 import org.firstinspires.ftc.navx.ftc.navXPIDController;
 
@@ -30,6 +30,14 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
         yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
         yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
         yawPIDController.enable(false);
+    }
+
+    public float getYaw(){
+        return navx_device.getYaw();
+    }
+
+    public void zeroYaw(){
+        navx_device.zeroYaw();
     }
 
     public static HDNavX getInstance(){

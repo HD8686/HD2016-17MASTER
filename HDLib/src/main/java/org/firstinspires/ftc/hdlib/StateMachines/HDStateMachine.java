@@ -7,7 +7,7 @@ package org.firstinspires.ftc.hdlib.StateMachines;
  */
 
 
-import org.firstinspires.ftc.hdlib.HDGeneralLib;
+import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRGyro;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;

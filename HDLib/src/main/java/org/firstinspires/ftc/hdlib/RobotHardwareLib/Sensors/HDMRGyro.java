@@ -2,7 +2,7 @@ package org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 
-import org.firstinspires.ftc.hdlib.HDGeneralLib;
+import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 

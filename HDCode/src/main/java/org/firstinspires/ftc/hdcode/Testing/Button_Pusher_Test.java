@@ -14,7 +14,7 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
-import org.firstinspires.ftc.hdlib.Values;
+import org.firstinspires.ftc.hdlib.General.Values;
 
 
 /**

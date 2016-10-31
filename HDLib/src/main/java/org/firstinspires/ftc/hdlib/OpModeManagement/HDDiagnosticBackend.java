@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.hdlib.OpModeManagement;
 
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Motor.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
@@ -16,12 +17,14 @@ public class HDDiagnosticBackend {
     private List<HDMRRange> rangeList;
     private List<HDMROpticalDistance> odsList;
     private List<HDMRColor> colorList;
+    private List<HDVexMotor> vexMotorList;
 
     public HDDiagnosticBackend(){
         servoList = new ArrayList<HDServo>();
         rangeList = new ArrayList<HDMRRange>();
         odsList = new ArrayList<HDMROpticalDistance>();
         colorList = new ArrayList<HDMRColor>();
+        vexMotorList = new ArrayList<HDVexMotor>();
     }
 
     public void addServo(HDServo servo){
@@ -40,6 +43,10 @@ public class HDDiagnosticBackend {
         colorList.add(color);
     }
 
+    public void addVexMotor(HDVexMotor vexMotor){
+        vexMotorList.add(vexMotor);
+    }
+
     public List<HDServo> getServo(){
         return servoList;
     }
@@ -54,6 +61,10 @@ public class HDDiagnosticBackend {
 
     public List<HDMROpticalDistance> getODS(){
         return odsList;
+    }
+
+    public List<HDVexMotor> getVexMotor(){
+        return vexMotorList;
     }
 
 }

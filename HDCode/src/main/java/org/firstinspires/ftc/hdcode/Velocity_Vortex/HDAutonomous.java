@@ -2,10 +2,9 @@ package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.hdlib.Alliance;
+import org.firstinspires.ftc.hdlib.General.Alliance;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDMenuManager;
 import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDNumberMenu;
 import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDTextMenu;
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDMenu.HDTextMenu;
  * Created by Akash on 10/20/2016.
  */
 
-@Autonomous(name = "Autonomous", group = "Testing")
+@Autonomous(name = "HDAutonomous", group = "Autonomous")
 public class HDAutonomous extends HDOpMode{
 
     private enum Strategy
@@ -56,7 +55,7 @@ public class HDAutonomous extends HDOpMode{
 
         switch (strategy){
             case DO_NOTHING:
-                mHDAuto = new AutoDoNothing();
+                mHDAuto = new AutoDoNothing(alliance);
                 break;
             case BEACON_CAP_BALL:
                 mHDAuto = new AutoBeaconCapBall(delay, alliance, startPosition);

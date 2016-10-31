@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
-import org.firstinspires.ftc.hdlib.Alliance;
+import org.firstinspires.ftc.hdlib.General.Alliance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 

@@ -3,10 +3,9 @@ package org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.hdlib.HDGeneralLib;
+import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
 /**
