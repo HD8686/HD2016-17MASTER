@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.hdlib.General.Alliance;
 import org.firstinspires.ftc.hdlib.HDRobot;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
-import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
@@ -23,7 +20,8 @@ public class HDTeleop extends HDOpMode {
         MECANUM_FIELD_CENTRIC,
     }
 
-    double lastGyroValue = 0.0;
+    double lastGyroValueKeepPos = 0.0;
+    double lastGyroValueNear90 = 0.0;
     double keepPositionTime = 0.0;
 
     HDDiagnosticDisplay diagnosticDisplay;
@@ -52,6 +50,7 @@ public class HDTeleop extends HDOpMode {
 
     @Override
     public void continuousRun(double elapsedTime) {
+        diagnosticDisplay.addProgramSpecificTelemetry(1, "Drive Mode: %s", driveMode.toString());
         robotDrive(elapsedTime);
 
 
@@ -65,16 +64,21 @@ public class HDTeleop extends HDOpMode {
                     robot.driveHandler.tankDrive(gamepad1.left_stick_y, gamepad1.right_stick_y);
                     break;
                 case MECANUM_FIELD_CENTRIC:
-                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, robot.navX.getYaw());
+                    if(gamepad1.a){
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x, gamepad1.left_stick_y, 90*(Math.round(lastGyroValueNear90/90)), robot.navX.getYaw());
+                    }else {
+                        lastGyroValueNear90 = robot.navX.getYaw();
+                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, robot.navX.getYaw());
+                    }
                     break;
             }
             keepPositionTime = elapsedTime;
-            lastGyroValue = robot.navX.getYaw();
+            lastGyroValueKeepPos = robot.navX.getYaw();
         } else if(elapsedTime - keepPositionTime < 1.25){
-            lastGyroValue = robot.navX.getYaw();
+            lastGyroValueKeepPos = robot.navX.getYaw();
             robot.driveHandler.motorBreak();
         } else{
-            robot.driveHandler.gyroTurn(lastGyroValue);
+            robot.driveHandler.gyroTurn(lastGyroValueKeepPos);
         }
 
         if(gamepad1.left_trigger > .5)

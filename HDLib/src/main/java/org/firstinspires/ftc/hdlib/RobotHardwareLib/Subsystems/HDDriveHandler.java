@@ -317,6 +317,48 @@ public class HDDriveHandler {
 
     }
 
+    public void mecanumDrive_Cartesian_keepFrontPos(double x, double y, double angleToMaintain, double gyroAngle) {
+
+        double rotation = 0;
+        if(firstRun){
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.STURN_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.STURN_MAX_MOTOR_OUTPUT_VALUE);
+            navX.yawPIDController.setSetpoint(angleToMaintain);
+            firstRun = false;
+        }
+        navX.yawPIDController.enable(true);
+        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
+            if (navX.yawPIDResult.isOnTarget()) {
+                rotation = 0;
+            } else {
+                double output = navX.yawPIDResult.getOutput();
+                rotation = output;
+            }
+        }
+
+
+        double cosA = Math.cos(gyroAngle * (Math.PI / 180.0));
+        double sinA = Math.sin(gyroAngle * (Math.PI / 180.0));
+
+        double xIn = x * cosA - y * sinA;
+        double yIn = x * sinA + y * cosA;
+
+        double Motors[] = new double[4];
+        Motors[0] = xIn + yIn + rotation; //kFrontLeft Motor
+        Motors[1] = -xIn + yIn - rotation; //kFrontRight Motor
+        Motors[2] = -xIn + yIn + rotation; //kRearLeft Motor
+        Motors[3] = xIn + yIn - rotation; //kRearRight Motor
+
+        double maxMagnitude = Math.abs(NumberUtils.max(Motors));
+
+        if (maxMagnitude > 1.0) {
+            for (int i=0; i < Motors.length ; i++) {
+                Motors[i] = Motors[i] / maxMagnitude;
+            }
+        }
+
+        setMotorSpeeds(Motors);
+    }
+
     public static HDDriveHandler getInstance(){
         return instance;
     }
