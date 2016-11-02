@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.hdlib.OpModeManagement;
 
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Motor.HDVexMotor;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;

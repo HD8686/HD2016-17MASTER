@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.hdlib.General.Alliance;
@@ -50,6 +54,8 @@ public class HDAutonomous extends HDOpMode{
 
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
+
+        Alliance.storeAlliance(hardwareMap.appContext, alliance);
 
         HDMenuManager.displaySelections(allianceMenu, 1);
 

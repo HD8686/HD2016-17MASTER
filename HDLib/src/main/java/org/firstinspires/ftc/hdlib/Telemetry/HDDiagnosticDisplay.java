@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Motor.HDVexMotor;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRColor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
@@ -136,19 +136,19 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
     }
 
     private void displayServoDiag(DecimalFormat df){
-        if(HDOpMode.getInstance().hdDiagnosticBackend.getServo().isEmpty()){
+        if(HDOpMode.getInstance().diagnosticBackend.getServo().isEmpty()){
             displayCenteredText("No Servo's Detected");
         }else{
-            for (HDServo curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getServo()) {
+            for (HDServo curInstance: HDOpMode.getInstance().diagnosticBackend.getServo()) {
                 displayCenteredText(curInstance.getName() + " Current Pos: " + curInstance.getCurrPosition());
             }}
     }
 
     private void displayVexMotorDiag(DecimalFormat df){
-        if(HDOpMode.getInstance().hdDiagnosticBackend.getServo().isEmpty()){
+        if(HDOpMode.getInstance().diagnosticBackend.getServo().isEmpty()){
             displayCenteredText("No Vex Motors's Detected");
         }else{
-            for (HDVexMotor curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getVexMotor()) {
+            for (HDVexMotor curInstance: HDOpMode.getInstance().diagnosticBackend.getVexMotor()) {
                 displayCenteredText(curInstance.getName() + " Current Power: " + df.format(curInstance.getCurrPower()));
             }}
     }
@@ -157,10 +157,10 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
 
     private void displayRangeDiag(DecimalFormat df){
         displayCenteredText("Range Sensor: ");
-        if(HDOpMode.getInstance().hdDiagnosticBackend.getRange().isEmpty()){
+        if(HDOpMode.getInstance().diagnosticBackend.getRange().isEmpty()){
             displayCenteredText("No Range Sensor's Detected");
         }else{
-            for (HDMRRange curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getRange()) {
+            for (HDMRRange curInstance: HDOpMode.getInstance().diagnosticBackend.getRange()) {
                 displayCenteredText(curInstance.getName() + "  Values: " + " US: " + df.format(curInstance.getUSValue())+ ", ODS: " + df.format(curInstance.getODSValue()));
             }
         }
@@ -168,10 +168,10 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
 
     private void displayColorDiag(DecimalFormat df){
         displayCenteredText("Color Sensor: ");
-        if(HDOpMode.getInstance().hdDiagnosticBackend.getColor().isEmpty()){
+        if(HDOpMode.getInstance().diagnosticBackend.getColor().isEmpty()){
             displayCenteredText("No Color Sensor's Detected");
         }else{
-            for (HDMRColor curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getColor()) {
+            for (HDMRColor curInstance: HDOpMode.getInstance().diagnosticBackend.getColor()) {
                 displayCenteredText(curInstance.getName() + " Values: " + " Red: " + df.format(curInstance.getSensor().red())+ ", Green: " + df.format(curInstance.getSensor().green())+ ", Blue: " + df.format(curInstance.getSensor().blue()));
             }
         }
@@ -179,10 +179,10 @@ public class HDDiagnosticDisplay implements HDLoopInterface.LoopTimer{
 
     private void displayODSDiag(DecimalFormat df){
         displayCenteredText("Optical Distance Sensor: ");
-        if(HDOpMode.getInstance().hdDiagnosticBackend.getODS().isEmpty()){
+        if(HDOpMode.getInstance().diagnosticBackend.getODS().isEmpty()){
             displayCenteredText("No Optical Distance Sensor's Detected");
         }else{
-            for (HDMROpticalDistance curInstance: HDOpMode.getInstance().hdDiagnosticBackend.getODS()) {
+            for (HDMROpticalDistance curInstance: HDOpMode.getInstance().diagnosticBackend.getODS()) {
                 displayCenteredText(curInstance.getName() + " Value: " + df.format(curInstance.getRawLightDetected()));
             }
         }

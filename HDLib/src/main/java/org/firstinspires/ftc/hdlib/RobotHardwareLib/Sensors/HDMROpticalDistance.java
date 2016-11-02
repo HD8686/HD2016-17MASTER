@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
@@ -15,7 +14,7 @@ public class HDMROpticalDistance {
     public HDMROpticalDistance(String rangeHMkey){
         ODS = HDOpMode.getInstance().hardwareMap.opticalDistanceSensor.get(rangeHMkey);
         this.odsHMKey = rangeHMkey;
-        HDOpMode.getInstance().hdDiagnosticBackend.addODS(this);
+        HDOpMode.getInstance().diagnosticBackend.addODS(this);
     }
 
 

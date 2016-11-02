@@ -14,7 +14,7 @@ public abstract class HDOpMode extends LinearOpMode {
     public HDDashboard mDisplay;
     private static HDOpMode instance = null;
     HDLoopInterface hdLoopInterface;
-    public HDDiagnosticBackend hdDiagnosticBackend;
+    public HDDiagnosticBackend diagnosticBackend;
     public ElapsedTime elapsedTime = new ElapsedTime();
 
     public HDOpMode() {
@@ -38,7 +38,7 @@ public abstract class HDOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         try {
-            hdDiagnosticBackend = new HDDiagnosticBackend();
+            diagnosticBackend = new HDDiagnosticBackend();
             mDisplay = new HDDashboard(telemetry);
             hdLoopInterface = new HDLoopInterface();
             initialize();

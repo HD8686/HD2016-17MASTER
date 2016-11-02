@@ -15,7 +15,7 @@ public class HDMRRange {
     public HDMRRange(String rangeHMkey){
         rangeSensor = HDOpMode.getInstance().hardwareMap.get(ModernRoboticsI2cRangeSensor.class, rangeHMkey);
         this.rangeHMKey = rangeHMkey;
-        HDOpMode.getInstance().hdDiagnosticBackend.addRange(this);
+        HDOpMode.getInstance().diagnosticBackend.addRange(this);
     }
 
     public double getUSValue(){

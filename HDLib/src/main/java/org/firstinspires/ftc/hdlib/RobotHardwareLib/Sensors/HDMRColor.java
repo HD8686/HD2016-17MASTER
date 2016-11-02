@@ -14,7 +14,7 @@ public class HDMRColor{
     public HDMRColor(String rangeHMkey){
         colorSensor = HDOpMode.getInstance().hardwareMap.get(ModernRoboticsI2cColorSensor.class, rangeHMkey);
         this.colorHMKey = rangeHMkey;
-        HDOpMode.getInstance().hdDiagnosticBackend.addColor(this);
+        HDOpMode.getInstance().diagnosticBackend.addColor(this);
     }
 
 
