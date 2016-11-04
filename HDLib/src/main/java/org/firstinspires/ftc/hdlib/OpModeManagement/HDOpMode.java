@@ -50,7 +50,6 @@ public abstract class HDOpMode extends LinearOpMode {
                 mDisplay.refreshDisplay();
                 idle();
             }
-
             waitForStart();
             elapsedTime.reset();
             Start();

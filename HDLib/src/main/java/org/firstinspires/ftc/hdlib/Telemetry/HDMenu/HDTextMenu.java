@@ -29,11 +29,11 @@ public class HDTextMenu extends HDMenuManager {
     @Override
     public void runMenu() {
         while(!HDOpMode.getInstance().gamepad1.a && !HDOpMode.getInstance().isStopRequested()) {
-            HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "HD Text Menu: %s", menuName);
-            HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Press the A button to continue");
-            int curLine = 3;
+            HDDashboard.getInstance().displayPrintf(0, HDDashboard.textPosition.Centered, "HD Text Menu: %s", menuName);
+            HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "Press the A button to continue");
+            int curLine = 2;
             for(Map.Entry<String, Object> entry: choices.entrySet()){
-                if(curLine - 3 == currSelection){
+                if(curLine - 2 == currSelection){
                     HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Left, "*" + entry.getKey());
                 }else{
                     HDDashboard.getInstance().displayPrintf(curLine, HDDashboard.textPosition.Left, entry.getKey());
@@ -49,8 +49,8 @@ public class HDTextMenu extends HDMenuManager {
             if(currSelection < 0) {
                 currSelection = 0;
             }
-            if(currSelection >= choices.entrySet().size()-1) {
-                currSelection = choices.entrySet().size()-1;
+            if(currSelection >= choices.entrySet().size() - 1) {
+                currSelection = choices.entrySet().size() - 1;
             }
             oldLeft = HDOpMode.getInstance().gamepad1.dpad_left;
             oldRight = HDOpMode.getInstance().gamepad1.dpad_right;
@@ -60,6 +60,7 @@ public class HDTextMenu extends HDMenuManager {
 
         while(HDOpMode.getInstance().gamepad1.a && !HDOpMode.getInstance().isStopRequested()){
             HDOpMode.getInstance().idle();
+            //We wait to make sure they have lifted up the A button until we move on.
         }
     }
 
