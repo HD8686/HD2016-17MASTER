@@ -31,4 +31,6 @@ public class AutoDoNothing implements HDAuto{
     public void runLoop(double elapsedTime) {
 
     }
+
+
 }

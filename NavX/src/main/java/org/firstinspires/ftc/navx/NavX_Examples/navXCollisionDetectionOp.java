@@ -66,7 +66,6 @@ import java.text.DecimalFormat;
  * precisely when new data is received from the navX-Micro.
  */
 
-@Autonomous
 public class navXCollisionDetectionOp extends OpMode implements IDataArrivalSubscriber {
   /* This is the port on the Core Device Interace Module */
   /* in which the navX-Micro is connected.  Modify this  */

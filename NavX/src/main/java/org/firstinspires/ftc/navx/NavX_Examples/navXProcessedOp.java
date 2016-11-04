@@ -50,7 +50,6 @@ import java.text.DecimalFormat;
  * Sensor Status and Timestamp, and World-Frame Linear
  * Acceleration data.
  */
-@Autonomous(name = "NavX Data Viewer")
 public class navXProcessedOp extends OpMode {
 
   /* This is the port on the Core Device Interace Module */

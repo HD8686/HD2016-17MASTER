@@ -25,9 +25,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         MECANUM_FIELD_CENTRIC,
     }
 
-    double lastGyroValueKeepPos = 0.0;
-    double keepPositionTime = 0.0;
-    double beaconAngle = 0.0;
     double speed = 0.6;
     HDDiagnosticDisplay diagnosticDisplay;
     HDRobot robot;
@@ -38,22 +35,15 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     @Override
     public void initialize() {
-        alliance = Alliance.retrieveAlliance(hardwareMap.appContext); //Retrieve Last Alliance from Autonomous.
+        try {
+            alliance = Alliance.retrieveAlliance(hardwareMap.appContext); //Retrieve Last Alliance from Autonomous.
+        }catch (Exception e){
+            alliance = Alliance.BLUE_ALLIANCE;
+        }
         robot = new HDRobot(alliance);
         diagnosticDisplay = new HDDiagnosticDisplay(mDisplay, robot.driveHandler);
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
-
-        switch (alliance) {
-            case RED_ALLIANCE:
-                beaconAngle = 90.0;
-                break;
-            case BLUE_ALLIANCE:
-                beaconAngle = -90.0;
-                break;
-            case UNKNOWN:
-                break;
-        }
     }
 
     @Override
@@ -77,32 +67,20 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     public void continuousRun(double elapsedTime) {
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
-        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ speed*100);
+        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(speed*100) + " Percent");
         robotDrive(elapsedTime);
     }
 
     private void robotDrive(double elapsedTime){
-        if(Math.abs(gamepad1.left_stick_y) > 0 || Math.abs(gamepad1.right_stick_y) > 0) {
             switch (driveMode) {
                 case TANK_DRIVE:
-                    robot.driveHandler.tankDrive(gamepad1.left_stick_y*speed, gamepad1.right_stick_y*speed);
+                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
                     break;
                 case MECANUM_FIELD_CENTRIC:
-                    if(gamepad1.a){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, beaconAngle, robot.navX.getYaw());
-                    }else {
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, gamepad1.right_stick_x, robot.navX.getYaw());
-                    }
+                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, gamepad1.right_stick_x*speed, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, 90.0, robot.navX.getYaw());
                     break;
             }
-            keepPositionTime = elapsedTime;
-            lastGyroValueKeepPos = robot.navX.getYaw();
-        } else if((elapsedTime - keepPositionTime) < 1){
-            lastGyroValueKeepPos = robot.navX.getYaw();
-            robot.driveHandler.motorBreak();
-        } else{
-            robot.driveHandler.gyroTurn(lastGyroValueKeepPos);
-        }
     }
 
     @Override
@@ -126,13 +104,13 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case DPAD_UP:
                     if(pressed){
                         speed = speed + 0.2;
-                        speed = Range.clip(speed, .4,1);
+                        speed = Range.clip(speed, 0.2,1);
                     }
                     break;
                 case DPAD_DOWN:
                     if(pressed){
                         speed = speed - 0.2;
-                        speed = Range.clip(speed, .4,1);
+                        speed = Range.clip(speed, 0.2,1);
                     }
                     break;
                 case LEFT_BUMPER:

@@ -30,6 +30,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package org.firstinspires.ftc.navx.NavX_Examples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -51,6 +52,7 @@ import java.text.DecimalFormat;
  * Note that for the best accuracy, a reasonably high update rate
  * for the navX-Model sensor should be used.
  */
+
 public class navXRotateToAnglePIDLoopOp extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
@@ -58,7 +60,7 @@ public class navXRotateToAnglePIDLoopOp extends OpMode {
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
     /* depending upon which I2C port you are using.               */
-    private final int NAVX_DIM_I2C_PORT = 0;
+    private final int NAVX_DIM_I2C_PORT = 1;
     private AHRS navx_device;
     private navXPIDController yawPIDController;
     private ElapsedTime runtime = new ElapsedTime();

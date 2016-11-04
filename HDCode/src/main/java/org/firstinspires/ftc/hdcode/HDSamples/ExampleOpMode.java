@@ -67,20 +67,12 @@ public class ExampleOpMode extends HDOpMode {
                         SM.setNextState(exampleStates.driveForward, HDWaitTypes.Timer, 200.5);
                         break;
                     case driveForward:
-                        SM.setNextState(exampleStates.gyroTurn, HDWaitTypes.EncoderCounts, 2500);
+                        SM.setNextState(exampleStates.driveBack, HDWaitTypes.EncoderCounts, 2500);
                         robotDrive.VLF(0, DcMotor.Direction.FORWARD);
                         break;
-                    case gyroTurn:
-                        SM.setNextState(exampleStates.driveBack, HDWaitTypes.PIDTarget);
-                        robotDrive.gyroTurn(90);
-                        break;
                     case driveBack:
-                        SM.setNextState(exampleStates.gyroTurn1, HDWaitTypes.EncoderCounts, 2100);
+                        SM.setNextState(exampleStates.DONE, HDWaitTypes.EncoderCounts, 2100);
                         robotDrive.VLF(90, DcMotor.Direction.REVERSE);
-                        break;
-                    case gyroTurn1:
-                        SM.setNextState(exampleStates.DONE, HDWaitTypes.PIDTarget);
-                        robotDrive.gyroTurn(0);
                         break;
                     case DONE:
                         //This is a example of our libraries runOnce state machine method: this will only be ran once even though its in a state machine:

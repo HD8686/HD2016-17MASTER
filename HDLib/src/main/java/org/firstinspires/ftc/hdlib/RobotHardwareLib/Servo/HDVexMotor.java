@@ -18,7 +18,7 @@ public class HDVexMotor {
     private static final double scaledBackwardSpeedValue = -1.0;
     private static final double scaledForwardSpeedValue = 1.0;
 
-    HDVexMotor(String servoName, Servo.Direction direction){
+    public HDVexMotor(String servoName, Servo.Direction direction){
         if(HDOpMode.getInstance().hardwareMap.servo.get(servoName) == null){
             throw new NullPointerException("Servo is null");
         }

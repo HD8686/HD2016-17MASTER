@@ -10,6 +10,7 @@ import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.General.Values;
+import org.firstinspires.ftc.navx.ftc.navXPIDController;
 
 
 /**
@@ -144,41 +145,6 @@ public class HDDriveHandler {
         DHbackRight.setPower(0);
     }
 
-    public void gyroTurn(double targetAngle){
-        if(alliance == Alliance.RED_ALLIANCE){
-            targetAngle = -targetAngle;
-        }
-        if(firstRun){
-            navX.yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
-            navX.yawPIDController.setSetpoint(targetAngle);
-            firstRun = false;
-        }
-        navX.yawPIDController.enable(true);
-        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
-            if (navX.yawPIDResult.isOnTarget()) {
-                motorBreak();
-            } else {
-                double output = (navX.yawPIDResult.getOutput());
-                if(output < .1) {
-                    output = .1;
-                }
-                tankDrive(output, -output);
-            }
-        }
-    }
-
-    public void constantSpeedGyroTurn(double targetAngle, double speed){
-        if(alliance == Alliance.RED_ALLIANCE){
-            targetAngle = -targetAngle;
-        }
-        if (HDGeneralLib.isDifferenceWithin(navX.getSensorData().getYaw(), targetAngle, .5))
-            motorBreak();
-        else if (navX.getSensorData().getYaw() < targetAngle)
-            tankDrive(speed, -speed);
-        else if (navX.getSensorData().getYaw() > targetAngle)
-            tankDrive(-speed, speed);
-    }
-
     public void VLF(double targetAngle, DcMotor.Direction direction){
         if(alliance == Alliance.RED_ALLIANCE){
             targetAngle = -targetAngle;
@@ -220,8 +186,8 @@ public class HDDriveHandler {
         double cosA = Math.cos(gyroAngle * (Math.PI / 180.0));
         double sinA = Math.sin(gyroAngle * (Math.PI / 180.0));
 
-        double xIn = x * cosA - y * sinA;
-        double yIn = x * sinA + y * cosA;
+        double xIn = x * cosA + y * sinA;
+        double yIn = x * sinA - y * cosA;
 
         double Motors[] = new double[4];
         Motors[0] = xIn + yIn + rotation; //kFrontLeft Motor
@@ -339,8 +305,8 @@ public class HDDriveHandler {
         double cosA = Math.cos(gyroAngle * (Math.PI / 180.0));
         double sinA = Math.sin(gyroAngle * (Math.PI / 180.0));
 
-        double xIn = x * cosA - y * sinA;
-        double yIn = x * sinA + y * cosA;
+        double xIn = x * cosA + y * sinA;
+        double yIn = x * sinA - y * cosA;
 
         double Motors[] = new double[4];
         Motors[0] = xIn + yIn + rotation; //kFrontLeft Motor

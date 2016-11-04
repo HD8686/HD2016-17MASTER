@@ -38,11 +38,11 @@ public class HDButtonPusher {
     }
 
     public void retractRightServo(){
-        rightPusher.setPosition(.514);
+        rightPusher.setPosition(.515);
     }
 
     public void retractLeftServo(){
-        leftPusher.setPosition(.055);
+        leftPusher.setPosition(.056);
     }
 
 
