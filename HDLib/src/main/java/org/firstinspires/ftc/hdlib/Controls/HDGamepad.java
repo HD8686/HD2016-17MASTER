@@ -53,6 +53,8 @@ public class HDGamepad implements HDLoopInterface.LoopTimer{
         this.gamepadInstance = gamepad;
         this.buttonMonitor = buttonMonitor;
         HDLoopInterface.getInstance().register(this, HDLoopInterface.registrationTypes.ContinuousRun);
+        oldGamepad = new gamepadButtons();
+        curGamepad = new gamepadButtons();
     }
 
     public void setGamepad(Gamepad gamepad){

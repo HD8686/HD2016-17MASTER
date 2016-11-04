@@ -16,10 +16,11 @@ public abstract class HDMenuManager {
 
     public static void runMenus(HDMenuManager firstMenu){
         HDMenuManager currMenu = firstMenu;
-        while(currMenu != null){
+        while(currMenu != null && !HDOpMode.getInstance().isStopRequested()){
             currMenu.runMenu();
             currMenu = currMenu.getNextMenu();
             HDOpMode.getInstance().idle();
+            HDOpMode.getInstance().mDisplay.clearDisplay();
         }
     }
 
@@ -27,7 +28,7 @@ public abstract class HDMenuManager {
         HDOpMode.getInstance().mDisplay.displayPrintf(lineToStart, HDDashboard.textPosition.Centered, "Selected Options: ");
         lineToStart++;
         HDMenuManager currMenu = firstMenu;
-        while(currMenu != null){
+        while(currMenu != null  && !HDOpMode.getInstance().isStopRequested()){
             HDOpMode.getInstance().mDisplay.displayPrintf(lineToStart, HDDashboard.textPosition.Centered, currMenu.getSelectionDisplay());
             currMenu = currMenu.getNextMenu();
             HDOpMode.getInstance().idle();

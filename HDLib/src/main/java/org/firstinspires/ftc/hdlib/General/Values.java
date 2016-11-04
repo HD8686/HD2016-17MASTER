@@ -56,7 +56,7 @@ public final class Values {
     public static final String ODS_Back = "ODS_Back";
     public static final String Color_Left_Button_Pusher = "Color_Left_Button_Pusher";
     public static final String Color_Right_Button_Pusher = "Color_Right_Button_Pusher";
-    public static final int NAVX_I2C_PORT = 4;
+    public static final int NAVX_I2C_PORT = 0;
     }
 
 

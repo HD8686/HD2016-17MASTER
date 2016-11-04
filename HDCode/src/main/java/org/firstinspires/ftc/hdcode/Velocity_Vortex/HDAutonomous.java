@@ -40,13 +40,13 @@ public class HDAutonomous extends HDOpMode{
     @Override
     public void initialize() {
 
-        HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null, gamepad1);
+        HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null);
 
-        HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu, gamepad1);
+        HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu);
         strategyMenu.addChoice("Do Nothing", Strategy.DO_NOTHING);
-        strategyMenu.addChoice("Beacon and Cap Ball", Strategy.BEACON_CAP_BALL);
+        strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
 
-        HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu, gamepad1);
+        HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu);
         allianceMenu.addChoice("Red Alliance", Alliance.RED_ALLIANCE);
         allianceMenu.addChoice("Blue Alliance", Alliance.BLUE_ALLIANCE);
 
@@ -54,6 +54,7 @@ public class HDAutonomous extends HDOpMode{
 
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
+        strategy = (Strategy) strategyMenu.getChoice();
 
         Alliance.storeAlliance(hardwareMap.appContext, alliance);
 

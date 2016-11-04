@@ -30,19 +30,19 @@ public class HDButtonPusher {
     }
 
     public void extendRightServo(){
-        rightPusher.setPosition(1);
+        rightPusher.setPosition(.789);
     }
 
     public void extendLeftServo(){
-        leftPusher.setPosition(1);
+        leftPusher.setPosition(0.33);
     }
 
     public void retractRightServo(){
-        rightPusher.setPosition(0);
+        rightPusher.setPosition(.514);
     }
 
     public void retractLeftServo(){
-        leftPusher.setPosition(0);
+        leftPusher.setPosition(.055);
     }
 
 

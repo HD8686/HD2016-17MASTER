@@ -77,7 +77,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     public void continuousRun(double elapsedTime) {
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
-        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: %f" + "%", speed*100);
+        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ speed*100);
         robotDrive(elapsedTime);
     }
 

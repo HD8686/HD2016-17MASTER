@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.hdlib.Telemetry.HDMenu;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
@@ -14,21 +16,19 @@ import java.util.TreeMap;
 public class HDTextMenu extends HDMenuManager {
     private TreeMap<String, Object> choices = new TreeMap<String, Object>();
     private String menuName;
-    private Gamepad gamepad1;
     private HDMenuManager nextMenu;
     private int currSelection = 0;
     private boolean oldLeft = true;
     private boolean oldRight = true;
 
-    public HDTextMenu(String menuName, HDMenuManager nextMenu, Gamepad gamepad1){
+    public HDTextMenu(String menuName, HDMenuManager nextMenu){
         this.menuName = menuName;
         this.nextMenu = nextMenu;
-        this.gamepad1 = gamepad1;
     }
 
     @Override
     public void runMenu() {
-        while(!gamepad1.a) {
+        while(!HDOpMode.getInstance().gamepad1.a && !HDOpMode.getInstance().isStopRequested()) {
             HDDashboard.getInstance().displayPrintf(1, HDDashboard.textPosition.Centered, "HD Text Menu: %s", menuName);
             HDDashboard.getInstance().displayPrintf(2, HDDashboard.textPosition.Centered, "Press the A button to continue");
             int curLine = 3;
@@ -40,19 +40,25 @@ public class HDTextMenu extends HDMenuManager {
                 }
                 curLine++;
             }
-            if(gamepad1.dpad_left != oldLeft && gamepad1.dpad_left){
-                currSelection = currSelection--;
+            if(HDOpMode.getInstance().gamepad1.dpad_left != oldLeft && HDOpMode.getInstance().gamepad1.dpad_left){
+                currSelection = currSelection - 1;
             }
-            if(gamepad1.dpad_right != oldRight && gamepad1.dpad_right){
-                currSelection = currSelection++;
+            if(HDOpMode.getInstance().gamepad1.dpad_right != oldRight && HDOpMode.getInstance().gamepad1.dpad_right){
+                currSelection = currSelection + 1;
             }
-            if(currSelection < 0)
+            if(currSelection < 0) {
                 currSelection = 0;
-            if(currSelection > choices.entrySet().size())
-                currSelection = choices.entrySet().size();
-            oldLeft = gamepad1.dpad_left;
-            oldRight = gamepad1.dpad_right;
+            }
+            if(currSelection >= choices.entrySet().size()-1) {
+                currSelection = choices.entrySet().size()-1;
+            }
+            oldLeft = HDOpMode.getInstance().gamepad1.dpad_left;
+            oldRight = HDOpMode.getInstance().gamepad1.dpad_right;
             HDDashboard.getInstance().refreshDisplay();
+            HDOpMode.getInstance().idle();
+        }
+
+        while(HDOpMode.getInstance().gamepad1.a && !HDOpMode.getInstance().isStopRequested()){
             HDOpMode.getInstance().idle();
         }
     }

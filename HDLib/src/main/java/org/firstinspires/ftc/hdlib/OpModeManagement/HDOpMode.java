@@ -44,7 +44,7 @@ public abstract class HDOpMode extends LinearOpMode {
             initialize();
             mDisplay.refreshDisplay();
             hdLoopInterface.runInitializeLoopInterface();
-            while (!opModeIsActive()) {
+            while (!opModeIsActive() && !isStopRequested()) {
                 hdLoopInterface.runInitializeLoopInterface();
                 initializeLoop();
                 mDisplay.refreshDisplay();
@@ -56,7 +56,7 @@ public abstract class HDOpMode extends LinearOpMode {
             Start();
             hdLoopInterface.runStartInterface();
 
-            while (opModeIsActive()) {
+            while (opModeIsActive()  && !isStopRequested()) {
                 mDisplay.refreshDisplay();
                 continuousRun(elapsedTime.seconds());
                 hdLoopInterface.runContinuousRunInterface();
