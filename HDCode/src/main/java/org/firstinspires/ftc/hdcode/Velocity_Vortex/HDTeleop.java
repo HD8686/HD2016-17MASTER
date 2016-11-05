@@ -77,8 +77,11 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
                     break;
                 case MECANUM_FIELD_CENTRIC:
-                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, gamepad1.right_stick_x*speed, robot.navX.getYaw());
-                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*speed, gamepad1.left_stick_y*speed, 90.0, robot.navX.getYaw());
+                    if(!gamepad1.y) {
+                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
+                    }else {
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.1, gamepad1.left_stick_y*.1, -90.0, robot.navX.getYaw());
+                    }
                     break;
             }
     }
