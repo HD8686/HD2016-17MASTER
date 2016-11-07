@@ -175,10 +175,10 @@ public class HDDriveHandler {
      * @param Speeds Array of motor speeds to be set.
      */
     public void setMotorSpeeds(double[] Speeds){
-        DHfrontLeft.setPower(Range.clip(Speeds[0], -1, 1));
-        DHfrontRight.setPower(Range.clip(Speeds[1], -1, 1));
-        DHbackLeft.setPower(Range.clip(Speeds[2], -1, 1));
-        DHbackRight.setPower(Range.clip(Speeds[3], -1, 1));
+        DHfrontLeft.setPower(Range.clip(Speeds[0], -1.00000, 1.000000));
+        DHfrontRight.setPower(Range.clip(Speeds[1], -1.00000, 1.000000));
+        DHbackLeft.setPower(Range.clip(Speeds[2], -1.00000, 1.000000));
+        DHbackRight.setPower(Range.clip(Speeds[3], -1.00000, 1.000000));
     }
 
     /**
@@ -388,7 +388,7 @@ public class HDDriveHandler {
         }
         double rotation = 0;
         if(firstRun){
-            navX.yawPIDController.setOutputRange(Values.PIDSettings.STURN_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.STURN_MAX_MOTOR_OUTPUT_VALUE);
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.GYRO_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.GYRO_MAX_MOTOR_OUTPUT_VALUE);
             navX.yawPIDController.setSetpoint(angleToMaintain);
             firstRun = false;
         }

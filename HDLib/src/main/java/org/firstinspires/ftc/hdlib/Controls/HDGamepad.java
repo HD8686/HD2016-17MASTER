@@ -22,6 +22,8 @@ public class HDGamepad implements HDLoopInterface.LoopTimer{
         private boolean RIGHT_BUMPER;
         private boolean RIGHT_TRIGGER;
         private boolean LEFT_TRIGGER;
+        private boolean START;
+
     }
 
     public enum gamepadButtonChange{
@@ -36,7 +38,8 @@ public class HDGamepad implements HDLoopInterface.LoopTimer{
         LEFT_BUMPER,
         RIGHT_BUMPER,
         RIGHT_TRIGGER,
-        LEFT_TRIGGER
+        LEFT_TRIGGER,
+        START
     }
 
     public interface HDButtonMonitor{
@@ -78,6 +81,8 @@ public class HDGamepad implements HDLoopInterface.LoopTimer{
         copy.RIGHT_BUMPER = gamepad.right_bumper;
         copy.RIGHT_TRIGGER = gamepad.right_trigger > triggerPressed;
         copy.LEFT_TRIGGER = gamepad.left_trigger > triggerPressed;
+        copy.START = gamepad.start;
+
     }
 
     @Override
@@ -128,6 +133,9 @@ public class HDGamepad implements HDLoopInterface.LoopTimer{
         }
         if(oldGamepad.RIGHT_TRIGGER != curGamepad.RIGHT_TRIGGER){
             buttonMonitor.buttonChange(this, gamepadButtonChange.RIGHT_TRIGGER, curGamepad.RIGHT_TRIGGER);
+        }
+        if(oldGamepad.START != curGamepad.START){
+            buttonMonitor.buttonChange(this, gamepadButtonChange.START, curGamepad.START);
         }
         copyGamepadToClass(gamepadInstance, oldGamepad);
     }

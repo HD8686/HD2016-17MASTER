@@ -156,7 +156,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     }
                     break;
                 case hitCap:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 4.25);
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 4.0);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 220.0, -45.0, robot.navX.getYaw());

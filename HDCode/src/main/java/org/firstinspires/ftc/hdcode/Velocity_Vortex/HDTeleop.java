@@ -77,10 +77,12 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
                     break;
                 case MECANUM_FIELD_CENTRIC:
-                    if(!gamepad1.y) {
+                    if(gamepad1.y){
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, -90.0, robot.navX.getYaw());
+                    }else if(gamepad1.b){
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, 180.0, robot.navX.getYaw());
+                    }else{
                         robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
-                    }else {
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.125, gamepad1.left_stick_y*.125, -90.0, robot.navX.getYaw());
                     }
                     break;
             }
@@ -93,12 +95,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case A:
                     break;
                 case B:
-                    if(pressed)
-                        robot.navX.zeroYaw();
+                    if(!pressed)
+                    robot.driveHandler.firstRun = true;
                     break;
                 case X:
                     break;
                 case Y:
+                    if(!pressed)
+                    robot.driveHandler.firstRun = true;
                     break;
                 case DPAD_LEFT:
                     break;
@@ -128,6 +132,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     if(pressed && !robot.navX.getSensorData().isCalibrating())
                         driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
                     break;
+                case START:
+                    if(pressed)
+                        robot.navX.zeroYaw();
+                    break;
             }
         }else if(instance == servoBoyGamepad){
             switch (button) {
@@ -154,6 +162,8 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case LEFT_TRIGGER:
                     break;
                 case RIGHT_TRIGGER:
+                    break;
+                case START:
                     break;
             }
         }
