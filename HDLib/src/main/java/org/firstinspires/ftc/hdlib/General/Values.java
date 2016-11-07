@@ -5,6 +5,7 @@ package org.firstinspires.ftc.hdlib.General;
  * Created by akash on 5/1/2016.
  */
 public final class Values {
+
     public final class Constants{
         public static final float mmPerInch = 25.4f;
     }
@@ -40,7 +41,6 @@ public final class Values {
     public final class HardwareMapKeys {
 
     //Servos
-    public static final String climberServo = "servo_4";
     public static final String Servo_Button_Pusher_Right = "Servo_Button_Pusher_Right";
     public static final String Servo_Button_Pusher_Left = "Servo_Button_Pusher_Left";
     //Motors
@@ -51,7 +51,7 @@ public final class Values {
 
     //Sensors
     public static final String DeviceInterfaceModule = "dim";
-    public static final String Gyro = "gyro";
+    public static final String MRGyro = "gyro";
     public static final String Range_Button_Pusher = "Range_Button_Pusher";
     public static final String ODS_Back = "ODS_Back";
     public static final String Color_Left_Button_Pusher = "Color_Left_Button_Pusher";

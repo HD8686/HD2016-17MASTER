@@ -24,7 +24,7 @@ public class AutoDoNothing implements HDAuto{
 
     @Override
     public void start() {
-
+        robot.navX.zeroYaw();
     }
 
     @Override

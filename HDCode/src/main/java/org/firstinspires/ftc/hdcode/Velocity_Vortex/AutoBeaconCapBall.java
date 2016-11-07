@@ -67,7 +67,7 @@ public class AutoBeaconCapBall implements HDAuto{
             switch (states){
                 case delay:
                     SM.setNextState(State.fastDriveToBeacon, HDWaitTypes.Timer, delay);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 2.65);
@@ -79,7 +79,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case wait:
                     SM.setNextState(State.driveToDistance, HDWaitTypes.Timer, 0.1);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     break;
                 case driveToDistance:
                     SM.setNextState(State.driveToDistanceTime, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
@@ -100,7 +100,7 @@ public class AutoBeaconCapBall implements HDAuto{
                         }
                     });
                     SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.ChangeColor, robot.buttonPusher);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     robot.buttonPusher.pushButton(alliance);
                     if(timerFailsafe < elapsedTime){
                         SM.resetValues();
@@ -119,7 +119,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case wait2:
                     SM.setNextState(State.driveBack, HDWaitTypes.Timer, 0.2);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     break;
                 case driveBack:
                     SM.setNextState(State.wait3, HDWaitTypes.ODStoLine, robot.ODS_Back);
@@ -127,7 +127,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case wait3:
                     SM.setNextState(State.driveToDistance2, HDWaitTypes.Timer, 0.2);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     break;
                 case driveToDistance2:
                     SM.setNextState(State.driveToDistanceTime2, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
@@ -148,7 +148,7 @@ public class AutoBeaconCapBall implements HDAuto{
                         }
                     });
                     SM.setNextState(State.hitCap, HDWaitTypes.ChangeColor, robot.buttonPusher);
-                    robot.driveHandler.motorBreak();
+                    robot.driveHandler.motorBrake();
                     robot.buttonPusher.pushButton(alliance);
                     if(timerFailsafe < elapsedTime){
                         SM.resetValues();
@@ -162,13 +162,12 @@ public class AutoBeaconCapBall implements HDAuto{
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 220.0, -45.0, robot.navX.getYaw());
                     break;
                 case done:
-                    Runnable r2 = new Runnable() {
+                    SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
-                            robot.driveHandler.motorBreak();
+                            robot.driveHandler.motorBrake();
                         }
-                    };
-                    SM.runOnce(r2);
+                    });
                     break;
             }
         }

@@ -68,10 +68,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(speed*100) + " Percent");
-        robotDrive(elapsedTime);
+        robotDrive();
     }
 
-    private void robotDrive(double elapsedTime){
+    private void robotDrive(){
             switch (driveMode) {
                 case TANK_DRIVE:
                     robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
@@ -80,7 +80,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     if(!gamepad1.y) {
                         robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
                     }else {
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.1, gamepad1.left_stick_y*.1, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.125, gamepad1.left_stick_y*.125, -90.0, robot.navX.getYaw());
                     }
                     break;
             }

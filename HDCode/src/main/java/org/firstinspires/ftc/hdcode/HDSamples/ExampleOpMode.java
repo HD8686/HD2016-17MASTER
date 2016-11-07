@@ -80,11 +80,11 @@ public class ExampleOpMode extends HDOpMode {
                             @Override
                             public void run() {
                                 robotDrive.tankDrive(0,0);
-                                Log.w("Testing", "Ran Once!");
+                                Log.w("HDCode", "Ran Once!");
                             }
                         };
                         SM.runOnce(r1);
-                        Log.w("Testing", "Keeps Running!");
+                        Log.w("HDCode", "Keeps Running!");
                         break;
 
                 }
