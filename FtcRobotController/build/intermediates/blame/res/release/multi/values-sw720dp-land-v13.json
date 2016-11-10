@@ -22,53 +22,5 @@
                 }
             }
         ]
-    },
-    {
-        "outputFile": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 58,
-                    "endOffset": 109
-                },
-                "from": {
-                    "file": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\src\\main\\res\\values-sw720dp-land\\dimens.xml",
-                    "position": {
-                        "startLine": 39,
-                        "startColumn": 4,
-                        "startOffset": 1849,
-                        "endColumn": 58,
-                        "endOffset": 1903
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\values-sw720dp-land-v13\\values-sw720dp-land-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 58,
-                    "endOffset": 109
-                },
-                "from": {
-                    "file": "C:\\Users\\Jack\\Desktop\\New_FTC_App\\FtcRobotController\\src\\main\\res\\values-sw720dp-land\\dimens.xml",
-                    "position": {
-                        "startLine": 39,
-                        "startColumn": 4,
-                        "startOffset": 1849,
-                        "endColumn": 58,
-                        "endOffset": 1903
-                    }
-                }
-            }
-        ]
     }
 ]

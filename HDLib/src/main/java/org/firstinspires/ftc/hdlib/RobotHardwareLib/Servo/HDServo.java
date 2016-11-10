@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo;
 
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
