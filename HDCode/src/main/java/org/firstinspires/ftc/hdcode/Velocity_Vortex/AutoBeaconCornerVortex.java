@@ -39,7 +39,8 @@ public class AutoBeaconCornerVortex implements HDAuto{
         driveToDistance2,
         driveToDistanceTime2,
         buttonPush2,
-        hitCap,
+        backup,
+        driveToCorner,
         done,
     }
 
@@ -74,7 +75,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
                         robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
                     }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
-
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 70.0, -90.0, robot.navX.getYaw());
                     }
                     break;
                 case driveToBeacon:
@@ -82,7 +83,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
                         robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 43.0, -90.0, robot.navX.getYaw());
                     }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
-
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 67.0, -90.0, robot.navX.getYaw());
                     }
                     break;
                 case wait:
@@ -155,19 +156,23 @@ public class AutoBeaconCornerVortex implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    SM.setNextState(State.hitCap, HDWaitTypes.ChangeColor, robot.buttonPusher);
+                    SM.setNextState(State.backup, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
                     robot.buttonPusher.pushButton(alliance);
                     if(timerFailsafe < elapsedTime){
                         SM.resetValues();
-                        SM.setState(State.hitCap);
+                        SM.setState(State.backup);
                     }
                     break;
-                case hitCap:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 4.0);
+                case backup:
+                    SM.setNextState(State.driveToCorner, HDWaitTypes.Timer, 1.0);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 220.0, -45.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, -90, -90, robot.navX.getYaw());
+                    break;
+                case driveToCorner:
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 3.0);
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.5, 180, -90, robot.navX.getYaw());
                     break;
                 case done:
                     SM.runOnce(new Runnable() {

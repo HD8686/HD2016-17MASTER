@@ -71,11 +71,19 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 2.65);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
+                    if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
+                    }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 70.0, -90.0, robot.navX.getYaw());
+                    }
                     break;
                 case driveToBeacon:
                     SM.setNextState(State.wait, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 43.0, -90.0, robot.navX.getYaw());
+                    if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 43.0, -90.0, robot.navX.getYaw());
+                    }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 67.0, -90.0, robot.navX.getYaw());
+                    }
                     break;
                 case wait:
                     SM.setNextState(State.driveToDistance, HDWaitTypes.Timer, 0.1);

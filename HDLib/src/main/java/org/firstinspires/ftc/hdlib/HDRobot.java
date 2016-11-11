@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.hdlib;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,8 +12,10 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMROpticalDistance;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDMRRange;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDShooter;
 
 /**
  * Created by Akash on 10/31/2016.
@@ -39,6 +42,18 @@ public class HDRobot {
     public HDMRColor Color_Right_Button_Pusher;
     public HDMRRange rangeButtonPusher;
     public HDButtonPusher buttonPusher;
+
+    /*
+     Shooter Subsystem
+     */
+    public HDServo leftCollectorServo;
+    public HDServo rightCollectorServo;
+    public DcMotor collectorMotor;
+    public DcMotor flywheel1;
+    public DcMotor flywheel2;
+    public HDVexMotor accelerator1;
+    public HDVexMotor accelerator2;
+    public HDShooter shooter;
 
 
     public HDRobot(Alliance alliance){
@@ -68,6 +83,19 @@ public class HDRobot {
             Servo_Button_Pusher_Left = new HDServo(Values.HardwareMapKeys.Servo_Button_Pusher_Left, Values.ServoSpeedStats.HS_785HB, 0.056, 0, 1, Servo.Direction.FORWARD);
             Servo_Button_Pusher_Right = new HDServo(Values.HardwareMapKeys.Servo_Button_Pusher_Right, Values.ServoSpeedStats.HS_785HB, 0.515, 0, 1, Servo.Direction.REVERSE);
             buttonPusher = new HDButtonPusher(Color_Left_Button_Pusher, Color_Right_Button_Pusher, Servo_Button_Pusher_Left, Servo_Button_Pusher_Right);
+
+        /*
+        Shooter Subsystem
+         */
+            leftCollectorServo = new HDServo("leftCollector", Values.ServoSpeedStats.HS_755MG, 0.475, 0, 1, Servo.Direction.REVERSE);
+            rightCollectorServo = new HDServo("rightCollector", Values.ServoSpeedStats.HS_755MG, 0.54, 0, 1, Servo.Direction.FORWARD);
+            flywheel1 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_1");
+            flywheel2 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_2");
+            collectorMotor = HDOpMode.getInstance().hardwareMap.dcMotor.get("Collector1");
+            accelerator1 = new HDVexMotor("Vex1", Servo.Direction.FORWARD);
+            accelerator2 = new HDVexMotor("Vex2", Servo.Direction.FORWARD);
+            shooter = new HDShooter(leftCollectorServo, rightCollectorServo, collectorMotor, flywheel1, flywheel2, accelerator1, accelerator2);
+
         }
     }
 

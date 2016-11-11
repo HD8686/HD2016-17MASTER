@@ -78,7 +78,7 @@ public class HDAutonomous extends HDOpMode{
                 mHDAuto = new AutoBeaconCapBall(delay, alliance, startPosition);
                 break;
             case BEACON_CORNER_VORTEX:
-                mHDAuto = new AutoBeaconCornerVortex(delay,alliance,startPosition);
+                mHDAuto = new AutoBeaconCornerVortex(delay, alliance, startPosition);
                 break;
         }
     }
