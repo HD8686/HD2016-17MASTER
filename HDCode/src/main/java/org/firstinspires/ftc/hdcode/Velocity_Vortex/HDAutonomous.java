@@ -25,11 +25,13 @@ public class HDAutonomous extends HDOpMode{
     {
         DO_NOTHING,
         BEACON_CAP_BALL,
+        BEACON_CORNER_VORTEX,
     }
 
     public enum StartPosition
     {
         CORNER_VORTEX,
+        CORNER_VORTEX_2,
     }
 
     private HDAuto mHDAuto = null;
@@ -43,9 +45,15 @@ public class HDAutonomous extends HDOpMode{
 
         HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null);
 
-        HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu);
+        HDTextMenu startPositionMenu = new HDTextMenu("Start Position", delayMenu);
+        startPositionMenu.addChoice("Corner Vortex", StartPosition.CORNER_VORTEX);
+        startPositionMenu.addChoice("Corner Vortex 2", StartPosition.CORNER_VORTEX_2);
+
+
+        HDTextMenu strategyMenu = new HDTextMenu("Strategy", startPositionMenu);
         strategyMenu.addChoice("Do Nothing", Strategy.DO_NOTHING);
         strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
+        strategyMenu.addChoice("Beacon and Corner Vortex", Strategy.BEACON_CORNER_VORTEX);
 
         HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu);
         allianceMenu.addChoice("Red Alliance", Alliance.RED_ALLIANCE);
@@ -56,6 +64,7 @@ public class HDAutonomous extends HDOpMode{
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
         strategy = (Strategy) strategyMenu.getChoice();
+        startPosition = (StartPosition) startPositionMenu.getChoice();
 
         Alliance.storeAlliance(hardwareMap.appContext, alliance);
 
@@ -67,6 +76,9 @@ public class HDAutonomous extends HDOpMode{
                 break;
             case BEACON_CAP_BALL:
                 mHDAuto = new AutoBeaconCapBall(delay, alliance, startPosition);
+                break;
+            case BEACON_CORNER_VORTEX:
+                mHDAuto = new AutoBeaconCornerVortex(delay,alliance,startPosition);
                 break;
         }
     }
