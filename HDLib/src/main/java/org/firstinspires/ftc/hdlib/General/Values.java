@@ -29,8 +29,8 @@ public final class Values {
         public static final double VLF_MAX_MOTOR_OUTPUT_VALUE = 0.65;
         public static final double GYRO_MIN_MOTOR_OUTPUT_VALUE = -0.50;
         public static final double GYRO_MAX_MOTOR_OUTPUT_VALUE = 0.50;
-        public static final double STURN_MIN_MOTOR_OUTPUT_VALUE = -0.125;
-        public static final double STURN_MAX_MOTOR_OUTPUT_VALUE = 0.125;
+        public static final double STURN_MIN_MOTOR_OUTPUT_VALUE = -0.2;
+        public static final double STURN_MAX_MOTOR_OUTPUT_VALUE = 0.2;
         public static final double MECANUM_MIN_MOTOR_OUTPUT_VALUE = -1;
         public static final double MECANUM_MAX_MOTOR_OUTPUT_VALUE = 1;
         public static final double YAW_PID_P = 0.006;

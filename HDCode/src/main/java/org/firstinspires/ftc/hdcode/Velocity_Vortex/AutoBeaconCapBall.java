@@ -70,19 +70,20 @@ public class AutoBeaconCapBall implements HDAuto{
                     robot.driveHandler.motorBrake();
                     break;
                 case fastDriveToBeacon:
-                    SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 2.65);
-                    if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
+                    if(startPosition == HDAutonomous.StartPosition.TILE_1) {
+                        SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 2.65);
                         robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
-                    }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 70.0, -90.0, robot.navX.getYaw());
+                    }else if(startPosition == HDAutonomous.StartPosition.TILE_2){
+                        SM.setNextState(State.driveToBeacon, HDWaitTypes.Timer, 3.3);
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 60.0, -90.0, robot.navX.getYaw());
                     }
                     break;
                 case driveToBeacon:
                     SM.setNextState(State.wait, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX) {
+                    if(startPosition == HDAutonomous.StartPosition.TILE_1) {
                         robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 43.0, -90.0, robot.navX.getYaw());
-                    }else if(startPosition == HDAutonomous.StartPosition.CORNER_VORTEX_2){
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 67.0, -90.0, robot.navX.getYaw());
+                    }else if(startPosition == HDAutonomous.StartPosition.TILE_2){
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 57.0, -90.0, robot.navX.getYaw());
                     }
                     break;
                 case wait:
@@ -119,7 +120,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.4, -7.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -7.0, -90.0, robot.navX.getYaw());
                     break;
                 case driveToBeacon2:
                     SM.setNextState(State.wait2, HDWaitTypes.Timer, 0.4);
@@ -131,7 +132,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case driveBack:
                     SM.setNextState(State.wait3, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.05, 180.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 180.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait3:
                     SM.setNextState(State.driveToDistance2, HDWaitTypes.Timer, 0.2);
@@ -164,10 +165,10 @@ public class AutoBeaconCapBall implements HDAuto{
                     }
                     break;
                 case hitCap:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 4.0);
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 2.8);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 220.0, -45.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 230.0, -45.0, robot.navX.getYaw());
                     break;
                 case done:
                     SM.runOnce(new Runnable() {

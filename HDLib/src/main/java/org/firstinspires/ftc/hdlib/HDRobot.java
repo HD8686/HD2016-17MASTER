@@ -92,8 +92,8 @@ public class HDRobot {
             flywheel1 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_1");
             flywheel2 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_2");
             collectorMotor = HDOpMode.getInstance().hardwareMap.dcMotor.get("Collector1");
-            accelerator1 = new HDVexMotor("Vex1", Servo.Direction.FORWARD);
-            accelerator2 = new HDVexMotor("Vex2", Servo.Direction.FORWARD);
+            accelerator1 = new HDVexMotor("Vex1", Servo.Direction.REVERSE);
+            accelerator2 = new HDVexMotor("Vex2", Servo.Direction.REVERSE);
             shooter = new HDShooter(leftCollectorServo, rightCollectorServo, collectorMotor, flywheel1, flywheel2, accelerator1, accelerator2);
 
         }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 /**
  * Created by Akash on 10/20/2016.
  */
-public class AutoBeaconCornerVortex implements HDAuto{
+public class AutoBeacon implements HDAuto{
 
     HDDiagnosticDisplay diagnosticDisplay;
     HDStateMachine SM;
@@ -39,12 +39,10 @@ public class AutoBeaconCornerVortex implements HDAuto{
         driveToDistance2,
         driveToDistanceTime2,
         buttonPush2,
-        backup,
-        driveToCorner,
         done,
     }
 
-    public AutoBeaconCornerVortex(double delay, Alliance alliance, HDAutonomous.StartPosition startPosition){
+    public AutoBeacon(double delay, Alliance alliance, HDAutonomous.StartPosition startPosition){
         robot = new HDRobot(alliance);
 
         this.delay = delay;
@@ -157,29 +155,21 @@ public class AutoBeaconCornerVortex implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    SM.setNextState(State.backup, HDWaitTypes.ChangeColor, robot.buttonPusher);
+                    SM.setNextState(State.done, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
                     robot.buttonPusher.pushButton(alliance);
                     if(timerFailsafe < elapsedTime){
                         SM.resetValues();
-                        SM.setState(State.backup);
+                        SM.setState(State.done);
                     }
-                    break;
-                case backup:
-                    SM.setNextState(State.driveToCorner, HDWaitTypes.Timer, 0.6);
-                    robot.buttonPusher.retractLeftServo();
-                    robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, -90, -90, robot.navX.getYaw());
-                    break;
-                case driveToCorner:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 2.8);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.6, 180, -90, robot.navX.getYaw());
                     break;
                 case done:
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
                             robot.driveHandler.motorBrake();
+                            robot.buttonPusher.retractLeftServo();
+                            robot.buttonPusher.retractRightServo();
                         }
                     });
                     break;

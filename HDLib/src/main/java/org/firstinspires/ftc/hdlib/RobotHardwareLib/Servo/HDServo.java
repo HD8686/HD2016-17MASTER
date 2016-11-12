@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo;
 
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.hardware.ServoEx;
 import com.qualcomm.robotcore.util.Range;
 
@@ -48,6 +49,10 @@ public class HDServo implements HDLoopInterface.LoopTimer {
 
     public String getName(){
         return servoHMName;
+    }
+
+    public ServoController getController(){
+        return mServo.getController();
     }
 
     public void setPosition(double Position){

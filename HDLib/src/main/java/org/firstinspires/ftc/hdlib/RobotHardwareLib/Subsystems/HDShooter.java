@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.ServoEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
@@ -12,10 +13,11 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 public class HDShooter {
 
     final double leftCollectorDown = 0.235;
-    final double rightCollectorDown = 0.3;
-    final double leftCollectorUp = 0.475;
-    final double rightCollectorUp = 0.54;
+    final double rightCollectorDown = 0.302;
+    final double leftCollectorUp = 0.513; //0.473
+    final double rightCollectorUp = 0.58; //0.54
 
+    ServoEx test;
     HDServo leftCollectorServo;
     HDServo rightCollectorServo;
     DcMotor collectorMotor;
@@ -50,6 +52,7 @@ public class HDShooter {
 
         this.accelerator1.setPower(0);
         this.accelerator2.setPower(0);
+
     }
 
     public void lowerCollector(){
