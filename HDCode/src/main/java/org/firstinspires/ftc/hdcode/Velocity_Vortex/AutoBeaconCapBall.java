@@ -117,10 +117,18 @@ public class AutoBeaconCapBall implements HDAuto{
                     }
                     break;
                 case fastDriveToBeacon2:
-                    SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 2.0);
+                    }else{
+                        SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
+                    }
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -7.0, -90.0, robot.navX.getYaw());
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -24.0, -90.0, robot.navX.getYaw());
+                    }else{
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -7.0, -90.0, robot.navX.getYaw());
+                    }
                     break;
                 case driveToBeacon2:
                     SM.setNextState(State.wait2, HDWaitTypes.Timer, 0.4);
@@ -168,7 +176,11 @@ public class AutoBeaconCapBall implements HDAuto{
                     SM.setNextState(State.done, HDWaitTypes.Timer, 2.8);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 230.0, -45.0, robot.navX.getYaw());
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 215.0, -45.0, robot.navX.getYaw());
+                    }else{
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 230.0, -45.0, robot.navX.getYaw());
+                    }
                     break;
                 case done:
                     SM.runOnce(new Runnable() {

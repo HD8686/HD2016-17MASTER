@@ -118,10 +118,18 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     }
                     break;
                 case fastDriveToBeacon2:
-                    SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 2.0);
+                    }else{
+                        SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 1.6);
+                    }
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -7.0, -90.0, robot.navX.getYaw());
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -24.0, -90.0, robot.navX.getYaw());
+                    }else{
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, -7.0, -90.0, robot.navX.getYaw());
+                    }
                     break;
                 case driveToBeacon2:
                     SM.setNextState(State.wait2, HDWaitTypes.Timer, 0.4);
@@ -172,8 +180,12 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, -90, -90, robot.navX.getYaw());
                     break;
                 case driveToCorner:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 2.8);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.6, 180, -90, robot.navX.getYaw());
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 3.0);
+                    if(alliance == Alliance.RED_ALLIANCE) {
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.6, 160, -90, robot.navX.getYaw());
+                    }else{
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.6, 180, -90, robot.navX.getYaw());
+                    }
                     break;
                 case done:
                     SM.runOnce(new Runnable() {

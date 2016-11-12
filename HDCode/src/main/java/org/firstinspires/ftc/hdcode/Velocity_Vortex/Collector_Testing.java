@@ -16,7 +16,6 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 /**
  * Created by Height Differential on 11/9/2016.
  */
-@Autonomous
 public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDRobot robot;
