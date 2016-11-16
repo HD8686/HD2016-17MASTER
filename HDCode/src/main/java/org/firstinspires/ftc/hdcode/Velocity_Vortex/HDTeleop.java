@@ -44,6 +44,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay = new HDDiagnosticDisplay(mDisplay, robot.driveHandler);
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
+        driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
     }
 
     @Override
@@ -54,11 +55,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     @Override
     public void Start(){
-        if(robot.navX.getSensorData().isCalibrating()) {
-            driveMode = DriveMode.TANK_DRIVE;
-        } else {
-            driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
-        }
         driverGamepad.setGamepad(gamepad1);
         servoBoyGamepad.setGamepad(gamepad2);
     }
@@ -72,20 +68,20 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     }
 
     private void robotDrive(){
-            switch (driveMode) {
-                case TANK_DRIVE:
-                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
-                    break;
-                case MECANUM_FIELD_CENTRIC:
-                    if(gamepad1.y){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, 180.0, robot.navX.getYaw());
-                    }else if(gamepad1.b){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, -90.0, robot.navX.getYaw());
-                    }else{
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
-                    }
-                    break;
-            }
+        switch (driveMode) {
+            case TANK_DRIVE:
+                robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
+                break;
+            case MECANUM_FIELD_CENTRIC:
+                if(gamepad1.y){
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, 180.0, robot.navX.getYaw());
+                }else if(gamepad1.b){
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, -90.0, robot.navX.getYaw());
+                }else{
+                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
+                }
+                break;
+        }
     }
 
     @Override
@@ -96,13 +92,13 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case B:
                     if(!pressed)
-                    robot.driveHandler.firstRun = true;
+                        robot.driveHandler.resetValues();
                     break;
                 case X:
                     break;
                 case Y:
                     if(!pressed)
-                    robot.driveHandler.firstRun = true;
+                        robot.driveHandler.resetValues();
                     break;
                 case DPAD_LEFT:
                     break;

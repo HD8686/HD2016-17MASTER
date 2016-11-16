@@ -56,8 +56,8 @@ public class HDRobot {
     public HDShooter shooter;
 
 
-    public HDRobot(Alliance alliance){
-        if(!HDOpMode.getInstance().isStopRequested()) {
+    public HDRobot(Alliance alliance) {
+        if (!HDOpMode.getInstance().isStopRequested()) {
         /*
         Initialize Sensors
          */
@@ -71,7 +71,6 @@ public class HDRobot {
             driveHandler = new HDDriveHandler(navX);
             driveHandler.resetEncoders();
             driveHandler.reverseSide(HDDriveHandler.Side.Left);
-            driveHandler.setAlliance(alliance);
 
         /*
         Button Pusher Subsystem
