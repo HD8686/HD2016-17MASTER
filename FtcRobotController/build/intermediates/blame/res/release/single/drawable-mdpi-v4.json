@@ -1,10 +1,10 @@
 [
     {
-        "merged": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\ic_launcher.png",
-        "source": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\ic_launcher.png",
         "source": "D:\\Windows_Folders\\Desktop\\Sourcetree\\HD2016-17Master\\FtcRobotController\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Jack\\Desktop\\HD_2016-17_Master\\FtcRobotController\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
     }
 ]

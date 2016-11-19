@@ -33,6 +33,8 @@ public class HDDriveHandler {
         InitMotors();
         setMode(currRunMode);
         instance = this;
+        yawPIDController = new navXPIDController(navX.getSensorData(), navXPIDController.navXTimestampedDataSource.YAW);
+        yawPIDResult = new navXPIDController.PIDResult();
     }
 
     /**
@@ -211,7 +213,7 @@ public class HDDriveHandler {
             yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
             yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
             yawPIDController.enable(true);
-
+            yawPIDResult = new navXPIDController.PIDResult();
             firstRun = false;
         }
         if (yawPIDController.isNewUpdateAvailable(yawPIDResult)) {
@@ -307,7 +309,7 @@ public class HDDriveHandler {
             yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
             yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
             yawPIDController.enable(true);
-
+            yawPIDResult = new navXPIDController.PIDResult();
             firstRun = false;
         }
         if (yawPIDController.isNewUpdateAvailable(yawPIDResult)) {
@@ -401,7 +403,7 @@ public class HDDriveHandler {
             yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Values.PIDSettings.TOLERANCE_DEGREES);
             yawPIDController.setPID(Values.PIDSettings.YAW_PID_P, Values.PIDSettings.YAW_PID_I, Values.PIDSettings.YAW_PID_D);
             yawPIDController.enable(true);
-
+            yawPIDResult = new navXPIDController.PIDResult();
             firstRun = false;
         }
 
