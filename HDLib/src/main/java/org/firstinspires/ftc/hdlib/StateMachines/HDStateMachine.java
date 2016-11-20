@@ -209,7 +209,7 @@ public class HDStateMachine {
                     }
                     break;
                 case Range:
-                    if(HDGeneralLib.isDifferenceWithin(currRange.getUSValue(), targetRange, 1)){
+                    if(currRange.getUSValue() == targetRange){
                         this.resetValues();
                         State = nextState;
                     }else{
