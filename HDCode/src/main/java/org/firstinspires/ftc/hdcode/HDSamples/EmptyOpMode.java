@@ -3,10 +3,13 @@ package org.firstinspires.ftc.hdcode.HDSamples;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.hdlib.General.Alliance;
+import org.firstinspires.ftc.hdlib.HDRobot;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
-import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
+import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
@@ -15,26 +18,22 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
  */
 
 @Disabled
-@Autonomous(name = "EmptyOpMode", group = "HDSamples")
+@Autonomous()
 public class EmptyOpMode extends HDOpMode {
 
-    HDDiagnosticDisplay mHDDiagnosticDisplay;
-    HDNavX navX;
-    HDDriveHandler robotDrive;
+    HDDiagnosticDisplay diagnosticDisplay;
     HDStateMachine SM;
+    HDRobot robot;
 
     @Override
     public void initialize() {
-        navX = new HDNavX();
-        robotDrive = new HDDriveHandler(navX);
-        SM = new HDStateMachine(robotDrive, navX);
-        robotDrive.resetEncoders();
-        mHDDiagnosticDisplay = new HDDiagnosticDisplay(mDisplay,robotDrive);
+        robot = new HDRobot();
+        SM = new HDStateMachine(robot.driveHandler, robot.navX);
+        diagnosticDisplay = new HDDiagnosticDisplay(HDDashboard.getInstance(), robot.driveHandler);
     }
 
     @Override
     public void initializeLoop() {
-        robotDrive.reverseSide(HDDriveHandler.Side.Left);
     }
 
     @Override
@@ -45,7 +44,6 @@ public class EmptyOpMode extends HDOpMode {
     @Override
     public void continuousRun(double elapsedTime) {
         if(SM.ready()){
-
         }
     }
 

@@ -56,7 +56,7 @@ public class HDRobot {
     public HDShooter shooter;
 
 
-    public HDRobot(Alliance alliance) {
+    public HDRobot() {
         if (!HDOpMode.getInstance().isStopRequested()) {
         /*
         Initialize Sensors

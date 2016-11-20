@@ -20,7 +20,7 @@ public class AutoDoNothing implements HDAuto{
 
 
     public AutoDoNothing(Alliance alliance){
-        robot = new HDRobot(alliance);
+        robot = new HDRobot();
         diagnosticDisplay = new HDDiagnosticDisplay(HDDashboard.getInstance(),robot.driveHandler);
         SM = new HDStateMachine(robot.driveHandler, robot.navX);
     }

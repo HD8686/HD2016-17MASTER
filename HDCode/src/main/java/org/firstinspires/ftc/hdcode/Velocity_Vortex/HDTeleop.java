@@ -40,7 +40,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }catch (Exception e){
             alliance = Alliance.BLUE_ALLIANCE;
         }
-        robot = new HDRobot(alliance);
+        robot = new HDRobot();
         diagnosticDisplay = new HDDiagnosticDisplay(mDisplay, robot.driveHandler);
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);

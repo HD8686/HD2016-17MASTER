@@ -12,4 +12,5 @@ public enum HDWaitTypes {
     ODStoField,
     Range,
     ChangeColor,
+    GyroAngle,
 }

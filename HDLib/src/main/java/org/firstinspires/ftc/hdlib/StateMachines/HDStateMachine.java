@@ -27,6 +27,8 @@ public class HDStateMachine {
     public double timerExpire = 0.0;
     public double targetEncoder = 0.0;
     public double targetRange = 0.0;
+    public double targetGyro = 0.0;
+    public double gyroTolerance = 0.0;
     Object State;
     Object nextState;
     HDMROpticalDistance currODS;
@@ -94,6 +96,11 @@ public class HDStateMachine {
                     origLeftColor = currHDButtonPusher.readLeftColor();
                     origRightColor = currHDButtonPusher.readRightColor();
                     break;
+                case GyroAngle:
+                    waitingActive = true;
+                    targetGyro = ((double) Argument);
+                    gyroTolerance = ((double) Argument2);
+                    break;
                 case Nothing:
                     break;
             }
@@ -149,6 +156,8 @@ public class HDStateMachine {
         currHDButtonPusher = null;
         origRightColor = null;
         origLeftColor = null;
+        targetGyro = 0.0;
+        gyroTolerance = 0.0;
     }
 
     public void runOnce(Runnable code) {
@@ -216,6 +225,14 @@ public class HDStateMachine {
                     } else {
                         HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2, "Left Color Sensor Reading: " + currHDButtonPusher.readLeftColor());
                         HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(3, "Right Color Sensor Reading: " + currHDButtonPusher.readRightColor());
+                    }
+                    break;
+                case GyroAngle:
+                    if(Math.abs(navX.getYaw() - targetGyro) < gyroTolerance){
+                        this.resetValues();
+                        State = nextState;
+                    }else {
+                        HDDiagnosticDisplay.getInstance().addLibrarySpecificTelemetry(2, "Gyro Angle Left: " + (gyroTolerance - Math.abs(navX.getYaw() - targetGyro)));
                     }
                     break;
                 case Nothing:
