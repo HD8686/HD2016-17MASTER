@@ -81,19 +81,49 @@ public class HDButtonPusher {
         }
     }
 
-    public void pushButton(Alliance alliance){
-        if(readRightColor() == HDButtonPusher.beaconColor.RED){
-            if(alliance == Alliance.RED_ALLIANCE)
-                extendRightServo();
-            else
+    public boolean pushButton(Alliance alliance){
+        boolean pushingButton = false;
+        beaconColor leftBeaconColor = readLeftColor();
+        beaconColor rightBeaconColor = readRightColor();
+        if(leftBeaconColor == beaconColor.INCONCLUSIVE || rightBeaconColor == beaconColor.INCONCLUSIVE){
+            //Do nothing as one of them read nothing.
+        }else if(leftBeaconColor == beaconColor.RED && rightBeaconColor == beaconColor.BLUE){
+            if(alliance == Alliance.RED_ALLIANCE){
                 extendLeftServo();
-        }else{
-            if(alliance == Alliance.BLUE_ALLIANCE)
+                pushingButton = true;
+            }else{
                 extendRightServo();
-            else
+                pushingButton = true;
+            }
+        }else if(leftBeaconColor == beaconColor.BLUE && rightBeaconColor == beaconColor.RED){
+            if(alliance == Alliance.RED_ALLIANCE){
+                extendRightServo();
+                pushingButton = true;
+            }else{
                 extendLeftServo();
+                pushingButton = true;
+            }
+        }else if(leftBeaconColor == beaconColor.BLUE && rightBeaconColor == beaconColor.BLUE){
+            if(alliance == Alliance.RED_ALLIANCE){
+                extendLeftServo();
+                extendRightServo();
+                pushingButton = true;
+            }else{
+
+            }
+        }else if(leftBeaconColor == beaconColor.RED && rightBeaconColor == beaconColor.RED){
+            if(alliance == Alliance.RED_ALLIANCE){
+
+            }else{
+                extendLeftServo();
+                extendRightServo();
+                pushingButton = true;
+            }
         }
+
+        return pushingButton;
     }
+
 
 
 

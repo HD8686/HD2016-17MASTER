@@ -24,29 +24,19 @@ public class HDAutonomous extends HDOpMode{
         BEACON,
     }
 
-    public enum StartPosition
-    {
-        TILE_1,
-        TILE_2,
-    }
 
     private HDAuto mHDAuto = null;
     private double delay = 0.0;
     private Strategy strategy = Strategy.BEACON_CAP_BALL;
     private Alliance alliance = Alliance.RED_ALLIANCE;
-    private StartPosition startPosition = StartPosition.TILE_1;
 
     @Override
     public void initialize() {
 
         HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null);
 
-        HDTextMenu startPositionMenu = new HDTextMenu("Start Position", delayMenu);
-        startPositionMenu.addChoice("Tile 1", StartPosition.TILE_1);
-        startPositionMenu.addChoice("Tile 2", StartPosition.TILE_2);
 
-
-        HDTextMenu strategyMenu = new HDTextMenu("Strategy", startPositionMenu);
+        HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu);
         strategyMenu.addChoice("Do Nothing", Strategy.DO_NOTHING);
         strategyMenu.addChoice("Beacons", Strategy.BEACON);
         strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
@@ -61,7 +51,6 @@ public class HDAutonomous extends HDOpMode{
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
         strategy = (Strategy) strategyMenu.getChoice();
-        startPosition = (StartPosition) startPositionMenu.getChoice();
 
         Alliance.storeAlliance(hardwareMap.appContext, alliance);
 
@@ -72,11 +61,13 @@ public class HDAutonomous extends HDOpMode{
                 mHDAuto = new AutoDoNothing(alliance);
                 break;
             case BEACON:
-                mHDAuto = new AutoBeacon(delay, alliance, startPosition);
+                mHDAuto = new AutoBeacon(delay, alliance);
                 break;
             case BEACON_CAP_BALL:
+                mHDAuto = new AutoBeaconCapBall(delay,alliance);
                 break;
             case BEACON_CORNER_VORTEX:
+                mHDAuto = new AutoBeaconCornerVortex(delay, alliance);
                 break;
         }
     }

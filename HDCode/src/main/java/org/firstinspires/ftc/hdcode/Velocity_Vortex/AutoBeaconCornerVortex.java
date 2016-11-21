@@ -11,7 +11,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 /**
  * Created by Akash on 10/20/2016.
  */
-public class AutoBeacon implements HDAuto{
+public class AutoBeaconCornerVortex implements HDAuto{
 
     HDDiagnosticDisplay diagnosticDisplay;
     HDStateMachine SM;
@@ -48,10 +48,12 @@ public class AutoBeacon implements HDAuto{
         wait8,
         driveToDistance3,
         buttonPush3,
+        driveToCornerVortex,
+        driveUpCornerVortex,
         done,
     }
 
-    public AutoBeacon(double delay, Alliance alliance){
+    public AutoBeaconCornerVortex(double delay, Alliance alliance){
         robot = new HDRobot(alliance);
 
         this.delay = delay;
@@ -78,7 +80,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 42.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait5:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
@@ -208,14 +210,24 @@ public class AutoBeacon implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    SM.setNextState(State.done, HDWaitTypes.ChangeColor, robot.buttonPusher);
+                    SM.setNextState(State.driveToCornerVortex, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
-                        SM.setState(State.done);
+                        SM.setState(State.driveToCornerVortex);
                     }
                     break;
-                case done:
+                case driveToCornerVortex:
+                    SM.setNextState(State.driveUpCornerVortex, HDWaitTypes.Timer, 2.15);
+                    robot.buttonPusher.retractLeftServo();
+                    robot.buttonPusher.retractRightServo();
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.25, 207.0, -45.0, robot.navX.getYaw());
+                    break;
+                case driveUpCornerVortex:
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 0.75);
+                    robot.driveHandler.tankDrive(-0.5,-0.5);
+                    break;
+               case done:
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {

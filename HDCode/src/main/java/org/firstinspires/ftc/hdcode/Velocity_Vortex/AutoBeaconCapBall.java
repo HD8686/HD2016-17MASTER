@@ -11,7 +11,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 /**
  * Created by Akash on 10/20/2016.
  */
-public class AutoBeacon implements HDAuto{
+public class AutoBeaconCapBall implements HDAuto{
 
     HDDiagnosticDisplay diagnosticDisplay;
     HDStateMachine SM;
@@ -48,10 +48,12 @@ public class AutoBeacon implements HDAuto{
         wait8,
         driveToDistance3,
         buttonPush3,
+        driveToCap,
+        turnIntoCap,
         done,
     }
 
-    public AutoBeacon(double delay, Alliance alliance){
+    public AutoBeaconCapBall(double delay, Alliance alliance){
         robot = new HDRobot(alliance);
 
         this.delay = delay;
@@ -78,7 +80,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 42.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait5:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
@@ -124,7 +126,7 @@ public class AutoBeacon implements HDAuto{
                     robot.driveHandler.motorBrake();
                     break;
                 case driveToBeacon2:
-                    SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 1.0);
+                    SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 0.85);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 0.0, -90.0, robot.navX.getYaw());
                     break;
                 case fastDriveToBeacon2:
@@ -175,7 +177,7 @@ public class AutoBeacon implements HDAuto{
                     robot.driveHandler.motorBrake();
                     break;
                 case driveBackToBeacon:
-                    SM.setNextState(State.fastDriveBackToBeacon, HDWaitTypes.Timer, 1.0);
+                    SM.setNextState(State.fastDriveBackToBeacon, HDWaitTypes.Timer, 0.85);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 180.0, -90.0, robot.navX.getYaw());
                     break;
                 case fastDriveBackToBeacon:
@@ -208,11 +210,25 @@ public class AutoBeacon implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    SM.setNextState(State.done, HDWaitTypes.ChangeColor, robot.buttonPusher);
+                    SM.setNextState(State.driveToCap, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
-                        SM.setState(State.done);
+                        SM.setState(State.driveToCap);
+                    }
+                    break;
+                case driveToCap:
+                    SM.setNextState(State.turnIntoCap, HDWaitTypes.Timer, 1.65);
+                    robot.buttonPusher.retractLeftServo();
+                    robot.buttonPusher.retractRightServo();
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.25, -90.0, -90.0, robot.navX.getYaw());
+                    break;
+                case turnIntoCap:
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 0.75);
+                    if(alliance == Alliance.BLUE_ALLIANCE){
+                        robot.driveHandler.tankDrive(0.0,.4);
+                    }else{
+                        robot.driveHandler.tankDrive(.4,0.0);
                     }
                     break;
                 case done:
