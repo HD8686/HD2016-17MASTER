@@ -80,7 +80,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 42.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait5:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);

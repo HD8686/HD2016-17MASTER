@@ -80,7 +80,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 42.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait5:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
@@ -218,13 +218,13 @@ public class AutoBeaconCapBall implements HDAuto{
                     }
                     break;
                 case driveToCap:
-                    SM.setNextState(State.turnIntoCap, HDWaitTypes.Timer, 1.65);
+                    SM.setNextState(State.turnIntoCap, HDWaitTypes.Timer, 1.6);
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.25, -90.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.3, -65.0, -90.0, robot.navX.getYaw());
                     break;
                 case turnIntoCap:
-                    SM.setNextState(State.done, HDWaitTypes.Timer, 0.75);
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 0.9);
                     if(alliance == Alliance.BLUE_ALLIANCE){
                         robot.driveHandler.tankDrive(0.0,.4);
                     }else{
