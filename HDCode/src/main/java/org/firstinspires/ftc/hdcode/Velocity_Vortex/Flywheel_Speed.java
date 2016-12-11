@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.hdlib.Controls.HDGamepad;
 import org.firstinspires.ftc.hdlib.General.Alliance;
@@ -12,22 +11,17 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 /**
  * Created by Height Differential on 11/9/2016.
  */
-@TeleOp(name = "Collector_Test")
-public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
+@TeleOp(name = "Flywheel Speed Testing")
+public class Flywheel_Speed extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDRobot robot;
-    static double CollectorSpeed = 0.3;
-    static double FlywheelSpeed = 0.25;
-    boolean collecting = true;
-    boolean shooting = false;
+    double CollectorSpeed = 0.3;
     HDGamepad gamepadMonitor;
-    ElapsedTime shooterTimer;
 
     @Override
     public void Start() {
         robot.shooter.lowerCollector();
         gamepadMonitor.setGamepad(gamepad1);
-        shooterTimer = new ElapsedTime();
     }
 
     @Override
@@ -35,6 +29,7 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
         robot = new HDRobot(Alliance.BLUE_ALLIANCE);
         robot.shooter.raiseCollector();
         gamepadMonitor = new HDGamepad(gamepad1, this);
+        robot.shooter.resetEncoders();
     }
 
     @Override
@@ -44,34 +39,13 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
 
     @Override
     public void continuousRun(double elapsedTime) {
-        robot.shooter.setFlywheelPower(FlywheelSpeed);
-        if(collecting){
-            robot.shooter.setCollectorPower(CollectorSpeed);
-            robot.shooter.setAcceleratorPower(-1);
-        }
-        else if(shooting){
-            if(shooterTimer.milliseconds() < 400){
-                robot.shooter.setCollectorPower(CollectorSpeed);
-                robot.shooter.setAcceleratorPower(1);
-            }else if(gamepad1.right_trigger > 0.5 && shooterTimer.milliseconds() > 600){
-                shooterTimer.reset();
-            }
-            else if (gamepad1.right_trigger > 0.5){
-                robot.shooter.setCollectorPower(0);
-                robot.shooter.setAcceleratorPower(0);
-            }else{
-                robot.shooter.setCollectorPower(0);
-                robot.shooter.setAcceleratorPower(0);
-                shooting = false;
-            }
-        }
-        else{
-            robot.shooter.setCollectorPower(0);
-            robot.shooter.setAcceleratorPower(0);
-        }
-
-        if(!shooting){
-            shooterTimer.reset();
+        if(elapsedTime < 10){
+            robot.shooter.setFlywheelPower(1);
+            mDisplay.displayPrintf(9, HDDashboard.textPosition.Centered, "Time Elapsed In Test:" + String.valueOf(elapsedTime));
+            mDisplay.displayPrintf(8, HDDashboard.textPosition.Centered, "Encoder Counts: " + robot.shooter.getFlywheelEncoderCount());
+        }else{
+            robot.shooter.setFlywheelPower(0);
+            mDisplay.displayPrintf(10, HDDashboard.textPosition.Centered, "Average Motor RPM:" + String.valueOf(robot.shooter.getFlywheelEncoderCount() * 6 / 140));
         }
     }
 
@@ -85,8 +59,6 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
             case X:
                 break;
             case Y:
-                if(pressed)
-                    collecting = !collecting;
                 break;
             case DPAD_LEFT:
                 break;
@@ -101,10 +73,6 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
             case RIGHT_BUMPER:
                 break;
             case RIGHT_TRIGGER:
-                if(pressed) {
-                    shooting = true;
-                    collecting = false;
-                }
                 break;
             case LEFT_TRIGGER:
                 break;

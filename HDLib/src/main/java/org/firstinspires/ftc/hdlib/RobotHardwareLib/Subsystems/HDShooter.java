@@ -12,12 +12,11 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
  */
 public class HDShooter {
 
-    final double leftCollectorDown = 0.235;
-    final double rightCollectorDown = 0.302;
-    final double leftCollectorUp = 0.513; //0.473
-    final double rightCollectorUp = 0.58; //0.54
+    final double leftCollectorDown = 0.254;
+    final double rightCollectorDown = 0.314;
+    final double leftCollectorUp = 0.590;
+    final double rightCollectorUp = 0.65;
 
-    ServoEx test;
     HDServo leftCollectorServo;
     HDServo rightCollectorServo;
     DcMotor collectorMotor;
@@ -55,6 +54,20 @@ public class HDShooter {
 
     }
 
+    public double getFlywheelEncoderCount(){
+        return ((this.flywheel1.getCurrentPosition() + this.flywheel2.getCurrentPosition()) / 2);
+    }
+
+    public void resetEncoders(){
+        this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void lowerCollector(){
         leftCollectorServo.setPosition(leftCollectorDown);
         rightCollectorServo.setPosition(rightCollectorDown);
@@ -73,8 +86,8 @@ public class HDShooter {
 
     public void setAcceleratorPower(double power){
         power = Range.clip(power, -1, 1);
-        accelerator1.setPower(power);
-        accelerator2.setPower(power);
+        accelerator1.setPower(-power);
+        accelerator2.setPower(-power);
     }
 
     public void setCollectorPower(double power){
