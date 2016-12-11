@@ -12,22 +12,29 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 /**
  * Created by Height Differential on 11/9/2016.
  */
-@TeleOp(name = "Collector_Test")
-public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
+@TeleOp(name = "Shooter_Testing")
+public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDRobot robot;
-    static double CollectorSpeed = 0.3;
+    static double CollectorSpeed = 0.15;
     static double FlywheelSpeed = 0.25;
+    double oldCollectorEncoder = 0.0;
     boolean collecting = true;
     boolean shooting = false;
     HDGamepad gamepadMonitor;
     ElapsedTime shooterTimer;
+    ElapsedTime stallTimer;
 
     @Override
     public void Start() {
         robot.shooter.lowerCollector();
         gamepadMonitor.setGamepad(gamepad1);
         shooterTimer = new ElapsedTime();
+        stallTimer = new ElapsedTime();
+        shooterTimer.reset();
+        stallTimer.reset();
+        robot.shooter.resetEncoders();
+        oldCollectorEncoder = 0.0;
     }
 
     @Override
@@ -45,9 +52,23 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
     @Override
     public void continuousRun(double elapsedTime) {
         robot.shooter.setFlywheelPower(FlywheelSpeed);
+
         if(collecting){
             robot.shooter.setCollectorPower(CollectorSpeed);
             robot.shooter.setAcceleratorPower(-1);
+
+            //Collector Stall Detection
+            if(stallTimer.milliseconds() > 500){
+                stallTimer.reset();
+                if(robot.shooter.getCollectorEncoderCount() < oldCollectorEncoder + 25){ //25 may need to be tuned, guessed it as a arbitrary number
+                    collecting = false;
+                    mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Stalling Detected!!!!!!");
+                }else{
+                    mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Not Stalled!!!!!!");
+                }
+
+                oldCollectorEncoder = robot.shooter.getCollectorEncoderCount();
+            }
         }
         else if(shooting){
             if(shooterTimer.milliseconds() < 400){
@@ -69,7 +90,6 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
             robot.shooter.setCollectorPower(0);
             robot.shooter.setAcceleratorPower(0);
         }
-
         if(!shooting){
             shooterTimer.reset();
         }
@@ -85,8 +105,11 @@ public class Collector_Testing extends HDOpMode implements HDGamepad.HDButtonMon
             case X:
                 break;
             case Y:
-                if(pressed)
+                if(pressed && !shooting) {
+                    robot.shooter.resetEncoders();
+                    oldCollectorEncoder = 0.0;
                     collecting = !collecting;
+                }
                 break;
             case DPAD_LEFT:
                 break;
