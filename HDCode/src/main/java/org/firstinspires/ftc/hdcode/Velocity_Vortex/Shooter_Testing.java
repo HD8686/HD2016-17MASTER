@@ -18,7 +18,12 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
     HDRobot robot;
     static double CollectorSpeed = 0.15;
     static double FlywheelSpeed = 0.25;
+    static double RPMCalcInterval = 50;
     double oldCollectorEncoder = 0.0;
+    double FlywheelRPM = 0.0;
+    double timeForRPM = 0.0;
+    double oldFlywheelEncCount = 0.0;
+    double changeFlywheelEncCount = 0.0;
     boolean collecting = true;
     boolean shooting = false;
     HDGamepad gamepadMonitor;
@@ -35,6 +40,7 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
         stallTimer.reset();
         robot.shooter.resetEncoders();
         oldCollectorEncoder = 0.0;
+        timeForRPM = System.currentTimeMillis() + RPMCalcInterval;
     }
 
     @Override
@@ -52,6 +58,13 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
     @Override
     public void continuousRun(double elapsedTime) {
         robot.shooter.setFlywheelPower(FlywheelSpeed);
+        if(timeForRPM < System.currentTimeMillis()){
+            changeFlywheelEncCount = robot.shooter.getFlywheelEncoderCount() - oldFlywheelEncCount;
+            FlywheelRPM = (1000/(System.currentTimeMillis() - (timeForRPM - RPMCalcInterval)))*changeFlywheelEncCount*60;
+            mDisplay.displayPrintf(4, HDDashboard.textPosition.Centered, "Current Flywheel RPM (Recalculated Every %d): %d", RPMCalcInterval, FlywheelRPM);
+            oldFlywheelEncCount = robot.shooter.getFlywheelEncoderCount();
+            timeForRPM = System.currentTimeMillis() + RPMCalcInterval;
+        }
 
         if(collecting){
             robot.shooter.setCollectorPower(CollectorSpeed);
@@ -61,7 +74,6 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
             if(stallTimer.milliseconds() > 500){
                 stallTimer.reset();
                 if(robot.shooter.getCollectorEncoderCount() < oldCollectorEncoder + 25){ //25 may need to be tuned, guessed it as a arbitrary number
-                    collecting = false;
                     mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Stalling Detected!!!!!!");
                 }else{
                     mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Not Stalled!!!!!!");
