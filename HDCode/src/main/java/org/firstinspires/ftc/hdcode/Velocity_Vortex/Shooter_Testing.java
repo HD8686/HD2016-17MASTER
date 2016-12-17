@@ -16,31 +16,20 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
 public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDRobot robot;
-    static double CollectorSpeed = 0.15;
-    static double FlywheelSpeed = 0.25;
-    static double RPMCalcInterval = 50;
-    double oldCollectorEncoder = 0.0;
-    double FlywheelRPM = 0.0;
-    double timeForRPM = 0.0;
-    double oldFlywheelEncCount = 0.0;
-    double changeFlywheelEncCount = 0.0;
+    static double FlywheelSpeed = 0.325;
     boolean collecting = true;
     boolean shooting = false;
-    HDGamepad gamepadMonitor;
+    boolean flywheelRun = false;
     ElapsedTime shooterTimer;
-    ElapsedTime stallTimer;
+    HDGamepad gamepadMonitor;
 
     @Override
     public void Start() {
         robot.shooter.lowerCollector();
         gamepadMonitor.setGamepad(gamepad1);
         shooterTimer = new ElapsedTime();
-        stallTimer = new ElapsedTime();
         shooterTimer.reset();
-        stallTimer.reset();
         robot.shooter.resetEncoders();
-        oldCollectorEncoder = 0.0;
-        timeForRPM = System.currentTimeMillis() + RPMCalcInterval;
     }
 
     @Override
@@ -57,34 +46,15 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
 
     @Override
     public void continuousRun(double elapsedTime) {
-        robot.shooter.setFlywheelPower(FlywheelSpeed);
-        if(timeForRPM < System.currentTimeMillis()){
-            changeFlywheelEncCount = robot.shooter.getFlywheelEncoderCount() - oldFlywheelEncCount;
-            FlywheelRPM = (1000/(System.currentTimeMillis() - (timeForRPM - RPMCalcInterval)))*changeFlywheelEncCount*60;
-            mDisplay.displayPrintf(4, HDDashboard.textPosition.Centered, "Current Flywheel RPM (Recalculated Every %d): %d", RPMCalcInterval, FlywheelRPM);
-            oldFlywheelEncCount = robot.shooter.getFlywheelEncoderCount();
-            timeForRPM = System.currentTimeMillis() + RPMCalcInterval;
-        }
+
 
         if(collecting){
-            robot.shooter.setCollectorPower(CollectorSpeed);
+            robot.shooter.setCollectorPower(.35);
             robot.shooter.setAcceleratorPower(-1);
-
-            //Collector Stall Detection
-            if(stallTimer.milliseconds() > 500){
-                stallTimer.reset();
-                if(robot.shooter.getCollectorEncoderCount() < oldCollectorEncoder + 25){ //25 may need to be tuned, guessed it as a arbitrary number
-                    mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Stalling Detected!!!!!!");
-                }else{
-                    mDisplay.displayPrintf(3, HDDashboard.textPosition.Centered, "Collector Not Stalled!!!!!!");
-                }
-
-                oldCollectorEncoder = robot.shooter.getCollectorEncoderCount();
-            }
         }
         else if(shooting){
             if(shooterTimer.milliseconds() < 400){
-                robot.shooter.setCollectorPower(CollectorSpeed);
+                robot.shooter.setCollectorPower(.6);
                 robot.shooter.setAcceleratorPower(1);
             }else if(gamepad1.right_trigger > 0.5 && shooterTimer.milliseconds() > 600){
                 shooterTimer.reset();
@@ -118,8 +88,6 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
                 break;
             case Y:
                 if(pressed && !shooting) {
-                    robot.shooter.resetEncoders();
-                    oldCollectorEncoder = 0.0;
                     collecting = !collecting;
                 }
                 break;
@@ -142,6 +110,9 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
                 }
                 break;
             case LEFT_TRIGGER:
+                if(pressed){
+                    flywheelRun = !flywheelRun;
+                }
                 break;
             case START:
                 break;

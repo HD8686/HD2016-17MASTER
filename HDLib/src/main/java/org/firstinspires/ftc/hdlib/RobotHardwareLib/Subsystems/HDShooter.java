@@ -38,7 +38,7 @@ public class HDShooter {
         this.leftCollectorServo.setPosition(leftCollectorUp);
         this.rightCollectorServo.setPosition(rightCollectorUp);
 
-        this.collectorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.collectorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.collectorMotor.setPower(0);
 
@@ -63,9 +63,10 @@ public class HDShooter {
     }
 
     public void resetEncoders(){
-        this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.flywheel1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.flywheel2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

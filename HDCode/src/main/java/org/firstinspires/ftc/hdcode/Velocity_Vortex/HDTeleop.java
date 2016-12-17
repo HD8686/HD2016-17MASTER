@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.hdlib.Controls.HDGamepad;
@@ -32,6 +33,11 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
     Alliance alliance;
+    static double FlywheelSpeed = 0.325;
+    boolean collecting = true;
+    boolean shooting = false;
+    ElapsedTime shooterTimer;
+    boolean flywheelRun = false;
 
     @Override
     public void initialize() {
@@ -44,6 +50,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay = new HDDiagnosticDisplay(mDisplay, robot.driveHandler);
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
+        robot.shooter.raiseCollector();
     }
 
     @Override
@@ -61,6 +68,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }
         driverGamepad.setGamepad(gamepad1);
         servoBoyGamepad.setGamepad(gamepad2);
+        robot.shooter.lowerCollector();
+        shooterTimer = new ElapsedTime();
+        shooterTimer.reset();
+        robot.shooter.resetEncoders();
     }
 
     @Override
@@ -69,6 +80,43 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(speed*100) + " Percent");
         robotDrive();
+        shooterSubsystem();
+    }
+
+    private void shooterSubsystem(){
+        if(flywheelRun) {
+            robot.shooter.setFlywheelPower(FlywheelSpeed);
+        }else{
+            robot.shooter.setFlywheelPower(0);
+        }
+        if(collecting){
+            robot.shooter.setCollectorPower(.3);
+            robot.shooter.setAcceleratorPower(-1);
+        }
+        else if(shooting){
+            if(shooterTimer.milliseconds() < 400){
+                robot.shooter.setCollectorPower(.6);
+                robot.shooter.setAcceleratorPower(1);
+            }else if(gamepad1.right_trigger > 0.5 && shooterTimer.milliseconds() > 600){
+                shooterTimer.reset();
+            }
+            else if (gamepad1.right_trigger > 0.5){
+                robot.shooter.setCollectorPower(0);
+                robot.shooter.setAcceleratorPower(0);
+            }else{
+                robot.shooter.setCollectorPower(0);
+                robot.shooter.setAcceleratorPower(0);
+                shooting = false;
+                collecting = true;
+            }
+        }
+        else{
+            robot.shooter.setCollectorPower(0);
+            robot.shooter.setAcceleratorPower(0);
+        }
+        if(!shooting){
+            shooterTimer.reset();
+        }
     }
 
     private void robotDrive(){
@@ -109,28 +157,35 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case DPAD_RIGHT:
                     break;
                 case DPAD_UP:
-                    if(pressed){
-                        speed = speed + 0.2;
-                        speed = Range.clip(speed, 0.2,1);
-                    }
+                    if(pressed && !robot.navX.getSensorData().isCalibrating())
+                        driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
                     break;
                 case DPAD_DOWN:
+                    if(pressed)
+                        driveMode = DriveMode.TANK_DRIVE;
+                    break;
+                case LEFT_BUMPER:
                     if(pressed){
                         speed = speed - 0.2;
                         speed = Range.clip(speed, 0.2,1);
                     }
                     break;
-                case LEFT_BUMPER:
-                    break;
                 case RIGHT_BUMPER:
+                    if(pressed){
+                        speed = speed + 0.2;
+                        speed = Range.clip(speed, 0.2,1);
+                    }
                     break;
                 case LEFT_TRIGGER:
-                    if(pressed)
-                        driveMode = DriveMode.TANK_DRIVE;
+                    if(pressed){
+                        flywheelRun = !flywheelRun;
+                    }
                     break;
                 case RIGHT_TRIGGER:
-                    if(pressed && !robot.navX.getSensorData().isCalibrating())
-                        driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
+                    if(pressed) {
+                        shooting = true;
+                        collecting = false;
+                    }
                     break;
                 case START:
                     if(pressed)
