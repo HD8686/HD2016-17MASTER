@@ -46,7 +46,11 @@ public class Shooter_Testing extends HDOpMode implements HDGamepad.HDButtonMonit
 
     @Override
     public void continuousRun(double elapsedTime) {
-
+        if(flywheelRun) {
+            robot.shooter.setFlywheelPower(FlywheelSpeed);
+        }else{
+            robot.shooter.setFlywheelPower(0);
+        }
 
         if(collecting){
             robot.shooter.setCollectorPower(.35);

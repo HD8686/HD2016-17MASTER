@@ -193,7 +193,7 @@ public class HDStateMachine {
                     }
                     break;
                 case ODStoLine:
-                    if(currODS.getRawLightDetected() > .4){
+                    if(currODS.getRawLightDetected() > .3){
                         this.resetValues();
                         State = nextState;
                     }else{
@@ -201,7 +201,7 @@ public class HDStateMachine {
                     }
                     break;
                 case ODStoField:
-                    if(currODS.getRawLightDetected() < .4){
+                    if(currODS.getRawLightDetected() < .3){
                         this.resetValues();
                         State = nextState;
                     }else{

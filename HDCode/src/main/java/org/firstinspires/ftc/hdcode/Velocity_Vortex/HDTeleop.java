@@ -83,41 +83,52 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         shooterSubsystem();
     }
 
-    private void shooterSubsystem(){
-        if(flywheelRun) {
+    private void shooterSubsystem() {
+        if (flywheelRun) {
             robot.shooter.setFlywheelPower(FlywheelSpeed);
-        }else{
+        } else {
             robot.shooter.setFlywheelPower(0);
         }
-        if(collecting){
-            robot.shooter.setCollectorPower(.3);
+        if (collecting) {
+            robot.shooter.setCollectorPower(.35);
             robot.shooter.setAcceleratorPower(-1);
-        }
-        else if(shooting){
-            if(shooterTimer.milliseconds() < 400){
-                robot.shooter.setCollectorPower(.6);
+        }if (shooting) {
+                robot.shooter.setCollectorPower(1);
                 robot.shooter.setAcceleratorPower(1);
-            }else if(gamepad1.right_trigger > 0.5 && shooterTimer.milliseconds() > 600){
-                shooterTimer.reset();
-            }
-            else if (gamepad1.right_trigger > 0.5){
-                robot.shooter.setCollectorPower(0);
-                robot.shooter.setAcceleratorPower(0);
-            }else{
+            } else {
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
                 shooting = false;
                 collecting = true;
             }
         }
-        else{
-            robot.shooter.setCollectorPower(0);
-            robot.shooter.setAcceleratorPower(0);
-        }
-        if(!shooting){
-            shooterTimer.reset();
-        }
-    }
+
+        /*else if (shooting) {
+            if (shooterTimer.milliseconds() < 450) {
+                robot.shooter.setCollectorPower(-.50);
+                robot.shooter.setAcceleratorPower(-1.0);
+            }  else if (shooterTimer.milliseconds() < 1250) {
+                    robot.shooter.setCollectorPower(1);
+                    robot.shooter.setAcceleratorPower(1);
+                } else if (gamepad1.right_trigger > 0.5 && shooterTimer.milliseconds() > 1300) {
+                    shooterTimer.reset();
+                } else if (gamepad1.right_trigger > 0.5) {
+                    robot.shooter.setCollectorPower(0);
+                    robot.shooter.setAcceleratorPower(0);
+                } else {
+                    robot.shooter.setCollectorPower(0);
+                    robot.shooter.setAcceleratorPower(0);
+                    shooting = false;
+                    collecting = true;
+                }
+            } else {
+                robot.shooter.setCollectorPower(0);
+                robot.shooter.setAcceleratorPower(0);
+            }
+            if (!shooting) {
+                shooterTimer.reset();
+            }
+        }*/
 
     private void robotDrive(){
             switch (driveMode) {
@@ -178,13 +189,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case LEFT_TRIGGER:
                     if(pressed){
-                        flywheelRun = !flywheelRun;
+                        robot.shooter.setCollectorPower(-.50);
+                        robot.shooter.setAcceleratorPower(-1.0);
                     }
                     break;
                 case RIGHT_TRIGGER:
                     if(pressed) {
                         shooting = true;
-                        collecting = false;
+                        collecting = true;
                     }
                     break;
                 case START:
@@ -197,10 +209,16 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case A:
                     break;
                 case B:
+                    if(pressed) {
+                        robot.shooter.setCollectorPower(0.0);
+                    }
                     break;
                 case X:
                     break;
                 case Y:
+                    if(pressed) {
+                        robot.shooter.setCollectorPower(-.35);
+                    }
                     break;
                 case DPAD_LEFT:
                     break;
@@ -211,10 +229,19 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case DPAD_DOWN:
                     break;
                 case LEFT_BUMPER:
+                    if(pressed) {
+                        robot.shooter.lowerCollector();
+                    }
                     break;
                 case RIGHT_BUMPER:
+                    if(pressed) {
+                        robot.shooter.raiseCollector();
+                    }
                     break;
                 case LEFT_TRIGGER:
+                    if(pressed) {
+                        flywheelRun = !flywheelRun;
+                    }
                     break;
                 case RIGHT_TRIGGER:
                     break;
