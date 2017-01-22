@@ -33,8 +33,20 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
     Alliance alliance;
+    ElapsedTime intervalRun;
+
+    //Flywheel Management Variables
     static double FlywheelSpeed = 0.37;
     ElapsedTime shooterTime;
+
+    //Flywheel RPM Calc Variables
+    double deltaMS = 0;
+    double delta_enc = 0;
+    double curEncoder = 0;
+    double calcTime = 0;
+    double lastEncoder = 0;
+    double flywheelRPM = 0;
+    static double flywheelTicksperRev = 1120;
 
     @Override
     public void initialize() {
@@ -49,6 +61,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         servoBoyGamepad = new HDGamepad(gamepad2, this);
         robot.shooter.raiseCollector();
         shooterTime = new ElapsedTime();
+        intervalRun = new ElapsedTime();
     }
 
     @Override
@@ -77,6 +90,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(speed*100) + " Percent");
         robotDrive();
         shooterSubsystem();
+        if(intervalRun.milliseconds() > 35){
+            intervalRun.reset();
+            calculateFlywheelRPM();
+        }
     }
 
     private void shooterSubsystem() {
@@ -97,6 +114,21 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             robot.shooter.setCollectorPower(.75);
             shooterTime.reset();
         }
+    }
+
+    private void calculateFlywheelRPM(){
+        curEncoder = robot.shooter.getFlywheelEncoderCount();
+
+        deltaMS = System.currentTimeMillis() - calcTime;
+        calcTime = System.currentTimeMillis();
+
+        delta_enc = curEncoder - lastEncoder;
+
+        lastEncoder = curEncoder;
+
+        flywheelRPM = (1000.0/deltaMS) * delta_enc * 60.0 / flywheelTicksperRev;
+
+        diagnosticDisplay.addProgramSpecificTelemetry(3, "Flywheel RPM: " + String.valueOf(flywheelRPM));
     }
 
 
