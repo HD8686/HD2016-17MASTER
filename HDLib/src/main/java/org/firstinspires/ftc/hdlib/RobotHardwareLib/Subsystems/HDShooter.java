@@ -12,11 +12,10 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
  */
 public class HDShooter {
 
-    final double leftCollectorDown = 0.254;
-    final double rightCollectorDown = 0.314;
-    final double leftCollectorUp = 0.590;
-    final double rightCollectorUp = 0.65;
-
+    final double leftCollectorDown = 1;
+    final double rightCollectorDown = 1;
+    final double leftCollectorUp = 0;
+    final double rightCollectorUp = 0;
     HDServo leftCollectorServo;
     HDServo rightCollectorServo;
     DcMotor collectorMotor;

@@ -70,7 +70,7 @@ public class HDRobot {
          */
             driveHandler = new HDDriveHandler(navX);
             driveHandler.resetEncoders();
-            driveHandler.reverseSide(HDDriveHandler.Side.Left);
+            driveHandler.reverseSide(HDDriveHandler.Side.Right);
             driveHandler.setAlliance(alliance);
 
         /*
@@ -87,8 +87,8 @@ public class HDRobot {
         /*
         Shooter Subsystem
          */
-            leftCollectorServo = new HDServo("leftCollector", Values.ServoSpeedStats.HS_755MG, 0.475, 0, 1, Servo.Direction.REVERSE);
-            rightCollectorServo = new HDServo("rightCollector", Values.ServoSpeedStats.HS_755MG, 0.54, 0, 1, Servo.Direction.FORWARD);
+            leftCollectorServo = new HDServo("leftCollector", Values.ServoSpeedStats.HS_755MG, 0, 0, 1, Servo.Direction.REVERSE);
+            rightCollectorServo = new HDServo("rightCollector", Values.ServoSpeedStats.HS_755MG, 0, 0, 1, Servo.Direction.FORWARD);
             flywheel1 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_1");
             flywheel2 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_2");
             collectorMotor = HDOpMode.getInstance().hardwareMap.dcMotor.get("Collector1");
