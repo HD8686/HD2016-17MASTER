@@ -106,6 +106,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));
             updateFlywheelVelocity();
             diagnosticDisplay.addProgramSpecificTelemetry(5, "TBH Control: " + String.valueOf(flywheelMotorSpeed));
+            diagnosticDisplay.addProgramSpecificTelemetry(6, "Flywheel Enc. Cnt: " + String.valueOf(robot.shooter.getFlywheelEncoderCount()));
             Log.w("Seconds, FlywheelVel", String.valueOf(motorRPM) + " ," + String.valueOf(elapsedTime));
             //robot.shooter.setFlywheelPower(flywheelMotorSpeed);
         }
