@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -26,7 +25,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         MECANUM_FIELD_CENTRIC,
     }
 
-    double speed = 0.6;
+    double driveSpeed = 0.6;
     HDDiagnosticDisplay diagnosticDisplay;
     HDRobot robot;
     DriveMode driveMode;
@@ -35,17 +34,28 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     Alliance alliance;
     ElapsedTime intervalRun;
 
-    //Flywheel Management Variables
-    static double FlywheelSpeed = 0.37;
-    ElapsedTime shooterTime;
+
 
     //Flywheel RPM Calc Variables
-    double deltaMS = 0;
-    double delta_enc = 0;
-    double curEncoder = 0;
-    double calcTime = 0;
-    double lastEncoder = 0;
-    double flywheelRPM = 0;
+
+    // Encoder
+    double encoderCounts;         ///< current encoder count
+    double encoderCountsPrev;    ///< current encoder count
+
+    // velocity measurement
+    double motorRPM;         ///< current velocity in rpm
+    double prevCalcTime;          ///< Time of last velocity calculation
+
+    // TBH control algorithm variables
+    double targetRPM;        ///< targetRPM velocity
+    double currentError;          ///< error between actual and targetRPM velocities
+    double lastError;             ///< error last time update called
+    double gain;                   ///< gain
+    double flywheelMotorSpeed;                  ///< final flywheelMotorSpeed out of TBH (0.0 to 1.0)
+    double previousFlywheelMotorSpeed;          ///< flywheelMotorSpeed at last zero crossing
+    boolean firstCross;            ///< flag indicating first zero crossing
+    double driveApprox;           ///< estimated open loop flywheelMotorSpeed
+
     static double flywheelTicksperRev = 1120;
 
     @Override
@@ -60,7 +70,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
         robot.shooter.raiseCollector();
-        shooterTime = new ElapsedTime();
         intervalRun = new ElapsedTime();
     }
 
@@ -81,61 +90,93 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         servoBoyGamepad.setGamepad(gamepad2);
         robot.shooter.lowerCollector();
         robot.shooter.resetEncoders();
+        gain = 0.00025;
     }
 
     @Override
     public void continuousRun(double elapsedTime) {
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
-        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(speed*100) + " Percent");
+        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
         robotDrive();
-        shooterSubsystem();
+        setVelocityControl(600, 0.375); //That needs a TON of tuning. (https://www.vexforum.com/index.php/15195-flywheel-velocity-control-revisited/0)
         if(intervalRun.milliseconds() > 35){
             intervalRun.reset();
-            calculateFlywheelRPM();
+            calculateFlywheelVelocity();
+            diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));
+            updateFlywheelVelocity();
+            diagnosticDisplay.addProgramSpecificTelemetry(5, "TBH Control: " + String.valueOf(flywheelMotorSpeed));
+            Log.w("Seconds, FlywheelVel", String.valueOf(motorRPM) + " ," + String.valueOf(elapsedTime));
+            //robot.shooter.setFlywheelPower(flywheelMotorSpeed);
         }
     }
 
-    private void shooterSubsystem() {
-        robot.shooter.setFlywheelPower(FlywheelSpeed);
-        if(gamepad1.left_trigger > .5){
-            if(shooterTime.milliseconds() < 200) {
-                robot.shooter.setAcceleratorPower(-1);
-                robot.shooter.setCollectorPower(-.75);
-            }else if(shooterTime.milliseconds() < 520){
-                robot.shooter.setAcceleratorPower(1);
-                robot.shooter.setCollectorPower(.75);
+    private void setVelocityControl(double velocity, double predictedDrive){
+
+        targetRPM = velocity;
+
+        currentError = targetRPM - motorRPM;
+        lastError = currentError;
+
+        driveApprox = predictedDrive;
+
+        firstCross = true;
+
+        previousFlywheelMotorSpeed = 0;
+
+    }
+
+    private void calculateFlywheelVelocity(){
+
+        double delta_ms;
+        double delta_enc;
+
+        encoderCounts = robot.shooter.getFlywheelEncoderCount();
+
+        delta_ms = System.currentTimeMillis() - prevCalcTime;
+        prevCalcTime = System.currentTimeMillis();
+
+        delta_enc = (encoderCounts - encoderCountsPrev);
+
+        encoderCountsPrev = encoderCounts;
+
+        motorRPM = (1000.0 / delta_ms) * delta_enc * 60 / flywheelTicksperRev;
+
+
+    }
+
+    private void updateFlywheelVelocity(){
+        currentError = targetRPM - motorRPM;
+
+        flywheelMotorSpeed = flywheelMotorSpeed + (currentError * gain);
+
+        if(flywheelMotorSpeed > 1){
+            flywheelMotorSpeed = 1;
+        }
+        if(flywheelMotorSpeed < 0){
+            flywheelMotorSpeed = 0;
+        }
+
+        if(Math.signum(currentError) != Math.signum(lastError)){
+            if(firstCross){
+                flywheelMotorSpeed = driveApprox;
+                firstCross = false;
             }else{
-                shooterTime.reset();
+                flywheelMotorSpeed = 0.5 * (flywheelMotorSpeed + previousFlywheelMotorSpeed);
             }
-        }else{
-            robot.shooter.setAcceleratorPower(-1);
-            robot.shooter.setFlywheelPower(FlywheelSpeed);
-            robot.shooter.setCollectorPower(.75);
-            shooterTime.reset();
+
+
+            previousFlywheelMotorSpeed = flywheelMotorSpeed;
         }
-    }
 
-    private void calculateFlywheelRPM(){
-        curEncoder = robot.shooter.getFlywheelEncoderCount();
-
-        deltaMS = System.currentTimeMillis() - calcTime;
-        calcTime = System.currentTimeMillis();
-
-        delta_enc = curEncoder - lastEncoder;
-
-        lastEncoder = curEncoder;
-
-        flywheelRPM = (1000.0/deltaMS) * delta_enc * 60.0 / flywheelTicksperRev;
-
-        diagnosticDisplay.addProgramSpecificTelemetry(3, "Flywheel RPM: " + String.valueOf(flywheelRPM));
+        lastError = currentError;
     }
 
 
     private void robotDrive(){
             switch (driveMode) {
                 case TANK_DRIVE:
-                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y*speed, -gamepad1.right_stick_y*speed);
+                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y* driveSpeed, -gamepad1.right_stick_y* driveSpeed);
                     break;
                 case MECANUM_FIELD_CENTRIC:
                     if(gamepad1.y){
@@ -143,7 +184,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }else if(gamepad1.b){
                         robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, -90.0, robot.navX.getYaw());
                     }else{
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * speed, gamepad1.left_stick_y * speed, gamepad1.right_stick_x * speed, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
                     }
                     break;
             }
@@ -175,14 +216,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case LEFT_BUMPER:
                     if(pressed){
-                        speed = speed - 0.2;
-                        speed = Range.clip(speed, 0.2,1);
+                        driveSpeed = driveSpeed - 0.2;
+                        driveSpeed = Range.clip(driveSpeed, 0.2,1);
                     }
                     break;
                 case RIGHT_BUMPER:
                     if(pressed){
-                        speed = speed + 0.2;
-                        speed = Range.clip(speed, 0.2,1);
+                        driveSpeed = driveSpeed + 0.2;
+                        driveSpeed = Range.clip(driveSpeed, 0.2,1);
                     }
                     break;
                 case LEFT_TRIGGER:
