@@ -56,7 +56,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     boolean firstCross;            ///< flag indicating first zero crossing
     double driveApprox;           ///< estimated open loop flywheelMotorSpeed
 
-    static double flywheelTicksperRev = 1120;
+    static double flywheelTicksperRev = 20.36; //Ticks per revolution of wheel shaft (ticks per motor revolution is 28, pulses per revolution is 7) Should turn shaft and test the actual as well.
 
     @Override
     public void initialize() {
