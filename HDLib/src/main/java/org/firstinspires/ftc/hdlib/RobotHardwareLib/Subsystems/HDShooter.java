@@ -12,10 +12,10 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
  */
 public class HDShooter {
 
-    final double leftCollectorDown = 1;
-    final double rightCollectorDown = 1;
-    final double leftCollectorUp = 0;
-    final double rightCollectorUp = 0;
+    final double leftCollectorDown = .94;
+    final double rightCollectorDown = .93;
+    final double leftCollectorUp = 0.06;
+    final double rightCollectorUp = 0.07;
     HDServo leftCollectorServo;
     HDServo rightCollectorServo;
     DcMotor collectorMotor;
@@ -37,12 +37,15 @@ public class HDShooter {
         this.leftCollectorServo.setPosition(leftCollectorUp);
         this.rightCollectorServo.setPosition(rightCollectorUp);
 
+        resetEncoders();
+
         this.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.collectorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.collectorMotor.setPower(0);
 
-        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.flywheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel1.setPower(0);

@@ -16,7 +16,7 @@ public class HDDashboard
 {
     TextPaint mPaint;
     public static final int SCREEN_WIDTH = 667;
-    public static final int MAX_NUM_TEXTLINES = 40;
+    public static final int MAX_NUM_TEXTLINES = 60;
     private static final String displayKeyFormat = "%02d";
     private static Telemetry telemetry = null;
     private static HDDashboard instance = null;

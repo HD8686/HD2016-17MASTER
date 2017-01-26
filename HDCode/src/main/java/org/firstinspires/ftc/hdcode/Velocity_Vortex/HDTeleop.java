@@ -33,7 +33,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad servoBoyGamepad;
     Alliance alliance;
     ElapsedTime intervalRun;
-
+    boolean flywheelRunning = false;
+    boolean collectorForward = true;
+    boolean shooting = false;
 
 
     //Flywheel RPM Calc Variables
@@ -46,17 +48,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     double motorRPM;         ///< current velocity in rpm
     double prevCalcTime;          ///< Time of last velocity calculation
 
-    // TBH control algorithm variables
-    double targetRPM;        ///< targetRPM velocity
-    double currentError;          ///< error between actual and targetRPM velocities
-    double lastError;             ///< error last time update called
-    double gain;                   ///< gain
-    double flywheelMotorSpeed;                  ///< final flywheelMotorSpeed out of TBH (0.0 to 1.0)
-    double previousFlywheelMotorSpeed;          ///< flywheelMotorSpeed at last zero crossing
-    boolean firstCross;            ///< flag indicating first zero crossing
-    double driveApprox;           ///< estimated open loop flywheelMotorSpeed
-
-    static double flywheelTicksperRev = 20.36; //Ticks per revolution of wheel shaft (ticks per motor revolution is 28, pulses per revolution is 7) Should turn shaft and test the actual as well.
+    static double flywheelTicksperRev = 38; //Ticks per revolution of wheel shaft (ticks per motor revolution is 28, pulses per revolution is 7) Should turn shaft and test the actual as well.
 
     @Override
     public void initialize() {
@@ -90,7 +82,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         servoBoyGamepad.setGamepad(gamepad2);
         robot.shooter.lowerCollector();
         robot.shooter.resetEncoders();
-        gain = 0.00025;
     }
 
     @Override
@@ -99,33 +90,35 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
         robotDrive();
-        setVelocityControl(600, 0.375); //That needs a TON of tuning. (https://www.vexforum.com/index.php/15195-flywheel-velocity-control-revisited/0)
-        if(intervalRun.milliseconds() > 35){
+        if(flywheelRunning){
+            if(motorRPM < 4000){
+                robot.shooter.setFlywheelPower(1);
+            }else{
+                robot.shooter.setFlywheelPower(0);
+            }
+        }else{
+            robot.shooter.setFlywheelPower(0);
+        }
+        if(shooting){
+            robot.shooter.setCollectorPower(.6);
+            robot.shooter.setAcceleratorPower(1);
+        }else{
+            if(collectorForward){
+                robot.shooter.setCollectorPower(.6);
+                robot.shooter.setAcceleratorPower(-1);
+            }else{
+                robot.shooter.setCollectorPower(-.6);
+                robot.shooter.setAcceleratorPower(-1);
+            }
+        }
+        if(intervalRun.milliseconds() > 50){
             intervalRun.reset();
             calculateFlywheelVelocity();
             diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));
-            updateFlywheelVelocity();
-            diagnosticDisplay.addProgramSpecificTelemetry(5, "TBH Control: " + String.valueOf(flywheelMotorSpeed));
             diagnosticDisplay.addProgramSpecificTelemetry(6, "Flywheel Enc. Cnt: " + String.valueOf(robot.shooter.getFlywheelEncoderCount()));
-            Log.w("Seconds, FlywheelVel", String.valueOf(motorRPM) + " ," + String.valueOf(elapsedTime));
-            //robot.shooter.setFlywheelPower(flywheelMotorSpeed);
         }
     }
 
-    private void setVelocityControl(double velocity, double predictedDrive){
-
-        targetRPM = velocity;
-
-        currentError = targetRPM - motorRPM;
-        lastError = currentError;
-
-        driveApprox = predictedDrive;
-
-        firstCross = true;
-
-        previousFlywheelMotorSpeed = 0;
-
-    }
 
     private void calculateFlywheelVelocity(){
 
@@ -144,33 +137,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         motorRPM = (1000.0 / delta_ms) * delta_enc * 60 / flywheelTicksperRev;
 
 
-    }
-
-    private void updateFlywheelVelocity(){
-        currentError = targetRPM - motorRPM;
-
-        flywheelMotorSpeed = flywheelMotorSpeed + (currentError * gain);
-
-        if(flywheelMotorSpeed > 1){
-            flywheelMotorSpeed = 1;
-        }
-        if(flywheelMotorSpeed < 0){
-            flywheelMotorSpeed = 0;
-        }
-
-        if(Math.signum(currentError) != Math.signum(lastError)){
-            if(firstCross){
-                flywheelMotorSpeed = driveApprox;
-                firstCross = false;
-            }else{
-                flywheelMotorSpeed = 0.5 * (flywheelMotorSpeed + previousFlywheelMotorSpeed);
-            }
-
-
-            previousFlywheelMotorSpeed = flywheelMotorSpeed;
-        }
-
-        lastError = currentError;
     }
 
 
@@ -200,6 +166,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case B:
                     break;
                 case X:
+                    if(pressed){
+                        collectorForward = !collectorForward;
+                    }
                     break;
                 case Y:
                     break;
@@ -228,8 +197,16 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case LEFT_TRIGGER:
+                    if(pressed){
+                        flywheelRunning =!flywheelRunning;
+                    }
                     break;
                 case RIGHT_TRIGGER:
+                    if(pressed){
+                        shooting = true;
+                    }else{
+                        shooting = false;
+                    }
                     break;
                 case START:
                     if(pressed)
