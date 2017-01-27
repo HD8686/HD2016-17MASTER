@@ -91,7 +91,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
         robotDrive();
         if(flywheelRunning){
-            if(motorRPM < 3500){
+            if(motorRPM < 3750){
                 robot.shooter.setFlywheelPower(1);
             }else{
                 robot.shooter.setFlywheelPower(0);
@@ -107,11 +107,11 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 robot.shooter.setCollectorPower(.6);
                 robot.shooter.setAcceleratorPower(-1);
             }else{
-                robot.shooter.setCollectorPower(-.6);
+                robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(-1);
             }
         }
-        if(intervalRun.milliseconds() > 5){
+        if(intervalRun.milliseconds() > 15){
             intervalRun.reset();
             calculateFlywheelVelocity();
             diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));

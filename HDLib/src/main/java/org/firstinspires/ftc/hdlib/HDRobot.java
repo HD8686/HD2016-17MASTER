@@ -14,6 +14,7 @@ import org.firstinspires.ftc.hdlib.RobotHardwareLib.Sensors.HDNavX;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDCap;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDDriveHandler;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDShooter;
 
@@ -55,6 +56,11 @@ public class HDRobot {
     public HDVexMotor accelerator2;
     public HDShooter shooter;
 
+      /*
+      HD Cap Ball Subsystem
+       */
+    public HDCap lift;
+    public DcMotor capLift;
 
     public HDRobot(Alliance alliance){
         if(!HDOpMode.getInstance().isStopRequested()) {
@@ -95,7 +101,11 @@ public class HDRobot {
             accelerator1 = new HDVexMotor("Vex1", Servo.Direction.REVERSE);
             accelerator2 = new HDVexMotor("Vex2", Servo.Direction.REVERSE);
             shooter = new HDShooter(leftCollectorServo, rightCollectorServo, collectorMotor, flywheel1, flywheel2, accelerator1, accelerator2);
-
+        /*
+        Cap Ball Subsystem
+         */
+            capLift  = HDOpMode.getInstance().hardwareMap.dcMotor.get("liftMotor");
+            lift = new HDCap(capLift);
         }
     }
 

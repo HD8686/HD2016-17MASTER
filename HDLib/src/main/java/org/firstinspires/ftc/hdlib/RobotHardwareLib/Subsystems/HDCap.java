@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * Created by Akash on 1/25/2017.
@@ -8,25 +9,30 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class HDCap {
 
     DcMotor capMotor;
-    final int liftExtended = 1500;
+    final int liftExtended = 3000;
     final int liftRetracted = 0;
 
     public HDCap(DcMotor capMotor){
         this.capMotor = capMotor;
+        capMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         capMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         capMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        capMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        capMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         capMotor.setPower(0);
     }
 
     public void extendLift(){
-        capMotor.setPower(0.25);
-        capMotor.setTargetPosition(liftExtended);
+        capMotor.setPower(0.3);
+    }
+
+    public void resetEncoders(){
+        capMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        capMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void retractLift(){
-        capMotor.setPower(0.1);
-        capMotor.setTargetPosition(liftRetracted);
+        capMotor.setPower(-0.1);
+
     }
 
 }
