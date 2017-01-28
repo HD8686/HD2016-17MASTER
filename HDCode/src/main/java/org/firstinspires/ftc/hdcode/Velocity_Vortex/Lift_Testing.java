@@ -61,15 +61,10 @@ public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case A:
                     if(pressed)
                         robot.lift.extendLift();
-                    else
-                        robot.capLift.setPower(0);
                     break;
                 case B:
                     if(pressed)
                         robot.lift.retractLift();
-                    else
-                        robot.capLift.setPower(0);
-
                     break;
                 case X:
                     break;
