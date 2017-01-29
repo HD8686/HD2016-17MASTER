@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class HDCap {
 
     DcMotor capMotor;
-    final int liftExtended = 8350;
-    final int liftRetracted = 0; //-10
+    final int liftExtended = 35000;
+    final int liftRetracted = -35000; //-10
 
     public HDCap(DcMotor capMotor){
         this.capMotor = capMotor;
@@ -21,7 +21,7 @@ public class HDCap {
     }
 
     public void extendLift(){
-        capMotor.setPower(0.3);
+        capMotor.setPower(.3);
         capMotor.setTargetPosition(liftExtended);
     }
 
@@ -31,7 +31,7 @@ public class HDCap {
     }
 
     public void retractLift(){
-        capMotor.setPower(-0.1);
+        capMotor.setPower(-0.3);
         capMotor.setTargetPosition(liftRetracted);
 
     }
