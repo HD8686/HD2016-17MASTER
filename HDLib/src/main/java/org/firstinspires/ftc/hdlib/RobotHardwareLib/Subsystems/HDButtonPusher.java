@@ -27,22 +27,24 @@ public class HDButtonPusher {
         rightColor.getSensor().enableLed(false);
         leftPusher = leftServo;
         rightPusher = rightServo;
+        retractLeftServo();
+        retractRightServo();
     }
 
     public void extendRightServo(){
-        rightPusher.setPosition(.789);
+        rightPusher.setPosition(.78);
     }
 
     public void extendLeftServo(){
-        leftPusher.setPosition(0.33);
+        leftPusher.setPosition(0.31);
     }
 
     public void retractRightServo(){
-        rightPusher.setPosition(.515);
+        rightPusher.setPosition(.52);
     }
 
     public void retractLeftServo(){
-        leftPusher.setPosition(.056);
+        leftPusher.setPosition(.06);
     }
 
 
