@@ -227,7 +227,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     SM.setNextState(State.done, HDWaitTypes.Timer, 0.75);
                     robot.driveHandler.tankDrive(-0.5,-0.5);
                     break;
-               case done:
+                case done:
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {

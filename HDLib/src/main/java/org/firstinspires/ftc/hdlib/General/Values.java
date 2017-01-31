@@ -40,23 +40,23 @@ public final class Values {
 
     public final class HardwareMapKeys {
 
-    //Servos
-    public static final String Servo_Button_Pusher_Right = "Servo_Button_Pusher_Right";
-    public static final String Servo_Button_Pusher_Left = "Servo_Button_Pusher_Left";
-    //Motors
-    public static final String frontRight = "rightFront";
-    public static final String frontLeft = "leftFront";
-    public static final String backRight = "rightBack";
-    public static final String backLeft = "leftBack";
+        //Servos
+        public static final String Servo_Button_Pusher_Right = "Servo_Button_Pusher_Right";
+        public static final String Servo_Button_Pusher_Left = "Servo_Button_Pusher_Left";
+        //Motors
+        public static final String frontRight = "rightFront";
+        public static final String frontLeft = "leftFront";
+        public static final String backRight = "rightBack";
+        public static final String backLeft = "leftBack";
 
-    //Sensors
-    public static final String DeviceInterfaceModule = "dim";
-    public static final String MRGyro = "gyro";
-    public static final String Range_Button_Pusher = "Range_Button_Pusher";
-    public static final String ODS_Back = "ODS_Back";
-    public static final String Color_Left_Button_Pusher = "Color_Left_Button_Pusher";
-    public static final String Color_Right_Button_Pusher = "Color_Right_Button_Pusher";
-    public static final int NAVX_I2C_PORT = 0;
+        //Sensors
+        public static final String DeviceInterfaceModule = "dim";
+        public static final String MRGyro = "gyro";
+        public static final String Range_Button_Pusher = "Range_Button_Pusher";
+        public static final String ODS_Back = "ODS_Back";
+        public static final String Color_Left_Button_Pusher = "Color_Left_Button_Pusher";
+        public static final String Color_Right_Button_Pusher = "Color_Right_Button_Pusher";
+        public static final int NAVX_I2C_PORT = 0;
     }
 
 
@@ -78,4 +78,3 @@ public final class Values {
         public static final double HS_805MG = .19;
     }
 }
-

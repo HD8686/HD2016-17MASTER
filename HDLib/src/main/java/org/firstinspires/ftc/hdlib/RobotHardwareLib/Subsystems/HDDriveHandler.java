@@ -264,8 +264,8 @@ public class HDDriveHandler {
         double Motors[] = new double[4];
         Motors[0] = sinD * magnitude + rotation; //kFrontLeft Motor
         Motors[1] = cosD * magnitude - rotation; //kFrontRight Motor
-        Motors[2] = cosD  * magnitude - rotation; //kRearLeft Motor
-        Motors[3] = sinD * magnitude - rotation; //kRearRight Motor
+        Motors[2] = (cosD  * magnitude + rotation); //kRearLeft Motor
+        Motors[3] = (sinD * magnitude - rotation); //kRearRight Motor
 
         double maxMagnitude = Math.abs(NumberUtils.max(Motors));
 
@@ -321,8 +321,8 @@ public class HDDriveHandler {
         double Motors[] = new double[4];
         Motors[0] = sinD * magnitude + rotation; //kFrontLeft Motor
         Motors[1] = cosD * magnitude - rotation; //kFrontRight Motor
-        Motors[2] = cosD  * magnitude + rotation; //kRearLeft Motor
-        Motors[3] = sinD * magnitude - rotation; //kRearRight Motor
+        Motors[2] = (cosD  * magnitude + rotation); //kRearLeft Motor
+        Motors[3] = (sinD * magnitude - rotation); //kRearRight Motor
 
         double maxMagnitude = Math.abs(NumberUtils.max(Motors));
 
@@ -357,8 +357,8 @@ public class HDDriveHandler {
         double Motors[] = new double[4];
         Motors[0] = xIn + yIn + rotation; //kFrontLeft Motor
         Motors[1] = -xIn + yIn - rotation; //kFrontRight Motor
-        Motors[2] = -xIn + yIn + rotation; //kRearLeft Motor
-        Motors[3] = xIn + yIn - rotation; //kRearRight Motor
+        Motors[2] = (-xIn + yIn + rotation)*1.1875; //kRearLeft Motor
+        Motors[3] = (xIn + yIn - rotation)*1.1875; //kRearRight Motor
 
         double maxMagnitude = Math.abs(NumberUtils.max(Motors));
 
@@ -412,8 +412,8 @@ public class HDDriveHandler {
         double Motors[] = new double[4];
         Motors[0] = xIn + yIn + rotation; //kFrontLeft Motor
         Motors[1] = -xIn + yIn - rotation; //kFrontRight Motor
-        Motors[2] = -xIn + yIn + rotation; //kRearLeft Motor
-        Motors[3] = xIn + yIn - rotation; //kRearRight Motor
+        Motors[2] = (-xIn + yIn + rotation)*1.1875; //kRearLeft Motor
+        Motors[3] = (xIn + yIn - rotation)*1.1875; //kRearRight Motor
 
         double maxMagnitude = Math.abs(NumberUtils.max(Motors));
 
