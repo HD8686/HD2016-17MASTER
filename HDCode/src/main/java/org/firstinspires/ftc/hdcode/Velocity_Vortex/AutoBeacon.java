@@ -78,7 +78,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.175, 41.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait5:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
@@ -95,9 +95,9 @@ public class AutoBeacon implements HDAuto{
                 case driveToDistance:
                     SM.setNextState(State.buttonPush1, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
                     if(robot.rangeButtonPusher.getUSValue() > 11.0)
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.002*robot.rangeButtonPusher.getUSValue() + .001, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.003*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
                     else
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.002*robot.rangeButtonPusher.getUSValue() - .001, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.003*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
                     break;
                 case buttonPush1:
                     SM.runOnce(new Runnable() {
@@ -115,7 +115,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case backUp:
                     SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.1, -90, -90, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
                     break;
@@ -125,11 +125,11 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case driveToBeacon2:
                     SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 1.0);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.2, 0.0, -85.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 0.0, -90.0, robot.navX.getYaw());
                     break;
                 case fastDriveToBeacon2:
                     SM.setNextState(State.wait2, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.1, 0.0, -85.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.15, 0.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait2:
                     SM.setNextState(State.driveBack, HDWaitTypes.Timer, 0.25);
@@ -146,9 +146,9 @@ public class AutoBeacon implements HDAuto{
                 case driveToDistance2:
                     SM.setNextState(State.buttonPush2, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
                     if(robot.rangeButtonPusher.getUSValue() > 11.0)
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.002*robot.rangeButtonPusher.getUSValue() + .001, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.003*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
                     else
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.002*robot.rangeButtonPusher.getUSValue() - .001, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.003*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
                     break;
                 case buttonPush2:
                     SM.runOnce(new Runnable() {
@@ -166,7 +166,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case backUp2:
                     SM.setNextState(State.wait6, HDWaitTypes.Timer, .8);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.1, -90, -90, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
                     break;
@@ -176,11 +176,11 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case driveBackToBeacon:
                     SM.setNextState(State.fastDriveBackToBeacon, HDWaitTypes.Timer, 1.0);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.2, 190.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 180.0, -90.0, robot.navX.getYaw());
                     break;
                 case fastDriveBackToBeacon:
                     SM.setNextState(State.wait7, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.1, 190.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.15, 180.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait7:
                     SM.setNextState(State.driveBack3, HDWaitTypes.Timer, 0.25);
@@ -197,9 +197,9 @@ public class AutoBeacon implements HDAuto{
                 case driveToDistance3:
                     SM.setNextState(State.buttonPush3, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
                     if(robot.rangeButtonPusher.getUSValue() > 11.0)
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.002*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.003*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
                     else
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.002*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.003*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
                     break;
                 case buttonPush3:
                     SM.runOnce(new Runnable() {
