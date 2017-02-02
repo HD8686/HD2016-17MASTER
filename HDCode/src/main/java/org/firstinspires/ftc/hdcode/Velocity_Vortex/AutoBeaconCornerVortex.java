@@ -21,6 +21,9 @@ public class AutoBeaconCornerVortex implements HDAuto{
     private double timerFailsafe = 0.0;
     private double delay;
     private Alliance alliance;
+    private double var = 0.0;
+    private boolean comeBackToFirstBeacon = false;
+
 
     private enum State {
         delay,
@@ -30,6 +33,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
         wait,
         driveToDistance,
         buttonPush1,
+        waitCheckBeacon,
         backUp,
         driveToBeacon2,
         wait4,
@@ -50,6 +54,7 @@ public class AutoBeaconCornerVortex implements HDAuto{
         buttonPush3,
         driveToCornerVortex,
         driveUpCornerVortex,
+        driveToCornerVortex1,
         done,
     }
 
@@ -69,6 +74,10 @@ public class AutoBeaconCornerVortex implements HDAuto{
         robot.navX.zeroYaw();
     }
 
+    /*
+
+    ADD SLOW DOWN TO BEFORE WE GET TO FIRST LINE FOR ACCURACY AND FIX  THE ENDING ANGLE.
+     */
     @Override
     public void runLoop(final double elapsedTime) {
         if(SM.ready()){
@@ -77,6 +86,9 @@ public class AutoBeaconCornerVortex implements HDAuto{
                 case delay:
                     SM.setNextState(State.fastDriveToBeacon, HDWaitTypes.Timer, delay);
                     robot.driveHandler.motorBrake();
+                    robot.shooter.lowerCollector();
+                    robot.shooter.setCollectorPower(0.5);
+                    robot.shooter.setAcceleratorPower(-1);
                     break;
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
@@ -93,6 +105,8 @@ public class AutoBeaconCornerVortex implements HDAuto{
                 case wait:
                     SM.setNextState(State.driveToDistance, HDWaitTypes.Timer, 0.1);
                     robot.driveHandler.motorBrake();
+                    robot.shooter.setCollectorPower(0.0);
+                    robot.shooter.setAcceleratorPower(0.0);
                     break;
                 case driveToDistance:
                     SM.setNextState(State.buttonPush1, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
@@ -106,26 +120,66 @@ public class AutoBeaconCornerVortex implements HDAuto{
                         @Override
                         public void run() {
                             timerFailsafe = elapsedTime + 3;
+                            var = elapsedTime + 0.4;
                         }
                     });
-                    SM.setNextState(State.backUp, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
+                    if(robot.shooter.getRPM() < 4000){
+                        robot.shooter.setFlywheelPower(1);
+                    }else{
+                        robot.shooter.setFlywheelPower(0);
+                    }
+                    if(var > elapsedTime){
+                        robot.shooter.setCollectorPower(-0.2);
+                    }else{
+                        robot.shooter.setCollectorPower(0.0);
+                    }
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
-                        SM.setState(State.backUp);
+                        SM.setState(State.waitCheckBeacon);
+                    }
+                    break;
+                case waitCheckBeacon:
+                    SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
+                    SM.runOnce(new Runnable() {
+                        @Override
+                        public void run() {
+                            comeBackToFirstBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
+                        }
+                    });
+                    if(robot.shooter.getRPM() < 4200){
+                        robot.shooter.setFlywheelPower(1);
+                    }else{
+                        robot.shooter.setFlywheelPower(0);
                     }
                     break;
                 case backUp:
                     SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
+                    if(robot.shooter.getRPM() < 4200){
+                        robot.shooter.setFlywheelPower(1);
+                    }else{
+                        robot.shooter.setFlywheelPower(0);
+                    }
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
                     break;
                 case wait4:
-                    SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 0.25);
+                    SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 2.0);
+                    if(robot.shooter.getRPM() < 4200){
+                        robot.shooter.setFlywheelPower(1);
+                    }else{
+                        robot.shooter.setFlywheelPower(0);
+                    }
+                    robot.shooter.setCollectorPower(1);
+                    robot.shooter.setAcceleratorPower(1);
+                    robot.driveHandler.motorBrake();
                     robot.driveHandler.motorBrake();
                     break;
                 case driveToBeacon2:
+                    robot.shooter.setFlywheelPower(0);
+                    robot.shooter.setCollectorPower(0.0);
+                    robot.shooter.setAcceleratorPower(0.0);
                     SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 1.0);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 0.0, -90.0, robot.navX.getYaw());
                     break;
@@ -159,7 +213,6 @@ public class AutoBeaconCornerVortex implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    SM.setNextState(State.backUp2, HDWaitTypes.ChangeColor, robot.buttonPusher);
                     robot.driveHandler.motorBrake();
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
@@ -167,7 +220,11 @@ public class AutoBeaconCornerVortex implements HDAuto{
                     }
                     break;
                 case backUp2:
-                    SM.setNextState(State.wait6, HDWaitTypes.Timer, .8);
+                    if(comeBackToFirstBeacon) {
+                        SM.setNextState(State.wait6, HDWaitTypes.Timer, .8);
+                    }else{
+                        SM.setNextState(State.driveToCornerVortex1, HDWaitTypes.Timer, .8);
+                    }
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
@@ -216,6 +273,10 @@ public class AutoBeaconCornerVortex implements HDAuto{
                         SM.resetValues();
                         SM.setState(State.driveToCornerVortex);
                     }
+                    break;
+                case driveToCornerVortex1:
+                    SM.setNextState(State.done, HDWaitTypes.Timer, 2.8);
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.6, 180, -90, robot.navX.getYaw());
                     break;
                 case driveToCornerVortex:
                     SM.setNextState(State.driveUpCornerVortex, HDWaitTypes.Timer, 2.15);

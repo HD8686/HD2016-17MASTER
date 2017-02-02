@@ -83,6 +83,25 @@ public class HDButtonPusher {
         }
     }
 
+    public boolean checkBeaconDone(Alliance alliance){
+        beaconColor leftBeaconColor = readLeftColor();
+        beaconColor rightBeaconColor = readRightColor();
+        if(alliance == Alliance.BLUE_ALLIANCE){
+            if(leftBeaconColor == beaconColor.BLUE && rightBeaconColor == beaconColor.BLUE){
+                return true;
+            }else{
+                return false;
+            }
+        }else if(alliance == Alliance.RED_ALLIANCE){
+            if(leftBeaconColor == beaconColor.RED && rightBeaconColor == beaconColor.RED){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
     public boolean pushButton(Alliance alliance){
         boolean pushingButton = false;
         beaconColor leftBeaconColor = readLeftColor();
