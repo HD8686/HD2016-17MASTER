@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
 import org.firstinspires.ftc.hdlib.General.Alliance;
+import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.HDRobot;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
@@ -17,6 +18,7 @@ public class AutoBeacon implements HDAuto{
     HDStateMachine SM;
     HDRobot robot;
     private boolean comeBackToFirstBeacon = false;
+    private boolean comeBackToSecondBeacon = false;
 
 
     private double timerFailsafe = 0.0;
@@ -27,7 +29,9 @@ public class AutoBeacon implements HDAuto{
     private enum State {
         delay,
         fastDriveToBeacon,
-        wait5,
+        driveToBeaconFailsafe1,
+        driveToBeaconFailsafe2,
+        wait1,
         driveBack2,
         wait,
         driveToDistance,
@@ -42,7 +46,10 @@ public class AutoBeacon implements HDAuto{
         wait3,
         driveToDistance2,
         buttonPush2,
+        waitCheckBeacon2,
         backUp2,
+        comeBackToBeacon2Failsafe1,
+        comeBackToBeacon2Failsafe2,
         wait7,
         fastDriveBackToBeacon,
         wait6,
@@ -83,10 +90,22 @@ public class AutoBeacon implements HDAuto{
                     robot.shooter.setAcceleratorPower(-1);
                     break;
                 case fastDriveToBeacon:
-                    SM.setNextState(State.wait5, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.25, 45.0, -90.0, robot.navX.getYaw());
+                    SM.setNextState(State.wait1, HDWaitTypes.ODStoLine, robot.ODS_Back);
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.225, 45.0, -90.0, robot.navX.getYaw());
+                    if((robot.rangeButtonPusher.getUSValue() < 8.0) && (HDGeneralLib.isDifferenceWithin(-90.0, robot.navX.getYaw(), 10.0))){
+                        SM.resetValues();
+                        SM.setState(State.driveToBeaconFailsafe1);
+                    }
                     break;
-                case wait5:
+                case driveToBeaconFailsafe1:
+                    SM.setNextState(State.driveToBeaconFailsafe2, HDWaitTypes.Timer, 0.125);
+                    robot.driveHandler.motorBrake();
+                    break;
+                case driveToBeaconFailsafe2:
+                    SM.setNextState(State.wait, HDWaitTypes.ODStoLine, robot.ODS_Back);
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.125, 225.0, -90.0, robot.navX.getYaw());
+                    break;
+                case wait1:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
                     robot.driveHandler.motorBrake();
                     break;
@@ -185,7 +204,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case driveBack:
                     SM.setNextState(State.wait3, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 180.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.1, 180.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait3:
                     SM.setNextState(State.driveToDistance2, HDWaitTypes.Timer, 0.2);
@@ -208,11 +227,23 @@ public class AutoBeacon implements HDAuto{
                     robot.driveHandler.motorBrake();
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
-                        SM.setState(State.backUp2);
+                        SM.setState(State.waitCheckBeacon2);
                     }
                     break;
+                case waitCheckBeacon2:
+                    SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
+                    SM.runOnce(new Runnable() {
+                        @Override
+                        public void run() {
+                            comeBackToSecondBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
+                        }
+                    });
+                    break;
                 case backUp2:
-                    if(comeBackToFirstBeacon) {
+                    if(comeBackToSecondBeacon){
+                        SM.setNextState(State.comeBackToBeacon2Failsafe1, HDWaitTypes.Timer, 0.8);
+                    }
+                    else if(comeBackToFirstBeacon) {
                         SM.setNextState(State.wait6, HDWaitTypes.Timer, .8);
                     }else{
                         SM.setNextState(State.done, HDWaitTypes.Timer, .8);
@@ -220,6 +251,14 @@ public class AutoBeacon implements HDAuto{
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
+                    break;
+                case comeBackToBeacon2Failsafe1:
+                    SM.setNextState(State.comeBackToBeacon2Failsafe2, HDWaitTypes.Timer, 0.5);
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 180.0, -90.0, robot.navX.getYaw());
+                    break;
+                case comeBackToBeacon2Failsafe2:
+                    SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 0.25);
+                    robot.driveHandler.motorBrake();
                     break;
                 case wait6:
                     SM.setNextState(State.driveBackToBeacon, HDWaitTypes.Timer, 0.25);
