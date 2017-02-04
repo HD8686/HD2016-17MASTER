@@ -92,7 +92,7 @@ public class AutoBeacon implements HDAuto{
                 case fastDriveToBeacon:
                     SM.setNextState(State.wait1, HDWaitTypes.ODStoLine, robot.ODS_Back);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.225, 45.0, -90.0, robot.navX.getYaw());
-                    if((robot.rangeButtonPusher.getUSValue() < 8.0) && (HDGeneralLib.isDifferenceWithin(-90.0, robot.navX.getYaw(), 10.0))){
+                    if((robot.rangeButtonPusher.getUSValue() < 18.0) && (HDGeneralLib.isDifferenceWithin(-90.0, robot.navX.getYaw(), 15.0))){
                         SM.resetValues();
                         SM.setState(State.driveToBeaconFailsafe1);
                     }
@@ -103,7 +103,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case driveToBeaconFailsafe2:
                     SM.setNextState(State.wait, HDWaitTypes.ODStoLine, robot.ODS_Back);
-                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.125, 225.0, -90.0, robot.navX.getYaw());
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.075, 210.0, -90.0, robot.navX.getYaw());
                     break;
                 case wait1:
                     SM.setNextState(State.driveBack2, HDWaitTypes.Timer, 0.125);
@@ -155,7 +155,10 @@ public class AutoBeacon implements HDAuto{
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
+                            if(!comeBackToFirstBeacon)
                             comeBackToFirstBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
+                            else
+                                comeBackToFirstBeacon = false;
                         }
                     });
                     if(robot.shooter.getRPM() < 4200){
@@ -231,11 +234,14 @@ public class AutoBeacon implements HDAuto{
                     }
                     break;
                 case waitCheckBeacon2:
-                    SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
+                    SM.setNextState(State.backUp2, HDWaitTypes.Timer, 0.25);
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
+                            if(!comeBackToSecondBeacon)
                             comeBackToSecondBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
+                            else
+                                comeBackToSecondBeacon = false;
                         }
                     });
                     break;
