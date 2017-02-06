@@ -192,7 +192,7 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case driveToBeacon2:
                     robot.shooter.setFlywheelPower(0);
-                    robot.shooter.setCollectorPower(0.0);
+                    robot.shooter.setCollectorPower(-0.5);
                     robot.shooter.setAcceleratorPower(0.0);
                     SM.setNextState(State.fastDriveToBeacon2, HDWaitTypes.Timer, 1.0);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.5, 0.0, -90.0, robot.navX.getYaw());
@@ -203,6 +203,8 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case wait2:
                     SM.setNextState(State.driveBack, HDWaitTypes.Timer, 0.25);
+                    robot.shooter.setCollectorPower(0.0);
+                    robot.shooter.raiseCollector();
                     robot.driveHandler.motorBrake();
                     break;
                 case driveBack:

@@ -61,6 +61,8 @@ public class HDRobot {
        */
     public HDCap lift;
     public DcMotor capLift;
+    public HDServo leftCapArm;
+    public HDServo rightCapArm;
 
     public HDRobot(Alliance alliance){
         if(!HDOpMode.getInstance().isStopRequested()) {
@@ -105,7 +107,9 @@ public class HDRobot {
         Cap Ball Subsystem
          */
             capLift  = HDOpMode.getInstance().hardwareMap.dcMotor.get("liftMotor");
-            lift = new HDCap(capLift);
+            leftCapArm = new HDServo("leftCapArm", Values.ServoSpeedStats.HS_785HB, 0.41, 0, 1, Servo.Direction.FORWARD);
+            rightCapArm = new HDServo("rightCapArm", Values.ServoSpeedStats.HS_785HB, 0.23, 0, 1, Servo.Direction.FORWARD);
+            lift = new HDCap(capLift, leftCapArm, rightCapArm);
         }
     }
 

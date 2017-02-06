@@ -23,6 +23,7 @@ public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
 
+
     @Override
     public void initialize() {
         robot = new HDRobot(Alliance.BLUE_ALLIANCE);
@@ -30,6 +31,7 @@ public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
         robot.shooter.lowerCollector();
+        robot.lift.lowerArms();
     }
 
     @Override
@@ -44,6 +46,7 @@ public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
         servoBoyGamepad.setGamepad(gamepad2);
         robot.shooter.resetEncoders();
         robot.lift.resetEncoders();
+        robot.lift.raiseArms();
     }
 
     @Override
