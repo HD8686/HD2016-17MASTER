@@ -91,7 +91,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
         robotDrive();
         if(flywheelRunning){
-            if(motorRPM < 3750){
+            if(robot.shooter.getRPM() < 3750){
                 robot.shooter.setFlywheelPower(1);
             }else{
                 robot.shooter.setFlywheelPower(0);
@@ -151,9 +151,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case MECANUM_FIELD_CENTRIC:
                     if(gamepad1.y){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, 180.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
                     }else if(gamepad1.b){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.5, gamepad1.left_stick_y*.5, -90.0, robot.navX.getYaw());
+                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
                     }else{
                         robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
                     }
@@ -168,6 +168,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case A:
                     break;
                 case B:
+                    if(!pressed){
+                        robot.driveHandler.firstRun = true;
+                    }
                     break;
                 case X:
                     if(pressed){
@@ -175,6 +178,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case Y:
+                    if(!pressed){
+                        robot.driveHandler.firstRun = true;
+                    }
                     break;
                 case DPAD_LEFT:
                     break;

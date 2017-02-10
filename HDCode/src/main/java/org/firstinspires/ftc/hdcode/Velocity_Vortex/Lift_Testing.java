@@ -15,7 +15,6 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
  * Created by Akash on 5/7/2016.
  */
 
-@TeleOp(name = "Lift Testing", group = "Teleop")
 public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDDiagnosticDisplay diagnosticDisplay;

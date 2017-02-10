@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
