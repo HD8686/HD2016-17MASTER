@@ -50,6 +50,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     static double flywheelTicksperRev = 38; //Ticks per revolution of wheel shaft (ticks per motor revolution is 28, pulses per revolution is 7) Should turn shaft and test the actual as well.
 
+    double enc1 = 0.0;
+    double FlywheelSpeed = 0.32;
+
     @Override
     public void initialize() {
         try {
@@ -91,11 +94,8 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
         robotDrive();
         if(flywheelRunning){
-            if(robot.shooter.getRPM() < 3750){
-                robot.shooter.setFlywheelPower(1);
-            }else{
-                robot.shooter.setFlywheelPower(0);
-            }
+                robot.shooter.setFlywheelPower(FlywheelSpeed);
+            //Try Flywheel Indexing;
         }else{
             robot.shooter.setFlywheelPower(0);
         }
@@ -119,7 +119,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             intervalRun.reset();
             calculateFlywheelVelocity();
             diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));
-            diagnosticDisplay.addProgramSpecificTelemetry(6, "Flywheel Enc. Cnt: " + String.valueOf(robot.shooter.getFlywheelEncoderCount()));
         }
     }
 

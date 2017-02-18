@@ -60,8 +60,8 @@ public class HDShooter implements HDLoopInterface.LoopTimer{
         this.collectorMotor.setPower(0);
 
 
-        this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.flywheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel1.setPower(0);
@@ -87,8 +87,8 @@ public class HDShooter implements HDLoopInterface.LoopTimer{
     public void resetEncoders(){
         this.flywheel1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.flywheel2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

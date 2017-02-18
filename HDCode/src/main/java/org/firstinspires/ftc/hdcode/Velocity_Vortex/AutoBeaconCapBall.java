@@ -138,7 +138,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     }
                 });
                 robot.driveHandler.motorBrake();
-                if(robot.shooter.getRPM() < 4000){
+                if(robot.shooter.getRPM() < 3000){
                     robot.shooter.setFlywheelPower(1);
                 }else{
                     robot.shooter.setFlywheelPower(0);
@@ -164,7 +164,7 @@ public class AutoBeaconCapBall implements HDAuto{
                             comeBackToFirstBeacon = false;
                     }
                 });
-                if(robot.shooter.getRPM() < 4200){
+                if(robot.shooter.getRPM() < 3200){
                     robot.shooter.setFlywheelPower(1);
                 }else{
                     robot.shooter.setFlywheelPower(0);
@@ -172,7 +172,7 @@ public class AutoBeaconCapBall implements HDAuto{
                 break;
             case backUp:
                 SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
-                if(robot.shooter.getRPM() < 4200){
+                if(robot.shooter.getRPM() < 3200){
                     robot.shooter.setFlywheelPower(1);
                 }else{
                     robot.shooter.setFlywheelPower(0);
@@ -183,7 +183,7 @@ public class AutoBeaconCapBall implements HDAuto{
                 break;
             case wait4:
                 SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 2.0);
-                if(robot.shooter.getRPM() < 4200){
+                if(robot.shooter.getRPM() < 3200){
                     robot.shooter.setFlywheelPower(1);
                 }else{
                     robot.shooter.setFlywheelPower(0);
