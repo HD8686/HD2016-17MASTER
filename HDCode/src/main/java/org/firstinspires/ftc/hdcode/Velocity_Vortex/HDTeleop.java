@@ -32,26 +32,13 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
     Alliance alliance;
-    ElapsedTime intervalRun;
     boolean flywheelRunning = false;
     boolean collectorForward = true;
     boolean shooting = false;
 
 
-    //Flywheel RPM Calc Variables
-
-    // Encoder
-    double encoderCounts;         ///< current encoder count
-    double encoderCountsPrev;    ///< current encoder count
-
-    // velocity measurement
-    double motorRPM;         ///< current velocity in rpm
-    double prevCalcTime;          ///< Time of last velocity calculation
-
-    static double flywheelTicksperRev = 38; //Ticks per revolution of wheel shaft (ticks per motor revolution is 28, pulses per revolution is 7) Should turn shaft and test the actual as well.
-
-    double enc1 = 0.0;
     double FlywheelSpeed = 0.32;
+    double timerVar = 0.0;
 
     @Override
     public void initialize() {
@@ -65,7 +52,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
         robot.shooter.raiseCollector();
-        intervalRun = new ElapsedTime();
     }
 
     @Override
@@ -100,9 +86,37 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             robot.shooter.setFlywheelPower(0);
         }
         if(shooting){
-            robot.shooter.setCollectorPower(.6);
-            robot.shooter.setAcceleratorPower(1);
+            if((System.currentTimeMillis() - timerVar) < 200){
+                robot.shooter.setCollectorPower(-.6);
+                robot.shooter.setAcceleratorPower(-1);
+            }else if((System.currentTimeMillis() - timerVar) < 300){
+                robot.shooter.setCollectorPower(0);
+                robot.shooter.setAcceleratorPower(0);
+            }else {
+                if((System.currentTimeMillis() - timerVar) > 300) {
+                    FlywheelSpeed = 0.32 + (System.currentTimeMillis() - timerVar - 250) * 0.0006;
+                    diagnosticDisplay.addProgramSpecificTelemetry(5, "Flywheel Speed: " + String.valueOf(FlywheelSpeed));
+                }else{
+                    FlywheelSpeed = 0.32;
+                }
+                robot.shooter.setCollectorPower(.6);
+                robot.shooter.setAcceleratorPower(1);
+            }
+            /*if((System.currentTimeMillis() - timerVar) < 200){
+                robot.shooter.setCollectorPower(-.6);
+                robot.shooter.setAcceleratorPower(-1);
+            }else if((System.currentTimeMillis() - timerVar) < 400){
+                robot.shooter.setCollectorPower(.6);
+                robot.shooter.setAcceleratorPower(1);
+            }else if((System.currentTimeMillis() - timerVar) < 700){
+                robot.shooter.setCollectorPower(.6);
+                robot.shooter.setAcceleratorPower(-1);
+            }else{
+                timerVar = System.currentTimeMillis();
+            }*/
+
         }else{
+            FlywheelSpeed = 0.32;
             if(gamepad1.a){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
@@ -115,32 +129,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 robot.shooter.setAcceleratorPower(0);
             }
         }
-        if(intervalRun.milliseconds() > 15){
-            intervalRun.reset();
-            calculateFlywheelVelocity();
-            diagnosticDisplay.addProgramSpecificTelemetry(4, "Motor Velocity: " + String.valueOf(motorRPM));
-        }
     }
 
 
-    private void calculateFlywheelVelocity(){
-
-        double delta_ms;
-        double delta_enc;
-
-        encoderCounts = robot.shooter.getFlywheelEncoderCount();
-
-        delta_ms = System.currentTimeMillis() - prevCalcTime;
-        prevCalcTime = System.currentTimeMillis();
-
-        delta_enc = (encoderCounts - encoderCountsPrev);
-
-        encoderCountsPrev = encoderCounts;
-
-        motorRPM = (1000.0 / delta_ms) * delta_enc * 60 / flywheelTicksperRev;
-
-
-    }
 
 
     private void robotDrive(){
@@ -213,6 +204,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case RIGHT_TRIGGER:
                     if(pressed){
                         shooting = true;
+                        timerVar = System.currentTimeMillis();
                     }else{
                         shooting = false;
                     }
