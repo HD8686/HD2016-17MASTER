@@ -86,37 +86,22 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             robot.shooter.setFlywheelPower(0);
         }
         if(shooting){
-            if((System.currentTimeMillis() - timerVar) < 200){
-                robot.shooter.setCollectorPower(-.6);
-                robot.shooter.setAcceleratorPower(-1);
-            }else if((System.currentTimeMillis() - timerVar) < 300){
+            if((System.currentTimeMillis() - timerVar) < 100){
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
-            }else {
-                if((System.currentTimeMillis() - timerVar) > 300) {
-                    FlywheelSpeed = 0.32 + (System.currentTimeMillis() - timerVar - 250) * 0.0006;
-                    diagnosticDisplay.addProgramSpecificTelemetry(5, "Flywheel Speed: " + String.valueOf(FlywheelSpeed));
-                }else{
-                    FlywheelSpeed = 0.32;
-                }
-                robot.shooter.setCollectorPower(.6);
-                robot.shooter.setAcceleratorPower(1);
             }
-            /*if((System.currentTimeMillis() - timerVar) < 200){
+            else if((System.currentTimeMillis() - timerVar) < 200){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
             }else if((System.currentTimeMillis() - timerVar) < 400){
+                robot.shooter.setCollectorPower(0);
+                robot.shooter.setAcceleratorPower(0);
+            }else {
                 robot.shooter.setCollectorPower(.6);
                 robot.shooter.setAcceleratorPower(1);
-            }else if((System.currentTimeMillis() - timerVar) < 700){
-                robot.shooter.setCollectorPower(.6);
-                robot.shooter.setAcceleratorPower(-1);
-            }else{
-                timerVar = System.currentTimeMillis();
-            }*/
+            }
 
         }else{
-            FlywheelSpeed = 0.32;
             if(gamepad1.a){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
