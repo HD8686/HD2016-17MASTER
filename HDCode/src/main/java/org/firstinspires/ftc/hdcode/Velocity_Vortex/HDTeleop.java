@@ -86,14 +86,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             robot.shooter.setFlywheelPower(0);
         }
         if(shooting){
-            if((System.currentTimeMillis() - timerVar) < 100){
+            if((System.currentTimeMillis() - timerVar) < 400){
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
             }
-            else if((System.currentTimeMillis() - timerVar) < 200){
+            else if((System.currentTimeMillis() - timerVar) < 500){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
-            }else if((System.currentTimeMillis() - timerVar) < 400){
+            }else if((System.currentTimeMillis() - timerVar) < 700){
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
             }else {
