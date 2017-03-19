@@ -78,6 +78,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
+        diagnosticDisplay.addProgramSpecificTelemetry(4, "Flywheel Speed: %f", FlywheelSpeed);
         robotDrive();
         if(flywheelRunning){
                 robot.shooter.setFlywheelPower(FlywheelSpeed);
@@ -158,8 +159,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case DPAD_LEFT:
+                    if(pressed){
+                        FlywheelSpeed = FlywheelSpeed - 0.01;
+                    }
                     break;
                 case DPAD_RIGHT:
+                    if(pressed){
+                        FlywheelSpeed = FlywheelSpeed + 0.01;
+                    }
                     break;
                 case DPAD_UP:
                     if(pressed && !robot.navX.getSensorData().isCalibrating())

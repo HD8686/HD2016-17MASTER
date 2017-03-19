@@ -18,8 +18,8 @@ public class HDShooter implements HDLoopInterface.LoopTimer{
 
     final double leftCollectorDown = .94;
     final double rightCollectorDown = .93;
-    final double leftCollectorUp = 0.06;
-    final double rightCollectorUp = 0.07;
+    final double leftCollectorUp = 0.42;
+    final double rightCollectorUp = 0.43;
     HDServo leftCollectorServo;
     HDServo rightCollectorServo;
     DcMotor collectorMotor;

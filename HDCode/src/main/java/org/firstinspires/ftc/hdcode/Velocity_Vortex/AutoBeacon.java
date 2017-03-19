@@ -131,19 +131,17 @@ public class AutoBeacon implements HDAuto{
                         @Override
                         public void run() {
                             timerFailsafe = elapsedTime + 3;
-                            var = elapsedTime + 0.4;
+                            var = elapsedTime + 0.2;
                         }
                     });
                     robot.driveHandler.motorBrake();
-                    if(robot.shooter.getRPM() < 3000){
-                        robot.shooter.setFlywheelPower(1);
+                    robot.shooter.setFlywheelPower(0.345);
+                    if(elapsedTime < var){
+                        robot.shooter.setCollectorPower(-.6);
+                        robot.shooter.setAcceleratorPower(-1);
                     }else{
-                        robot.shooter.setFlywheelPower(0);
-                    }
-                    if(var > elapsedTime){
-                        robot.shooter.setCollectorPower(-0.2);
-                    }else{
-                        robot.shooter.setCollectorPower(0.0);
+                        robot.shooter.setCollectorPower(0);
+                        robot.shooter.setAcceleratorPower(0);
                     }
                     if(timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)){
                         SM.resetValues();
@@ -151,7 +149,7 @@ public class AutoBeacon implements HDAuto{
                     }
                     break;
                 case waitCheckBeacon:
-                    SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
+                    SM.setNextState(State.backUp, HDWaitTypes.Timer, 2.5);
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
@@ -159,33 +157,21 @@ public class AutoBeacon implements HDAuto{
                             comeBackToFirstBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
                             else
                                 comeBackToFirstBeacon = false;
+                            robot.buttonPusher.retractLeftServo();
+                            robot.buttonPusher.retractRightServo();
                         }
                     });
-                    if(robot.shooter.getRPM() < 3200){
-                        robot.shooter.setFlywheelPower(1);
-                    }else{
-                        robot.shooter.setFlywheelPower(0);
-                    }
                     break;
                 case backUp:
                     SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
-                    if(robot.shooter.getRPM() < 3200){
-                        robot.shooter.setFlywheelPower(1);
-                    }else{
-                        robot.shooter.setFlywheelPower(0);
-                    }
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
                     break;
                 case wait4:
                     SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 2.0);
-                    if(robot.shooter.getRPM() < 3200){
-                        robot.shooter.setFlywheelPower(1);
-                    }else{
-                        robot.shooter.setFlywheelPower(0);
-                    }
-                    robot.shooter.setCollectorPower(1);
+                    robot.shooter.setFlywheelPower(0.345);
+                    robot.shooter.setCollectorPower(0.6);
                     robot.shooter.setAcceleratorPower(1);
                     robot.driveHandler.motorBrake();
                     robot.driveHandler.motorBrake();

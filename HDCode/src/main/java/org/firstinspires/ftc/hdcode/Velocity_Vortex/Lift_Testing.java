@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
  * Created by Akash on 5/7/2016.
  */
 
+@TeleOp
 public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     HDDiagnosticDisplay diagnosticDisplay;

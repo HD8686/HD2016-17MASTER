@@ -95,8 +95,8 @@ public class HDRobot {
         /*
         Shooter Subsystem
          */
-            leftCollectorServo = new HDServo("leftCollector", Values.ServoSpeedStats.HS_755MG, 0, 0, 1, Servo.Direction.REVERSE);
-            rightCollectorServo = new HDServo("rightCollector", Values.ServoSpeedStats.HS_755MG, 0, 0, 1, Servo.Direction.FORWARD);
+            leftCollectorServo = new HDServo("leftCollector", Values.ServoSpeedStats.HS_755MG, 0.42, 0, 1, Servo.Direction.REVERSE);
+            rightCollectorServo = new HDServo("rightCollector", Values.ServoSpeedStats.HS_755MG, 0.43, 0, 1, Servo.Direction.FORWARD);
             flywheel1 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_1");
             flywheel2 = HDOpMode.getInstance().hardwareMap.dcMotor.get("Flywheel_2");
             collectorMotor = HDOpMode.getInstance().hardwareMap.dcMotor.get("Collector1");

@@ -13,13 +13,14 @@ public class HDCap {
     DcMotor capMotor;
     HDServo leftCapArm;
     HDServo rightCapArm;
-    final int liftExtended = 13500;
+    final int liftExtended = 32500;
     final int liftRetracted = 0; //-10
 
     public HDCap(DcMotor capMotor, HDServo leftCapArm, HDServo rightCapArm){
         this.capMotor = capMotor;
         this.leftCapArm = leftCapArm;
         this.rightCapArm = rightCapArm;
+        capMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         capMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         capMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         capMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -48,7 +49,7 @@ public class HDCap {
     }
 
     public void retractLift(){
-        capMotor.setPower(-0.1);
+        capMotor.setPower(-0.2);
         capMotor.setTargetPosition(liftRetracted);
 
     }
