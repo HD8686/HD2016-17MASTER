@@ -13,7 +13,6 @@
     </filters>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Flywheel" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -49,16 +48,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HDCap.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDCap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="HDShooter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDShooter.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -92,12 +81,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HDTeleop.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDTeleop.java">
+      <file leaf-file-name="HDAutonomous.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.41793314">
+              <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HDMenuManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/Telemetry/HDMenu/HDMenuManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="94" column="16" selection-start-line="94" selection-start-column="16" selection-end-line="95" selection-end-column="54" />
+              <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HDTextMenu.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/Telemetry/HDMenu/HDTextMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="16" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="16" />
+              <folding>
+                <element signature="e#2908#2909#0" expanded="true" />
+                <element signature="e#2955#2956#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,33 +118,18 @@
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="172" column="56" selection-start-line="172" selection-start-column="56" selection-end-line="172" selection-end-column="56" />
+              <caret line="267" column="50" selection-start-line="267" selection-start-column="50" selection-end-line="267" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HDAutonomous.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AutoBeaconCapBall.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AutoBeaconCapBall.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCapBall.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6261398">
-              <caret line="309" column="26" selection-start-line="309" selection-start-column="26" selection-end-line="309" selection-end-column="26" />
-              <folding>
-                <element signature="e#4969#5201#0" expanded="true" />
-                <element signature="e#5200#5201#0" expanded="true" />
-                <element signature="e#5979#6470#0" expanded="true" />
-                <element signature="e#6469#6470#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="257" column="16" selection-start-line="257" selection-start-column="16" selection-end-line="274" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -141,7 +138,7 @@
         <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDDriveHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="294" column="16" selection-start-line="294" selection-start-column="16" selection-end-line="294" selection-end-column="16" />
+              <caret line="313" column="37" selection-start-line="313" selection-start-column="37" selection-end-line="313" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -151,7 +148,7 @@
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCornerVortex.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="144" column="56" selection-start-line="144" selection-start-column="56" selection-end-line="144" selection-end-column="56" />
+              <caret line="269" column="65" selection-start-line="269" selection-start-column="65" selection-end-line="269" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -4377,13 +4374,13 @@
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/navXRotateToAnglePIDLoopOp.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/General/Values.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDButtonPusher.java" />
-        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java" />
-        <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDDriveHandler.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/Lift_Testing.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDCap.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDTeleop.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDShooter.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/HDRobot.java" />
+        <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDDriveHandler.java" />
+        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCapBall.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCornerVortex.java" />
@@ -4429,56 +4426,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="ftc_app-alpha" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftc_app-alpha" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HDCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftc_app-alpha" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HDCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hdcode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Velocity_Vortex" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftc_app-alpha" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="HDCode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hdcode" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -4828,11 +4775,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23608018" sideWeight="0.4936034" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23608018" sideWeight="0.4936034" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26391983" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
@@ -4876,26 +4823,12 @@
     </ignored-roots>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/HDRobot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="15" selection-start-line="56" selection-start-column="15" selection-end-line="56" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDTeleop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="28" selection-start-line="113" selection-start-column="28" selection-end-line="113" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDShooter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -4919,12 +4852,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="52" column="14" selection-start-line="47" selection-start-column="7" selection-end-line="52" selection-end-column="14" />
-          <folding>
-            <element signature="e#4969#5201#0" expanded="true" />
-            <element signature="e#5200#5201#0" expanded="true" />
-            <element signature="e#5979#6470#0" expanded="true" />
-            <element signature="e#6469#6470#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4967,12 +4895,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="89" column="79" selection-start-line="89" selection-start-column="79" selection-end-line="89" selection-end-column="79" />
-          <folding>
-            <element signature="e#4969#5201#0" expanded="true" />
-            <element signature="e#5200#5201#0" expanded="true" />
-            <element signature="e#5979#6470#0" expanded="true" />
-            <element signature="e#6469#6470#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5018,6 +4941,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5063,6 +4987,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5112,6 +5037,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5216,14 +5142,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDTeleop.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -5243,14 +5161,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/HDRobot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="98" column="101" selection-start-line="98" selection-start-column="101" selection-end-line="98" selection-end-column="101" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Servo/HDServo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -5259,18 +5169,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
+    <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/Telemetry/HDMenu/HDTextMenu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="172" column="56" selection-start-line="172" selection-start-column="56" selection-end-line="172" selection-end-column="56" />
+          <caret line="71" column="16" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="16" />
+          <folding>
+            <element signature="e#2908#2909#0" expanded="true" />
+            <element signature="e#2955#2956#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/Telemetry/HDMenu/HDMenuManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCornerVortex.java">
+    <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/HDRobot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="144" column="56" selection-start-line="144" selection-start-column="56" selection-end-line="144" selection-end-column="56" />
+          <caret line="98" column="101" selection-start-line="98" selection-start-column="101" selection-end-line="98" selection-end-column="101" />
           <folding />
         </state>
       </provider>
@@ -5278,21 +5199,40 @@
     <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDDriveHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="294" column="16" selection-start-line="294" selection-start-column="16" selection-end-line="294" selection-end-column="16" />
+          <caret line="313" column="37" selection-start-line="313" selection-start-column="37" selection-end-line="313" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCapBall.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6261398">
-          <caret line="309" column="26" selection-start-line="309" selection-start-column="26" selection-end-line="309" selection-end-column="26" />
-          <folding>
-            <element signature="e#4969#5201#0" expanded="true" />
-            <element signature="e#5200#5201#0" expanded="true" />
-            <element signature="e#5979#6470#0" expanded="true" />
-            <element signature="e#6469#6470#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="257" column="16" selection-start-line="257" selection-start-column="16" selection-end-line="274" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="267" column="50" selection-start-line="267" selection-start-column="50" selection-end-line="267" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCornerVortex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="269" column="65" selection-start-line="269" selection-start-column="65" selection-end-line="269" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41793314">
+          <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>

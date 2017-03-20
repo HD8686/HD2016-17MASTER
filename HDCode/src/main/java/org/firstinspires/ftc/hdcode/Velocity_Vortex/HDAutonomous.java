@@ -24,19 +24,28 @@ public class HDAutonomous extends HDOpMode{
         BEACON,
     }
 
+    public enum Shoot
+    {
+        SHOOT,
+        NOSHOOT,
+    }
 
     private HDAuto mHDAuto = null;
     private double delay = 0.0;
     private Strategy strategy = Strategy.BEACON_CAP_BALL;
     private Alliance alliance = Alliance.RED_ALLIANCE;
+    private Shoot shoot = Shoot.SHOOT;
 
     @Override
     public void initialize() {
 
         HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null);
 
+        HDTextMenu shootMenu = new HDTextMenu("Shoot", delayMenu);
+        shootMenu.addChoice("Do Shoot", Shoot.SHOOT);
+        shootMenu.addChoice("Don't Shoot", Shoot.NOSHOOT);
 
-        HDTextMenu strategyMenu = new HDTextMenu("Strategy", delayMenu);
+        HDTextMenu strategyMenu = new HDTextMenu("Strategy", shootMenu);
         strategyMenu.addChoice("Do Nothing", Strategy.DO_NOTHING);
         strategyMenu.addChoice("Beacons", Strategy.BEACON);
         strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
@@ -51,6 +60,7 @@ public class HDAutonomous extends HDOpMode{
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
         strategy = (Strategy) strategyMenu.getChoice();
+        shoot = (Shoot) shootMenu.getChoice();
 
         Alliance.storeAlliance(hardwareMap.appContext, alliance);
 
@@ -61,13 +71,13 @@ public class HDAutonomous extends HDOpMode{
                 mHDAuto = new AutoDoNothing(alliance);
                 break;
             case BEACON:
-                mHDAuto = new AutoBeacon(delay, alliance);
+                mHDAuto = new AutoBeacon(delay, shoot, alliance);
                 break;
             case BEACON_CAP_BALL:
-                mHDAuto = new AutoBeaconCapBall(delay,alliance);
+                mHDAuto = new AutoBeaconCapBall(delay, shoot, alliance);
                 break;
             case BEACON_CORNER_VORTEX:
-                mHDAuto = new AutoBeaconCornerVortex(delay, alliance);
+                mHDAuto = new AutoBeaconCornerVortex(delay, shoot, alliance);
                 break;
         }
     }
