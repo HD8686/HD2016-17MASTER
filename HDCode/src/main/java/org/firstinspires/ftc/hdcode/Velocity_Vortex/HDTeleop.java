@@ -189,17 +189,8 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case LEFT_TRIGGER:
-                    if(pressed){
-                        flywheelRunning =!flywheelRunning;
-                    }
                     break;
                 case RIGHT_TRIGGER:
-                    if(pressed){
-                        shooting = true;
-                        timerVar = System.currentTimeMillis();
-                    }else{
-                        shooting = false;
-                    }
                     break;
                 case START:
                     if(pressed)
@@ -229,8 +220,17 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case RIGHT_BUMPER:
                     break;
                 case LEFT_TRIGGER:
+                    if(pressed){
+                        flywheelRunning =!flywheelRunning;
+                    }
                     break;
                 case RIGHT_TRIGGER:
+                    if(pressed){
+                        shooting = true;
+                        timerVar = System.currentTimeMillis();
+                    }else{
+                        shooting = false;
+                    }
                     break;
                 case START:
                     break;
