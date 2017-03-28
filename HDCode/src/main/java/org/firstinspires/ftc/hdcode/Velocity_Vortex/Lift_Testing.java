@@ -71,6 +71,8 @@ public class Lift_Testing extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         robot.lift.retractLift();
                     break;
                 case X:
+                    if(pressed)
+                        robot.lift.dropPosition();
                     break;
                 case Y:
                     break;

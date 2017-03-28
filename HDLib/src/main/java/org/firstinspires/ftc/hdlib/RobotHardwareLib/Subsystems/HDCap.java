@@ -13,8 +13,9 @@ public class HDCap {
     DcMotor capMotor;
     HDServo leftCapArm;
     HDServo rightCapArm;
-    final int liftExtended = 32500;
+    final int liftExtended = 40000;
     final int liftRetracted = 0; //-10
+    final int dropPosition = 30000;
 
     public HDCap(DcMotor capMotor, HDServo leftCapArm, HDServo rightCapArm){
         this.capMotor = capMotor;
@@ -39,7 +40,7 @@ public class HDCap {
     }
 
     public void extendLift(){
-        capMotor.setPower(.35);
+        capMotor.setPower(.65);
         capMotor.setTargetPosition(liftExtended);
     }
 
@@ -49,9 +50,14 @@ public class HDCap {
     }
 
     public void retractLift(){
-        capMotor.setPower(-0.2);
+        capMotor.setPower(-0.35);
         capMotor.setTargetPosition(liftRetracted);
 
+    }
+
+    public void dropPosition(){
+        capMotor.setPower(-0.2);
+        capMotor.setTargetPosition(dropPosition);
     }
 
 }
