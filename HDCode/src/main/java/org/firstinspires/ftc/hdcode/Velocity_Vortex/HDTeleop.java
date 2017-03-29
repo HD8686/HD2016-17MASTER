@@ -128,7 +128,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
             double pos = robot.lift.capMotor.getCurrentPosition();
             if(pos < 25000){
-                robot.lift.capMotor.setPower(0.95);
+                robot.lift.capMotor.setPower(0.80);
             }else if(pos < 30000){
                 robot.lift.capMotor.setPower(0.75);
             }else{

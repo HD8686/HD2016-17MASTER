@@ -52,7 +52,7 @@ public class HDCap {
         curLiftMode = liftMode.TOP;
         double pos = capMotor.getCurrentPosition();
         if(pos < 25000){
-            capMotor.setPower(0.95);
+            capMotor.setPower(0.80);
         }else if(pos < 30000){
             capMotor.setPower(0.75);
         }else{
