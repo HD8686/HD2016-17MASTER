@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.hdcode.Velocity_Vortex;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.hdlib.Controls.HDGamepad;
 import org.firstinspires.ftc.hdlib.General.Alliance;
 import org.firstinspires.ftc.hdlib.HDRobot;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDCap;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDiagnosticDisplay;
 
 
@@ -25,20 +24,20 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         MECANUM_FIELD_CENTRIC,
     }
 
-    double driveSpeed = 0.6;
     HDDiagnosticDisplay diagnosticDisplay;
     HDRobot robot;
     DriveMode driveMode;
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
     Alliance alliance;
+
+    double flywheelSpeed = 0.32;
+    double shootingTimer = 0.0;
+    double driveSpeed = 0.6;
     boolean flywheelRunning = false;
     boolean collectorForward = true;
     boolean shooting = false;
-
-
-    double FlywheelSpeed = 0.32;
-    double timerVar = 0.0;
+    boolean liftManualAdjust = false;
 
     @Override
     public void initialize() {
@@ -52,6 +51,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         driverGamepad = new HDGamepad(gamepad1, this);
         servoBoyGamepad = new HDGamepad(gamepad2, this);
         robot.shooter.raiseCollector();
+        robot.lift.lowerArms();
     }
 
     @Override
@@ -62,11 +62,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     @Override
     public void Start(){
-        if(robot.navX.getSensorData().isCalibrating()) {
-            driveMode = DriveMode.TANK_DRIVE;
-        } else {
-            driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
-        }
+        driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
         driverGamepad.setGamepad(gamepad1);
         servoBoyGamepad.setGamepad(gamepad2);
         robot.shooter.lowerCollector();
@@ -78,23 +74,31 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
-        diagnosticDisplay.addProgramSpecificTelemetry(4, "Flywheel Speed: %f", FlywheelSpeed);
+        diagnosticDisplay.addProgramSpecificTelemetry(4, "Flywheel Enabled: %s", String.valueOf(flywheelRunning));
+        diagnosticDisplay.addProgramSpecificTelemetry(5, "Lift Motor Power, Target Pos: %.2f, %d", robot.capLift.getPower(), robot.capLift.getTargetPosition());
+        diagnosticDisplay.addProgramSpecificTelemetry(6, "Lift Motor Position: " + String.valueOf(robot.capLift.getCurrentPosition()));
+        diagnosticDisplay.addProgramSpecificTelemetry(7, "Lift Motor Mode: " + String.valueOf(robot.capLift.getMode()));
         robotDrive();
+        shooterSubsystem();
+        liftSubsystem();
+    }
+
+
+    private void shooterSubsystem(){
         if(flywheelRunning){
-                robot.shooter.setFlywheelPower(FlywheelSpeed);
-            //Try Flywheel Indexing;
+            robot.shooter.setFlywheelPower(flywheelSpeed);
         }else{
             robot.shooter.setFlywheelPower(0);
         }
         if(shooting){
-            if((System.currentTimeMillis() - timerVar) < 400){
+            if((System.currentTimeMillis() - shootingTimer) < 400){
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
             }
-            else if((System.currentTimeMillis() - timerVar) < 500){
+            else if((System.currentTimeMillis() - shootingTimer) < 500){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
-            }else if((System.currentTimeMillis() - timerVar) < 700){
+            }else if((System.currentTimeMillis() - shootingTimer) < 700){
                 robot.shooter.setCollectorPower(0);
                 robot.shooter.setAcceleratorPower(0);
             }else {
@@ -117,8 +121,21 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }
     }
 
-
-
+    private void liftSubsystem(){
+        if(liftManualAdjust){
+                robot.lift.setPower(-(gamepad2.left_stick_y*0.8));
+        }
+        if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
+            double pos = robot.lift.capMotor.getCurrentPosition();
+            if(pos < 25000){
+                robot.lift.capMotor.setPower(0.95);
+            }else if(pos < 30000){
+                robot.lift.capMotor.setPower(0.75);
+            }else{
+                robot.lift.capMotor.setPower(0.15);
+            }
+        }
+    }
 
     private void robotDrive(){
             switch (driveMode) {
@@ -130,7 +147,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
                     }else if(gamepad1.b){
                         robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
-                    }else{
+                    }else if(robot.capLift.getCurrentPosition() > 5000){
+                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .2, gamepad1.left_stick_y * .2, gamepad1.right_stick_x * .2, robot.navX.getYaw());
+                    }
+                    else{
                         robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
                     }
                     break;
@@ -144,32 +164,23 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case A:
                     break;
                 case B:
-                    if(!pressed){
+                    if(!pressed)
                         robot.driveHandler.firstRun = true;
-                    }
                     break;
                 case X:
-                    if(pressed){
+                    if(pressed)
                         collectorForward = !collectorForward;
-                    }
                     break;
                 case Y:
-                    if(!pressed){
+                    if(!pressed)
                         robot.driveHandler.firstRun = true;
-                    }
                     break;
                 case DPAD_LEFT:
-                    if(pressed){
-                        FlywheelSpeed = FlywheelSpeed - 0.01;
-                    }
                     break;
                 case DPAD_RIGHT:
-                    if(pressed){
-                        FlywheelSpeed = FlywheelSpeed + 0.01;
-                    }
                     break;
                 case DPAD_UP:
-                    if(pressed && !robot.navX.getSensorData().isCalibrating())
+                    if(pressed)
                         driveMode = DriveMode.MECANUM_FIELD_CENTRIC;
                     break;
                 case DPAD_DOWN:
@@ -179,18 +190,26 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case LEFT_BUMPER:
                     if(pressed){
                         driveSpeed = driveSpeed - 0.2;
-                        driveSpeed = Range.clip(driveSpeed, 0.2,1);
+                        driveSpeed = Range.clip(driveSpeed, 0.2, 1);
                     }
                     break;
                 case RIGHT_BUMPER:
                     if(pressed){
                         driveSpeed = driveSpeed + 0.2;
-                        driveSpeed = Range.clip(driveSpeed, 0.2,1);
+                        driveSpeed = Range.clip(driveSpeed, 0.2, 1);
                     }
                     break;
                 case LEFT_TRIGGER:
+                    if(pressed)
+                        flywheelRunning =!flywheelRunning;
                     break;
                 case RIGHT_TRIGGER:
+                    if(pressed){
+                        shooting = true;
+                        shootingTimer = System.currentTimeMillis();
+                    }else{
+                        shooting = false;
+                    }
                     break;
                 case START:
                     if(pressed)
@@ -200,20 +219,34 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }else if(instance == servoBoyGamepad){
             switch (button) {
                 case A:
+                    if(pressed && !liftManualAdjust)
+                    robot.lift.retractLift();
                     break;
                 case B:
+                    if(pressed &&!liftManualAdjust)
+                        robot.lift.dropPosition();
                     break;
                 case X:
+                    if(pressed && !liftManualAdjust)
+                        robot.lift.movePosition();
                     break;
                 case Y:
+                    if(pressed && !liftManualAdjust)
+                        robot.lift.extendLift();
                     break;
                 case DPAD_LEFT:
                     break;
                 case DPAD_RIGHT:
                     break;
                 case DPAD_UP:
+                    if(pressed){
+                        robot.lift.raiseArms();
+                    }
                     break;
                 case DPAD_DOWN:
+                    if(pressed){
+                        robot.lift.lowerArms();
+                    }
                     break;
                 case LEFT_BUMPER:
                     break;
@@ -227,12 +260,20 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case RIGHT_TRIGGER:
                     if(pressed){
                         shooting = true;
-                        timerVar = System.currentTimeMillis();
+                        shootingTimer = System.currentTimeMillis();
                     }else{
                         shooting = false;
                     }
                     break;
                 case START:
+                    if(pressed){
+                        robot.lift.setPower(0.0);
+                        robot.lift.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        liftManualAdjust = true;
+                    }else{
+                        liftManualAdjust = false;
+                        robot.lift.resetEncoders(DcMotor.RunMode.RUN_TO_POSITION);
+                    }
                     break;
             }
         }
