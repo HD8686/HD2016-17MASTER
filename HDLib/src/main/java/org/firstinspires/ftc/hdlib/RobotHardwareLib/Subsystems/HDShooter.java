@@ -110,6 +110,11 @@ public class HDShooter implements HDLoopInterface.LoopTimer{
         flywheel2.setPower(power);
     }
 
+    public void setFlywheelMode(DcMotor.RunMode mode){
+        flywheel1.setMode(mode);
+        flywheel2.setMode(mode);
+    }
+
     public void setAcceleratorPower(double power){
         power = Range.clip(power, -1, 1);
         accelerator1.setPower(-power);

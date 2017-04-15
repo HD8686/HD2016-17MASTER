@@ -21,10 +21,10 @@ public class HDCap {
     HDServo leftCapArm;
     HDServo rightCapArm;
     public liftMode curLiftMode;
-    final int liftExtended = 36500; //38000
+    final int liftExtended = 12000; //38000
     final int liftRetracted = 0; //-10
-    final int dropPosition = 30000;
-    final int movePosition = 7500;
+    final int dropPosition = 10000;
+    final int movePosition = 1500;
 
     public HDCap(DcMotor capMotor, HDServo leftCapArm, HDServo rightCapArm){
         this.capMotor = capMotor;
@@ -51,19 +51,23 @@ public class HDCap {
     public void extendLift(){
         curLiftMode = liftMode.TOP;
         double pos = capMotor.getCurrentPosition();
-        if(pos < 25000){
-            capMotor.setPower(0.80);
-        }else if(pos < 30100){
+        if(pos > 9000){
+            capMotor.setPower(1.0);
+        }else if(pos > 6000){
             capMotor.setPower(0.75);
-        }else{
-            capMotor.setPower(0.15);
+        }else if(pos > 3000){
+            capMotor.setPower(0.5);
+        }else if(pos > 2000){
+            capMotor.setPower(0.25);
+        }else if(pos > 1000){
+            capMotor.setPower(0.2);
         }
         capMotor.setTargetPosition(liftExtended);
     }
 
     public void movePosition(){
         curLiftMode = liftMode.CARRY;
-        capMotor.setPower(0.45);
+        capMotor.setPower(0.4);
         capMotor.setTargetPosition(movePosition);
     }
 
@@ -82,14 +86,19 @@ public class HDCap {
 
     public void retractLift(){
         curLiftMode = liftMode.BOTTOM;
-        capMotor.setPower(-0.35);
+        double pos = capMotor.getCurrentPosition();
+        if(pos > 7000){
+            capMotor.setPower(1);
+        }else{
+            capMotor.setPower(0.1);
+        }
         capMotor.setTargetPosition(liftRetracted);
 
     }
 
     public void dropPosition(){
         curLiftMode = liftMode.DROP;
-        capMotor.setPower(-0.2);
+        capMotor.setPower(0.4);
         capMotor.setTargetPosition(dropPosition);
     }
 

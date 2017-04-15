@@ -126,7 +126,7 @@ public class AutoBeacon implements HDAuto{
                         @Override
                         public void run() {
                             timerFailsafe = elapsedTime + 3;
-                            var = elapsedTime + 0.2;
+                            var = elapsedTime + 0.15;
                         }
                     });
                     robot.driveHandler.motorBrake();
@@ -147,15 +147,22 @@ public class AutoBeacon implements HDAuto{
                     break;
                 case waitCheckBeacon:
                     if(shoot == HDAutonomous.Shoot.SHOOT) {
-                        SM.setNextState(State.backUp, HDWaitTypes.Timer, (3 - (elapsedTime - (var - 0.2))) + 0.5);
+                        SM.setNextState(State.backUp, HDWaitTypes.Timer, (3 - (elapsedTime - (var - 0.15))) + 0.5);
                     }else{
                         SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
+                    }
+                    if (elapsedTime < var) {
+                        robot.shooter.setCollectorPower(-.6);
+                        robot.shooter.setAcceleratorPower(-1);
+                    } else {
+                        robot.shooter.setCollectorPower(0);
+                        robot.shooter.setAcceleratorPower(0);
                     }
                     SM.runOnce(new Runnable() {
                         @Override
                         public void run() {
                             if(!comeBackToFirstBeacon)
-                            comeBackToFirstBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
+                                comeBackToFirstBeacon = !robot.buttonPusher.checkBeaconDone(alliance);
                             else
                                 comeBackToFirstBeacon = false;
                             robot.buttonPusher.retractLeftServo();
