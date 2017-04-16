@@ -111,17 +111,21 @@ public class HDButtonPusher {
         }else if(leftBeaconColor == beaconColor.RED && rightBeaconColor == beaconColor.BLUE){
             if(alliance == Alliance.RED_ALLIANCE){
                 extendLeftServo();
+                retractRightServo();
                 pushingButton = true;
             }else{
                 extendRightServo();
+                retractLeftServo();
                 pushingButton = true;
             }
         }else if(leftBeaconColor == beaconColor.BLUE && rightBeaconColor == beaconColor.RED){
             if(alliance == Alliance.RED_ALLIANCE){
                 extendRightServo();
+                retractLeftServo();
                 pushingButton = true;
             }else{
                 extendLeftServo();
+                retractRightServo();
                 pushingButton = true;
             }
         }else if(leftBeaconColor == beaconColor.BLUE && rightBeaconColor == beaconColor.BLUE){
@@ -130,11 +134,13 @@ public class HDButtonPusher {
                 extendRightServo();
                 pushingButton = true;
             }else{
-
+                retractLeftServo();
+                retractRightServo();
             }
         }else if(leftBeaconColor == beaconColor.RED && rightBeaconColor == beaconColor.RED){
             if(alliance == Alliance.RED_ALLIANCE){
-
+                retractLeftServo();
+                retractRightServo();
             }else{
                 extendLeftServo();
                 extendRightServo();
