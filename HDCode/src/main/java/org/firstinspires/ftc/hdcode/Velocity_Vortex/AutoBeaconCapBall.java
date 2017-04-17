@@ -4,6 +4,7 @@ import org.firstinspires.ftc.hdlib.General.Alliance;
 import org.firstinspires.ftc.hdlib.General.HDGeneralLib;
 import org.firstinspires.ftc.hdlib.HDRobot;
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDAuto;
+import org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems.HDButtonPusher;
 import org.firstinspires.ftc.hdlib.StateMachines.HDStateMachine;
 import org.firstinspires.ftc.hdlib.StateMachines.HDWaitTypes;
 import org.firstinspires.ftc.hdlib.Telemetry.HDDashboard;
@@ -22,6 +23,8 @@ public class AutoBeaconCapBall implements HDAuto{
     private double timerFailsafe = 0.0;
     private double var = 0.0;
     private double delay;
+    private int USFailsafeCounter = 0;
+    private int USFailsafeCounter2 = 0;
     private Alliance alliance;
     private boolean comeBackToFirstBeacon = false;
     private boolean comeBackToSecondBeacon = false;
@@ -37,6 +40,7 @@ public class AutoBeaconCapBall implements HDAuto{
         driveBack2,
         wait,
         driveToDistance,
+        USFailsafe,
         buttonPush1,
         waitCheckBeacon,
         backUp,
@@ -47,6 +51,7 @@ public class AutoBeaconCapBall implements HDAuto{
         driveBack,
         wait3,
         driveToDistance2,
+        USFailsafe2,
         buttonPush2,
         waitCheckBeacon2,
         backUp2,
@@ -118,10 +123,33 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case driveToDistance:
                     SM.setNextState(State.buttonPush1, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
-                    if(robot.rangeButtonPusher.getUSValue() > 11.0)
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.003*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
-                    else
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.003*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
+                    if(robot.rangeButtonPusher.getUSValue() < 70) {
+                        if (robot.rangeButtonPusher.getUSValue() > 11.0)
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                        else
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.07, 90.0, -90.0, robot.navX.getYaw());
+                    }else if(USFailsafeCounter > 5){
+                        SM.resetValues();
+                        SM.setState(State.USFailsafe);
+                    }else{
+                        USFailsafeCounter++;
+                    }
+                    break;
+                case USFailsafe:
+                    SM.runOnce(new Runnable() {
+                        @Override
+                        public void run() {
+                            timerFailsafe = elapsedTime + 3;
+                        }
+                    });
+                    var = elapsedTime + 0.15;
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                    if((timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)) &&
+                            (robot.buttonPusher.readLeftColor() != HDButtonPusher.beaconColor.INCONCLUSIVE && robot.buttonPusher.readRightColor() != HDButtonPusher.beaconColor.INCONCLUSIVE) ){
+                        robot.driveHandler.motorBrake();
+                        SM.resetValues();
+                        SM.setState(State.waitCheckBeacon);
+                    }
                     break;
                 case buttonPush1:
                     SM.runOnce(new Runnable() {
@@ -150,15 +178,16 @@ public class AutoBeaconCapBall implements HDAuto{
                 case waitCheckBeacon:
                     if(shoot == HDAutonomous.Shoot.SHOOT) {
                         SM.setNextState(State.backUp, HDWaitTypes.Timer, (3 - (elapsedTime - (var - 0.15))) + 0.5);
+                        robot.shooter.setFlywheelPower(0.345);
+                        if (elapsedTime < var) {
+                            robot.shooter.setCollectorPower(-.6);
+                            robot.shooter.setAcceleratorPower(-1);
+                        } else {
+                            robot.shooter.setCollectorPower(0);
+                            robot.shooter.setAcceleratorPower(0);
+                        }
                     }else{
                         SM.setNextState(State.backUp, HDWaitTypes.Timer, 0.25);
-                    }
-                    if (elapsedTime < var) {
-                        robot.shooter.setCollectorPower(-.6);
-                        robot.shooter.setAcceleratorPower(-1);
-                    } else {
-                        robot.shooter.setCollectorPower(0);
-                        robot.shooter.setAcceleratorPower(0);
                     }
                     SM.runOnce(new Runnable() {
                         @Override
@@ -173,7 +202,11 @@ public class AutoBeaconCapBall implements HDAuto{
                     });
                     break;
                 case backUp:
-                    SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
+                    if(USFailsafeCounter > 5){
+                        SM.setNextState(State.wait4, HDWaitTypes.Timer, 0.8);
+                    }else {
+                        SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
+                    }
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();
                     robot.buttonPusher.retractRightServo();
@@ -181,6 +214,7 @@ public class AutoBeaconCapBall implements HDAuto{
                 case wait4:
                     if(shoot == HDAutonomous.Shoot.SHOOT){
                         if(comeBackToFirstBeacon){
+                            USFailsafeCounter = 0;
                             shoot = HDAutonomous.Shoot.NOSHOOT;
                             SM.setNextState(State.firstBeaconFailsafe, HDWaitTypes.Timer, 1.0);
                         }else{
@@ -191,6 +225,7 @@ public class AutoBeaconCapBall implements HDAuto{
                         robot.shooter.setAcceleratorPower(1.0);
                     }else {
                         if(comeBackToFirstBeacon){
+                            USFailsafeCounter = 0;
                             SM.setNextState(State.firstBeaconFailsafe, HDWaitTypes.Timer, 0.25);
                         }else{
                             SM.setNextState(State.driveToBeacon2, HDWaitTypes.Timer, 0.25);
@@ -232,10 +267,33 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case driveToDistance2:
                     SM.setNextState(State.buttonPush2, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
-                    if(robot.rangeButtonPusher.getUSValue() > 11.0)
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.003*robot.rangeButtonPusher.getUSValue() + .005, 90.0, -90.0, robot.navX.getYaw());
-                    else
-                        robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-.003*robot.rangeButtonPusher.getUSValue() - .005, 90.0, -90.0, robot.navX.getYaw());
+                    if(robot.rangeButtonPusher.getUSValue() < 70) {
+                        if (robot.rangeButtonPusher.getUSValue() > 11.0)
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                        else
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.07, 90.0, -90.0, robot.navX.getYaw());
+                    }else if(USFailsafeCounter2 > 5){
+                        SM.resetValues();
+                        SM.setState(State.USFailsafe2);
+                    }else{
+                        USFailsafeCounter2++;
+                    }
+                    break;
+                case USFailsafe2:
+                    SM.runOnce(new Runnable() {
+                        @Override
+                        public void run() {
+                            timerFailsafe = elapsedTime + 3;
+                        }
+                    });
+                    var = elapsedTime + 0.15;
+                    robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                    if((timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)) &&
+                            (robot.buttonPusher.readLeftColor() != HDButtonPusher.beaconColor.INCONCLUSIVE && robot.buttonPusher.readRightColor() != HDButtonPusher.beaconColor.INCONCLUSIVE) ){
+                        robot.driveHandler.motorBrake();
+                        SM.resetValues();
+                        SM.setState(State.waitCheckBeacon2);
+                    }
                     break;
                 case buttonPush2:
                     SM.runOnce(new Runnable() {
@@ -272,6 +330,7 @@ public class AutoBeaconCapBall implements HDAuto{
                     break;
                 case backUp2:
                     if(comeBackToSecondBeacon){
+                        USFailsafeCounter2 = 0;
                         SM.setNextState(State.comeBackToBeacon2Failsafe1, HDWaitTypes.Timer, 0.5);
                     } else{
                         SM.setNextState(State.hitCap, HDWaitTypes.Timer, 0.8);
