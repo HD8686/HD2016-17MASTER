@@ -41,6 +41,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     boolean collectorForward = true;
     boolean shooting = false;
     boolean liftManualAdjust = false;
+    boolean collectorUp = false;
 
     @Override
     public void initialize() {
@@ -76,7 +77,12 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     public void continuousRun(double elapsedTime) {
         diagnosticDisplay.addProgramSpecificTelemetry(1, "Alliance: %s", alliance.toString());
         diagnosticDisplay.addProgramSpecificTelemetry(2, "Drive Mode: %s", driveMode.toString());
-        diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: "+ String.valueOf(driveSpeed *100) + " Percent");
+        if(robot.capLift.getCurrentPosition() > 650) {
+            diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: " + String.valueOf(15) + " Percent");
+        }
+        else {
+            diagnosticDisplay.addProgramSpecificTelemetry(3, "Drive Speed: " + String.valueOf(driveSpeed * 100) + " Percent");
+        }
         diagnosticDisplay.addProgramSpecificTelemetry(4, "Flywheel Enabled: %s", String.valueOf(flywheelRunning));
         diagnosticDisplay.addProgramSpecificTelemetry(5, "Lift Motor Power, Target Pos: %.2f, %d", robot.capLift.getPower(), robot.capLift.getTargetPosition());
         diagnosticDisplay.addProgramSpecificTelemetry(6, "Lift Motor Position: " + String.valueOf(robot.capLift.getCurrentPosition()));
@@ -116,7 +122,12 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             }
 
         }else{
-            if(gamepad1.a){
+            if(collectorUp){
+                robot.shooter.raiseCollector();
+            }else{
+                robot.shooter.lowerCollector();
+            }
+            if(gamepad1.a && !collectorUp){
                 robot.shooter.setCollectorPower(-.6);
                 robot.shooter.setAcceleratorPower(-1);
             }
@@ -136,23 +147,21 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }
         else if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
             double pos = robot.lift.capMotor.getCurrentPosition();
-            if(pos < 7000){
+            if(pos < 10500){
                 robot.lift.capMotor.setPower(1);
             }else{
                 robot.lift.capMotor.setPower(0.1);
             }
         }else if(robot.lift.curLiftMode == HDCap.liftMode.BOTTOM){
             double pos = robot.lift.capMotor.getCurrentPosition();
-            if(pos > 9000){
-                robot.lift.capMotor.setPower(1.0);
-            }else if(pos > 6000){
-                robot.lift.capMotor.setPower(0.75);
-            }else if(pos > 3000){
-                robot.lift.capMotor.setPower(0.5);
-            }else if(pos > 2000){
-                robot.lift.capMotor.setPower(0.25);
-            }else if(pos > 1000){
-                robot.lift.capMotor.setPower(0.2);
+            if(pos > 1000){
+                robot.lift.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.lift.capMotor.setPower(-0.5);
+            }else if(pos > 0){
+                robot.lift.lowerArms();
+                robot.lift.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.lift.capMotor.setTargetPosition(0);
+                robot.lift.capMotor.setPower(-0.2);
             }
         }
     }
@@ -160,8 +169,8 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     private void robotDrive(){
             switch (driveMode) {
                 case TANK_DRIVE:
-                    if(robot.capLift.getCurrentPosition() > 5000){
-                        robot.driveHandler.tankDrive(-gamepad1.left_stick_y* 0.2, -gamepad1.right_stick_y* 0.2);
+                    if(robot.capLift.getCurrentPosition() > 650){
+                        robot.driveHandler.tankDrive(-gamepad1.left_stick_y* 0.15, -gamepad1.right_stick_y* 0.15);
                     }else{
                         robot.driveHandler.tankDrive(-gamepad1.left_stick_y* driveSpeed, -gamepad1.right_stick_y* driveSpeed);
                     }
@@ -171,8 +180,8 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
                     }else if(gamepad1.b){
                         robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
-                    }else if(robot.capLift.getCurrentPosition() > 5000){
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .2, gamepad1.left_stick_y * .2, gamepad1.right_stick_x * .2, robot.navX.getYaw());
+                    }else if(robot.capLift.getCurrentPosition() > 650){
+                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .15, gamepad1.left_stick_y * .15, gamepad1.right_stick_x * .15, robot.navX.getYaw());
                     }
                     else{
                         robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
@@ -192,14 +201,29 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         robot.driveHandler.firstRun = true;
                     break;
                 case X:
-                    if(pressed)
-                        collectorForward = !collectorForward;
+                    if(pressed){
+                        if(collectorForward){
+                            collectorForward = !collectorForward;
+                        }else{
+                            collectorUp = false;
+                            collectorForward = true;
+                        }
+                    }
+
                     break;
                 case Y:
                     if(!pressed)
                         robot.driveHandler.firstRun = true;
                     break;
                 case DPAD_LEFT:
+                    if(pressed){
+                        if(collectorUp){
+                            collectorUp = false;
+                        }else{
+                            collectorForward = false;
+                            collectorUp = true;
+                        }
+                    }
                     break;
                 case DPAD_RIGHT:
                     break;
@@ -258,7 +282,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case Y:
                     if(pressed && !liftManualAdjust) {
-                        if (robot.lift.curLiftMode == HDCap.liftMode.CARRY) {
+                        if (robot.lift.curLiftMode == HDCap.liftMode.CARRY || robot.lift.curLiftMode == HDCap.liftMode.DROP) {
                             robot.lift.extendLift();
                         }
                     }
