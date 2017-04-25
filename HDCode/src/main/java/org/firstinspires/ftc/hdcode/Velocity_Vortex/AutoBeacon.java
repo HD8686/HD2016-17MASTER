@@ -125,9 +125,9 @@ public class AutoBeacon implements HDAuto{
                     SM.setNextState(State.buttonPush1, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
                     if(robot.rangeButtonPusher.getUSValue() < 70) {
                         if (robot.rangeButtonPusher.getUSValue() > 11.0)
-                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.05, 90.0, -90.0, robot.navX.getYaw());
                         else
-                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.07, 90.0, -90.0, robot.navX.getYaw());
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.05, 90.0, -90.0, robot.navX.getYaw());
                     }else if(USFailsafeCounter > 5){
                         SM.resetValues();
                         SM.setState(State.USFailsafe);
@@ -269,9 +269,9 @@ public class AutoBeacon implements HDAuto{
                     SM.setNextState(State.buttonPush2, HDWaitTypes.Range, robot.rangeButtonPusher, 11.0);
                     if(robot.rangeButtonPusher.getUSValue() < 70) {
                         if (robot.rangeButtonPusher.getUSValue() > 11.0)
-                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, 90.0, -90.0, robot.navX.getYaw());
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.05, 90.0, -90.0, robot.navX.getYaw());
                         else
-                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.07, 90.0, -90.0, robot.navX.getYaw());
+                            robot.driveHandler.mecanumDrive_Polar_keepFrontPos(-0.05, 90.0, -90.0, robot.navX.getYaw());
                     }else if(USFailsafeCounter2 > 5){
                         SM.resetValues();
                         SM.setState(State.USFailsafe2);

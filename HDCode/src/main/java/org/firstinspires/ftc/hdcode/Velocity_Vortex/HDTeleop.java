@@ -87,6 +87,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(5, "Lift Motor Power, Target Pos: %.2f, %d", robot.capLift.getPower(), robot.capLift.getTargetPosition());
         diagnosticDisplay.addProgramSpecificTelemetry(6, "Lift Motor Position: " + String.valueOf(robot.capLift.getCurrentPosition()));
         diagnosticDisplay.addProgramSpecificTelemetry(7, "Lift Motor Mode: " + String.valueOf(robot.capLift.getMode()));
+        diagnosticDisplay.addProgramSpecificTelemetry(8, "Collector Encoder Count: %.2f", robot.shooter.getCollectorEncoderCount());
         robotDrive();
         shooterSubsystem();
         liftSubsystem();
