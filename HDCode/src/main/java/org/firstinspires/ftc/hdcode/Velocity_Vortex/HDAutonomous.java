@@ -66,7 +66,7 @@ public class HDAutonomous extends HDOpMode{
 
         HDMenuManager.displaySelections(allianceMenu, 1);
 
-        switch (strategy){
+        /*switch (strategy){
             case DO_NOTHING:
                 mHDAuto = new AutoDoNothing(alliance);
                 break;
@@ -79,7 +79,8 @@ public class HDAutonomous extends HDOpMode{
             case BEACON_CORNER_VORTEX:
                 mHDAuto = new AutoBeaconCornerVortex(delay, shoot, alliance);
                 break;
-        }
+        }*/
+        mHDAuto = new AutoSecondBeacon(delay, shoot, alliance);
     }
 
     @Override

@@ -280,6 +280,44 @@ public class HDDriveHandler {
         setMotorSpeeds(Motors);
     }
 
+    public void gyroTurn(double angle){
+        double rotation = 0;
+        if(alliance == Alliance.RED_ALLIANCE){
+            angle = -angle;
+        }
+        if(firstRun){
+            navX.yawPIDController.setOutputRange(Values.PIDSettings.STURN_MIN_MOTOR_OUTPUT_VALUE, Values.PIDSettings.STURN_MAX_MOTOR_OUTPUT_VALUE);
+            navX.yawPIDController.setSetpoint(angle);
+            navX.yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, 2.0);
+            firstRun = false;
+        }
+        navX.yawPIDController.enable(true);
+        if (navX.yawPIDController.isNewUpdateAvailable(navX.yawPIDResult)) {
+            if (navX.yawPIDResult.isOnTarget()) {
+                rotation = 0;
+            } else {
+                double output = navX.yawPIDResult.getOutput();
+                rotation = output;
+            }
+        }
+
+        double Motors[] = new double[4];
+        Motors[0] = rotation; //kFrontLeft Motor
+        Motors[1] = -rotation; //kFrontRight Motor
+        Motors[2] = rotation; //kRearLeft Motor
+        Motors[3] = -rotation; //kRearRight Motor
+
+        double maxMagnitude = Math.abs(NumberUtils.max(Motors));
+
+        if (maxMagnitude > 1.0) {
+            for (int i=0; i < Motors.length ; i++) {
+                Motors[i] = Motors[i] / maxMagnitude;
+            }
+        }
+
+        setMotorSpeeds(Motors);
+    }
+
 
     /**
      * Polar version of Mecanum Drive code meant to be used when programming Autonomous,

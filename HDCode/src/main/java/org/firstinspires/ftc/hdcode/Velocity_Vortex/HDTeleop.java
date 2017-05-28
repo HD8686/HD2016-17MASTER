@@ -35,7 +35,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     double flywheelSpeed = 0.32;
     double shootingTimer = 0.0;
-    double flywheelTimer = 0.0;
     double driveSpeed = 0.6;
     boolean flywheelRunning = false;
     boolean collectorForward = true;
@@ -96,13 +95,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     private void shooterSubsystem(){
         if(flywheelRunning){
-            if((System.currentTimeMillis() - flywheelTimer) < 1000){
-                robot.shooter.setFlywheelMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.shooter.setFlywheelPower(0.5);
-            }else{
-                robot.shooter.setFlywheelMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.shooter.setFlywheelPower(flywheelSpeed);
-            }
         }else{
             robot.shooter.setFlywheelPower(0);
         }
@@ -144,7 +137,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     private void liftSubsystem(){
         if(liftManualAdjust){
-                robot.lift.setPower(-(gamepad2.left_stick_y*0.5));
+            robot.lift.setPower(-(gamepad2.left_stick_y*0.5));
         }
         else if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
             double pos = robot.lift.capMotor.getCurrentPosition();
@@ -168,27 +161,27 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     }
 
     private void robotDrive(){
-            switch (driveMode) {
-                case TANK_DRIVE:
-                    if(robot.capLift.getCurrentPosition() > 650){
-                        robot.driveHandler.tankDrive(-gamepad1.left_stick_y* 0.15, -gamepad1.right_stick_y* 0.15);
-                    }else{
-                        robot.driveHandler.tankDrive(-gamepad1.left_stick_y* driveSpeed, -gamepad1.right_stick_y* driveSpeed);
-                    }
-                    break;
-                case MECANUM_FIELD_CENTRIC:
-                    if(gamepad1.y){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
-                    }else if(gamepad1.b){
-                        robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
-                    }else if(robot.capLift.getCurrentPosition() > 650){
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .15, gamepad1.left_stick_y * .15, gamepad1.right_stick_x * .15, robot.navX.getYaw());
-                    }
-                    else{
-                        robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
-                    }
-                    break;
-            }
+        switch (driveMode) {
+            case TANK_DRIVE:
+                if(robot.capLift.getCurrentPosition() > 650){
+                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y* 0.15, -gamepad1.right_stick_y* 0.15);
+                }else{
+                    robot.driveHandler.tankDrive(-gamepad1.left_stick_y* driveSpeed, -gamepad1.right_stick_y* driveSpeed);
+                }
+                break;
+            case MECANUM_FIELD_CENTRIC:
+                if(gamepad1.y){
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
+                }else if(gamepad1.b){
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
+                }else if(robot.capLift.getCurrentPosition() > 650){
+                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .15, gamepad1.left_stick_y * .15, gamepad1.right_stick_x * .15, robot.navX.getYaw());
+                }
+                else{
+                    robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, gamepad1.right_stick_x * driveSpeed, robot.navX.getYaw());
+                }
+                break;
+        }
     }
 
     @Override
@@ -251,7 +244,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case LEFT_TRIGGER:
                     if(pressed) {
                         flywheelRunning = !flywheelRunning;
-                        flywheelTimer = System.currentTimeMillis();
                     }
                     break;
                 case RIGHT_TRIGGER:
@@ -271,7 +263,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             switch (button) {
                 case A:
                     if(pressed && !liftManualAdjust)
-                    robot.lift.retractLift();
+                        robot.lift.retractLift();
                     break;
                 case B:
                     if(pressed &&!liftManualAdjust)
@@ -309,7 +301,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case LEFT_TRIGGER:
                     if(pressed) {
                         flywheelRunning = !flywheelRunning;
-                        flywheelTimer = System.currentTimeMillis();
                     }
                     break;
                 case RIGHT_TRIGGER:
