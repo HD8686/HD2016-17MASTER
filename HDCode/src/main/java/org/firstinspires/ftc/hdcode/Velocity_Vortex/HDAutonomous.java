@@ -18,10 +18,11 @@ public class HDAutonomous extends HDOpMode{
 
     private enum Strategy
     {
-        DO_NOTHING,
         BEACON_CAP_BALL,
         BEACON_CORNER_VORTEX,
         BEACON,
+        First_Beacon_Corner,
+        Second_Beacon_Cap,
     }
 
     public enum Shoot
@@ -46,10 +47,11 @@ public class HDAutonomous extends HDOpMode{
         shootMenu.addChoice("Don't Shoot", Shoot.NOSHOOT);
 
         HDTextMenu strategyMenu = new HDTextMenu("Strategy", shootMenu);
-        strategyMenu.addChoice("Do Nothing", Strategy.DO_NOTHING);
         strategyMenu.addChoice("Beacons", Strategy.BEACON);
         strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
         strategyMenu.addChoice("Beacons and Corner Vortex", Strategy.BEACON_CORNER_VORTEX);
+        strategyMenu.addChoice("First Beacon Corner Vortex", Strategy.First_Beacon_Corner);
+        strategyMenu.addChoice("Second Beacon Cap Ball", Strategy.Second_Beacon_Cap);
 
         HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu);
         allianceMenu.addChoice("Red Alliance", Alliance.RED_ALLIANCE);
@@ -66,10 +68,7 @@ public class HDAutonomous extends HDOpMode{
 
         HDMenuManager.displaySelections(allianceMenu, 1);
 
-        /*switch (strategy){
-            case DO_NOTHING:
-                mHDAuto = new AutoDoNothing(alliance);
-                break;
+        switch (strategy){
             case BEACON:
                 mHDAuto = new AutoBeacon(delay, shoot, alliance);
                 break;
@@ -79,8 +78,13 @@ public class HDAutonomous extends HDOpMode{
             case BEACON_CORNER_VORTEX:
                 mHDAuto = new AutoBeaconCornerVortex(delay, shoot, alliance);
                 break;
-        }*/
-        mHDAuto = new AutoSecondBeacon(delay, shoot, alliance);
+            case First_Beacon_Corner:
+                mHDAuto = new AutoFirstBeacon(delay, shoot, alliance);
+                break;
+            case Second_Beacon_Cap:
+                mHDAuto = new AutoSecondBeacon(delay, shoot, alliance);
+                break;
+        }
     }
 
     @Override

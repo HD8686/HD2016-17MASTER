@@ -23,8 +23,6 @@ public class AutoSecondBeacon implements HDAuto{
     private boolean comeBackToSecondBeacon = false;
 
     private double timerFailsafe = 0.0;
-    private double shootingTimer = 0.0;
-    private double var = 0.0;
     private double delay;
     private Alliance alliance;
     private HDAutonomous.Shoot shoot;
