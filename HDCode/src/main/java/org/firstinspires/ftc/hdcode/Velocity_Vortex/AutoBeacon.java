@@ -205,7 +205,7 @@ public class AutoBeacon implements HDAuto{
                     if(USFailsafeCounter > 5){
                         SM.setNextState(State.wait4, HDWaitTypes.Timer, 0.8);
                     }else {
-                        SM.setNextState(State.wait4, HDWaitTypes.Timer, .8);
+                        SM.setNextState(State.wait4, HDWaitTypes.Timer, 0.8);
                     }
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(.15, -90, -90, robot.navX.getYaw());
                     robot.buttonPusher.retractLeftServo();

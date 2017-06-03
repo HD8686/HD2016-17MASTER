@@ -31,14 +31,29 @@ public class HDAutonomous extends HDOpMode{
         NOSHOOT,
     }
 
+    public enum autoType
+    {
+        ST_LOUIS,
+        FOC,
+    }
+
     private HDAuto mHDAuto = null;
     private double delay = 0.0;
     private Strategy strategy = Strategy.BEACON_CAP_BALL;
     private Alliance alliance = Alliance.RED_ALLIANCE;
     private Shoot shoot = Shoot.SHOOT;
+    private autoType aType = autoType.ST_LOUIS;
 
     @Override
     public void initialize() {
+
+        HDTextMenu autoMenu = new HDTextMenu("Auto Menu", null);
+        autoMenu.addChoice("St. Louis Auto's", autoType.ST_LOUIS);
+        autoMenu.addChoice("Festival Of Champ Auto's", autoType.FOC);
+
+        HDMenuManager.runMenus(autoMenu);
+
+        aType = (autoType) autoMenu.getChoice();
 
         HDNumberMenu delayMenu = new HDNumberMenu("Delay", 0, 30, 1, 0, "Seconds", null);
 
@@ -47,11 +62,14 @@ public class HDAutonomous extends HDOpMode{
         shootMenu.addChoice("Don't Shoot", Shoot.NOSHOOT);
 
         HDTextMenu strategyMenu = new HDTextMenu("Strategy", shootMenu);
-        strategyMenu.addChoice("Beacons", Strategy.BEACON);
-        strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
-        strategyMenu.addChoice("Beacons and Corner Vortex", Strategy.BEACON_CORNER_VORTEX);
-        strategyMenu.addChoice("First Beacon Corner Vortex", Strategy.First_Beacon_Corner);
-        strategyMenu.addChoice("Second Beacon Cap Ball", Strategy.Second_Beacon_Cap);
+        if(aType == autoType.ST_LOUIS) {
+            strategyMenu.addChoice("Beacons", Strategy.BEACON);
+            strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
+            strategyMenu.addChoice("Beacons and Corner Vortex", Strategy.BEACON_CORNER_VORTEX);
+        }else {
+            strategyMenu.addChoice("First Beacon Corner Vortex", Strategy.First_Beacon_Corner);
+            strategyMenu.addChoice("Second Beacon Cap Ball", Strategy.Second_Beacon_Cap);
+        }
 
         HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu);
         allianceMenu.addChoice("Red Alliance", Alliance.RED_ALLIANCE);

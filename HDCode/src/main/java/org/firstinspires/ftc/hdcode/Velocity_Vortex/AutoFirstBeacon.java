@@ -20,7 +20,7 @@ public class AutoFirstBeacon implements HDAuto{
     HDDiagnosticDisplay diagnosticDisplay;
     HDStateMachine SM;
     HDRobot robot;
-    private boolean comeBackToFirstBeacon = false;
+    private boolean comeBackToFirstBeacon = true;
 
 
     private double timerFailsafe = 0.0;
@@ -119,6 +119,7 @@ public class AutoFirstBeacon implements HDAuto{
                         @Override
                         public void run() {
                             timerFailsafe = elapsedTime + 3;
+                            var = elapsedTime + 0.15;
                         }
                     });
                     if(shoot == HDAutonomous.Shoot.SHOOT) {

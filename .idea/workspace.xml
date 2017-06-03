@@ -58,12 +58,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HDAutonomous.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HDAutonomous.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1162393">
-              <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
+              <folding>
+                <element signature="e#3769#3770#0" expanded="true" />
+                <element signature="e#3800#3801#0" expanded="true" />
+                <element signature="e#3867#3868#0" expanded="true" />
+                <element signature="e#3911#3912#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -72,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoSecondBeacon.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="223" column="26" selection-start-line="216" selection-start-column="16" selection-end-line="223" selection-end-column="26" />
+              <caret line="169" column="46" selection-start-line="169" selection-start-column="46" selection-end-line="169" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2089#2090#0" expanded="true" />
@@ -84,15 +89,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AutoFirstBeacon.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AutoFirstBeacon.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoFirstBeacon.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="240" column="51" selection-start-line="240" selection-start-column="51" selection-end-line="240" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.5676077">
+              <caret line="88" column="80" selection-start-line="88" selection-start-column="80" selection-end-line="88" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4427#4630#0" expanded="true" />
-                <element signature="e#4629#4630#0" expanded="true" />
+                <element signature="e#4426#4683#0" expanded="true" />
+                <element signature="e#4682#4683#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AutoBeacon.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="221" column="25" selection-start-line="214" selection-start-column="20" selection-end-line="221" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,18 +131,6 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="149" column="19" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AutoBeacon.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -4385,14 +4390,14 @@
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCapBall.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeaconCornerVortex.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDCap.java" />
-        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/Telemetry/HDDiagnosticDisplay.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Sensors/HDNavX.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDDriveHandler.java" />
         <option value="$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/RobotHardwareLib/Subsystems/HDShooter.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDTeleop.java" />
-        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoSecondBeacon.java" />
+        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoFirstBeacon.java" />
+        <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoSecondBeacon.java" />
         <option value="$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java" />
       </list>
     </option>
@@ -4933,15 +4938,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21937639" sideWeight="0.4936034" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21937639" sideWeight="0.4936034" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32850778" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31737193" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31625834" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -5442,35 +5447,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HDLib/src/main/java/org/firstinspires/ftc/hdlib/StateMachines/HDStateMachine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="149" column="19" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoSecondBeacon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="223" column="26" selection-start-line="216" selection-start-column="16" selection-end-line="223" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2089#2090#0" expanded="true" />
-            <element signature="e#2125#2126#0" expanded="true" />
-            <element signature="e#5659#5862#0" expanded="true" />
-            <element signature="e#5861#5862#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5490,23 +5471,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoFirstBeacon.java">
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="240" column="51" selection-start-line="240" selection-start-column="51" selection-end-line="240" selection-end-column="51" />
+          <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4427#4630#0" expanded="true" />
-            <element signature="e#4629#4630#0" expanded="true" />
+            <element signature="e#3769#3770#0" expanded="true" />
+            <element signature="e#3800#3801#0" expanded="true" />
+            <element signature="e#3867#3868#0" expanded="true" />
+            <element signature="e#3911#3912#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/HDAutonomous.java">
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoSecondBeacon.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1162393">
-          <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="169" column="46" selection-start-line="169" selection-start-column="46" selection-end-line="169" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2089#2090#0" expanded="true" />
+            <element signature="e#2125#2126#0" expanded="true" />
+            <element signature="e#5659#5862#0" expanded="true" />
+            <element signature="e#5861#5862#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoBeacon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="221" column="25" selection-start-line="214" selection-start-column="20" selection-end-line="221" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HDCode/src/main/java/org/firstinspires/ftc/hdcode/Velocity_Vortex/AutoFirstBeacon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5676077">
+          <caret line="88" column="80" selection-start-line="88" selection-start-column="80" selection-end-line="88" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4426#4683#0" expanded="true" />
+            <element signature="e#4682#4683#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
