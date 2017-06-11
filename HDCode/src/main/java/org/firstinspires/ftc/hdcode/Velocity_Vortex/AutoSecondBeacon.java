@@ -25,7 +25,6 @@ public class AutoSecondBeacon implements HDAuto{
     private double timerFailsafe = 0.0;
     private double delay;
     private Alliance alliance;
-    private HDAutonomous.Shoot shoot;
 
     private enum State {
         delay,
@@ -60,11 +59,10 @@ public class AutoSecondBeacon implements HDAuto{
         done,
     }
 
-    public AutoSecondBeacon(double delay, HDAutonomous.Shoot shoot, Alliance alliance){
+    public AutoSecondBeacon(double delay, Alliance alliance){
         robot = new HDRobot(alliance);
 
         this.delay = delay;
-        this.shoot = shoot;
         this.alliance = alliance;
         SM = new HDStateMachine(robot.driveHandler, robot.navX);
         diagnosticDisplay = new HDDiagnosticDisplay(HDDashboard.getInstance(), robot.driveHandler);
@@ -155,9 +153,7 @@ public class AutoSecondBeacon implements HDAuto{
                             timerFailsafe = elapsedTime + 3;
                         }
                     });
-                    if(shoot == HDAutonomous.Shoot.SHOOT) {
-                        robot.shooter.setFlywheelPower(0.33);
-                    }
+                    robot.shooter.setFlywheelPower(0.33);
                     robot.driveHandler.mecanumDrive_Polar_keepFrontPos(0.07, -90.0, 90.0, robot.navX.getYaw());
                     if((timerFailsafe < elapsedTime || !robot.buttonPusher.pushButton(alliance)) &&
                             (robot.buttonPusher.readLeftColor() != HDButtonPusher.beaconColor.INCONCLUSIVE && robot.buttonPusher.readRightColor() != HDButtonPusher.beaconColor.INCONCLUSIVE) ){

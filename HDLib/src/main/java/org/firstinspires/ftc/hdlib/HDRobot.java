@@ -61,6 +61,7 @@ public class HDRobot {
        */
     public HDCap lift;
     public DcMotor capLift;
+    public HDServo topArm;
     public HDServo leftCapArm;
     public HDServo rightCapArm;
 
@@ -109,7 +110,8 @@ public class HDRobot {
             capLift  = HDOpMode.getInstance().hardwareMap.dcMotor.get("liftMotor");
             leftCapArm = new HDServo("leftCapArm", Values.ServoSpeedStats.HS_785HB, 0.41, 0, 1, Servo.Direction.FORWARD);
             rightCapArm = new HDServo("rightCapArm", Values.ServoSpeedStats.HS_785HB, 0.23, 0, 1, Servo.Direction.FORWARD);
-            lift = new HDCap(capLift, leftCapArm, rightCapArm);
+            topArm = new HDServo("topArm", Values.ServoSpeedStats.HS_625MG, 0.0, 0, 1, Servo.Direction.FORWARD);
+            lift = new HDCap(capLift, leftCapArm, rightCapArm, topArm);
         }
     }
 

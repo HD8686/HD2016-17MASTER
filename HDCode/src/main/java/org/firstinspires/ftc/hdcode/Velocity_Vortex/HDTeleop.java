@@ -262,21 +262,28 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }else if(instance == servoBoyGamepad){
             switch (button) {
                 case A:
-                    if(pressed && !liftManualAdjust)
+                    if(pressed && !liftManualAdjust) {
                         robot.lift.retractLift();
+                        robot.lift.raiseTopArm();
+                    }
                     break;
                 case B:
-                    if(pressed &&!liftManualAdjust)
+                    if(pressed &&!liftManualAdjust) {
                         robot.lift.dropPosition();
+                        robot.lift.raiseTopArm();
+                    }
                     break;
                 case X:
-                    if(pressed && !liftManualAdjust)
+                    if(pressed && !liftManualAdjust) {
                         robot.lift.movePosition();
+                        robot.lift.holdCap();
+                    }
                     break;
                 case Y:
                     if(pressed && !liftManualAdjust) {
                         if (robot.lift.curLiftMode == HDCap.liftMode.CARRY || robot.lift.curLiftMode == HDCap.liftMode.DROP) {
                             robot.lift.extendLift();
+                            robot.lift.holdCap();
                         }
                     }
                     break;
@@ -287,10 +294,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case DPAD_UP:
                     if(pressed){
                         robot.lift.raiseArms();
+                        robot.lift.raiseTopArm();
                     }
                     break;
                 case DPAD_DOWN:
                     if(pressed){
+                        if(robot.capLift.getCurrentPosition() < 100){
+                            robot.lift.lowerTopArm();
+                        }
                         robot.lift.lowerArms();
                     }
                     break;

@@ -46,10 +46,12 @@ public class HDAutonomous extends HDOpMode{
 
     @Override
     public void initialize() {
+        HDTextMenu strategyMenu;
+
 
         HDTextMenu autoMenu = new HDTextMenu("Auto Menu", null);
-        autoMenu.addChoice("St. Louis Auto's", autoType.ST_LOUIS);
-        autoMenu.addChoice("Festival Of Champ Auto's", autoType.FOC);
+        autoMenu.addChoice("St. Louis Autos", autoType.ST_LOUIS);
+        autoMenu.addChoice("Festival Of Champ Autos", autoType.FOC);
 
         HDMenuManager.runMenus(autoMenu);
 
@@ -61,12 +63,13 @@ public class HDAutonomous extends HDOpMode{
         shootMenu.addChoice("Do Shoot", Shoot.SHOOT);
         shootMenu.addChoice("Don't Shoot", Shoot.NOSHOOT);
 
-        HDTextMenu strategyMenu = new HDTextMenu("Strategy", shootMenu);
         if(aType == autoType.ST_LOUIS) {
+            strategyMenu = new HDTextMenu("Strategy", shootMenu);
             strategyMenu.addChoice("Beacons", Strategy.BEACON);
             strategyMenu.addChoice("Beacons and Cap Ball", Strategy.BEACON_CAP_BALL);
             strategyMenu.addChoice("Beacons and Corner Vortex", Strategy.BEACON_CORNER_VORTEX);
         }else {
+            strategyMenu = new HDTextMenu("Strategy", delayMenu);
             strategyMenu.addChoice("First Beacon Corner Vortex", Strategy.First_Beacon_Corner);
             strategyMenu.addChoice("Second Beacon Cap Ball", Strategy.Second_Beacon_Cap);
         }
@@ -80,7 +83,12 @@ public class HDAutonomous extends HDOpMode{
         delay = delayMenu.getValue();
         alliance = (Alliance) allianceMenu.getChoice();
         strategy = (Strategy) strategyMenu.getChoice();
-        shoot = (Shoot) shootMenu.getChoice();
+        if(aType == autoType.ST_LOUIS) {
+            shoot = (Shoot) shootMenu.getChoice();
+        }
+        else {
+            shoot = Shoot.SHOOT;
+        }
 
         Alliance.storeAlliance(hardwareMap.appContext, alliance);
 
@@ -97,10 +105,10 @@ public class HDAutonomous extends HDOpMode{
                 mHDAuto = new AutoBeaconCornerVortex(delay, shoot, alliance);
                 break;
             case First_Beacon_Corner:
-                mHDAuto = new AutoFirstBeacon(delay, shoot, alliance);
+                mHDAuto = new AutoFirstBeacon(delay, alliance);
                 break;
             case Second_Beacon_Cap:
-                mHDAuto = new AutoSecondBeacon(delay, shoot, alliance);
+                mHDAuto = new AutoSecondBeacon(delay, alliance);
                 break;
         }
     }

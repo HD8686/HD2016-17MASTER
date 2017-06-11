@@ -232,7 +232,6 @@ public class AutoBeacon implements HDAuto{
                         }
                     }
                     robot.driveHandler.motorBrake();
-                    robot.driveHandler.motorBrake();
                     break;
                 case firstBeaconFailsafe:
                     SM.setNextState(State.driveToDistance, HDWaitTypes.Timer, 0.5);
