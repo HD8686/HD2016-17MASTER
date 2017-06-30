@@ -41,6 +41,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     boolean shooting = false;
     boolean liftManualAdjust = false;
     boolean collectorUp = false;
+    boolean flipGyro = false;
 
     @Override
     public void initialize() {
@@ -87,6 +88,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(6, "Lift Motor Position: " + String.valueOf(robot.capLift.getCurrentPosition()));
         diagnosticDisplay.addProgramSpecificTelemetry(7, "Lift Motor Mode: " + String.valueOf(robot.capLift.getMode()));
         diagnosticDisplay.addProgramSpecificTelemetry(8, "Collector Encoder Count: %.2f", robot.shooter.getCollectorEncoderCount());
+        diagnosticDisplay.addProgramSpecificTelemetry(9, "Flip Gyro: " + String.valueOf(flipGyro));
         robotDrive();
         shooterSubsystem();
         liftSubsystem();
@@ -220,6 +222,10 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case DPAD_RIGHT:
+                    if(pressed){
+                        flipGyro = !flipGyro;
+                        robot.navX.flipGyro(flipGyro);
+                    }
                     break;
                 case DPAD_UP:
                     if(pressed)

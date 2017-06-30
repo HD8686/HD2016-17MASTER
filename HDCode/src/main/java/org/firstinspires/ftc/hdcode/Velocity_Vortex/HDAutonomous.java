@@ -23,6 +23,8 @@ public class HDAutonomous extends HDOpMode{
         BEACON,
         First_Beacon_Corner,
         Second_Beacon_Cap,
+        First_Beacon_Far,
+        Second_Beacon_Defense,
     }
 
     public enum Shoot
@@ -72,6 +74,8 @@ public class HDAutonomous extends HDOpMode{
             strategyMenu = new HDTextMenu("Strategy", delayMenu);
             strategyMenu.addChoice("First Beacon Corner Vortex", Strategy.First_Beacon_Corner);
             strategyMenu.addChoice("Second Beacon Cap Ball", Strategy.Second_Beacon_Cap);
+            strategyMenu.addChoice("First Beacon Far Corner Vortex", Strategy.First_Beacon_Far);
+            strategyMenu.addChoice("Second Beacon Defense", Strategy.Second_Beacon_Defense );
         }
 
         HDTextMenu allianceMenu = new HDTextMenu("Alliance", strategyMenu);
@@ -109,6 +113,12 @@ public class HDAutonomous extends HDOpMode{
                 break;
             case Second_Beacon_Cap:
                 mHDAuto = new AutoSecondBeacon(delay, alliance);
+                break;
+            case First_Beacon_Far:
+                mHDAuto = new AutoFirstBeaconFar(delay, alliance);
+                break;
+            case Second_Beacon_Defense:
+                mHDAuto = new AutoSecondBeaconDefense(delay, alliance);
                 break;
         }
     }

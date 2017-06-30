@@ -15,6 +15,7 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
     private AHRS navx_device;
     public navXPIDController yawPIDController;
     private static HDNavX instance = null;
+    private boolean flipGyro = false;
 
     public HDNavX(){
         instance = this;
@@ -32,8 +33,15 @@ public class HDNavX implements HDLoopInterface.LoopTimer{
         yawPIDController.enable(false);
     }
 
+    public void flipGyro(boolean yes){
+        flipGyro = yes;
+    }
+
     public float getYaw(){
+        if(!flipGyro)
         return navx_device.getYaw();
+        else
+            return (navx_device.getYaw() + 180);
     }
 
     public void zeroYaw(){
