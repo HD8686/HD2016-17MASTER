@@ -51,8 +51,8 @@ public class HDShooter{
         this.flywheel1.setDirection(DcMotorSimple.Direction.FORWARD);
         this.flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.flywheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         this.flywheel1.setPower(0);
@@ -67,11 +67,15 @@ public class HDShooter{
         return this.collectorMotor.getCurrentPosition();
     }
 
+    public int getShooterEncoderCount(){
+        return (int) (Math.abs(this.flywheel1.getCurrentPosition()) + Math.abs(this.flywheel2.getCurrentPosition()))/2;
+    }
+
     public void resetEncoders(){
         this.flywheel1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.flywheel2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         this.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

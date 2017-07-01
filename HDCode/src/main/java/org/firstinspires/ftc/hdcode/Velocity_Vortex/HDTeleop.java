@@ -26,14 +26,25 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         MECANUM_FIELD_CENTRIC,
     }
 
+    private enum ShootingModes{
+        Bring_Ball_Down1,
+        Shoot_Ball1,
+        Bring_Ball_Down2,
+        Shoot_Ball2,
+        Bring_Ball_Down3,
+        Shoot_Ball3,
+    }
+
     HDDiagnosticDisplay diagnosticDisplay;
     HDRobot robot;
     DriveMode driveMode;
     HDGamepad driverGamepad;
     HDGamepad servoBoyGamepad;
     Alliance alliance;
+    ShootingModes shootingMode = ShootingModes.Bring_Ball_Down1;
+    int shootTimes = 0;
 
-    double flywheelSpeed = 0.32;
+    private final double flywheelSpeed = 0.8;
     double shootingTimer = 0.0;
     double driveSpeed = 0.6;
     boolean flywheelRunning = false;
@@ -89,6 +100,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         diagnosticDisplay.addProgramSpecificTelemetry(7, "Lift Motor Mode: " + String.valueOf(robot.capLift.getMode()));
         diagnosticDisplay.addProgramSpecificTelemetry(8, "Collector Encoder Count: %.2f", robot.shooter.getCollectorEncoderCount());
         diagnosticDisplay.addProgramSpecificTelemetry(9, "Flip Gyro: " + String.valueOf(flipGyro));
+        diagnosticDisplay.addProgramSpecificTelemetry(10, String.valueOf(robot.flywheel1.getCurrentPosition()) + ":" + String.valueOf(robot.flywheel2.getCurrentPosition()));
         robotDrive();
         shooterSubsystem();
         liftSubsystem();
@@ -102,21 +114,96 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             robot.shooter.setFlywheelPower(0);
         }
         if(shooting){
-            if((System.currentTimeMillis() - shootingTimer) < 400){
-                robot.shooter.setCollectorPower(0);
-                robot.shooter.setAcceleratorPower(0);
+            switch (shootingMode) {
+                case Bring_Ball_Down1:
+                    robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                        robot.shooter.setCollectorPower(0);
+                        robot.shooter.setAcceleratorPower(0);
+                        robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        shootingTimer = System.currentTimeMillis();
+                        shootingMode = ShootingModes.Shoot_Ball1;
+                    }else{
+                        robot.shooter.setCollectorPower(-1);
+                        robot.shooter.setAcceleratorPower(-1);
+                    }
+                    break;
+                case Shoot_Ball1:
+                            robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {
+                                robot.shooter.setCollectorPower(0);
+                                robot.shooter.setAcceleratorPower(0);
+                                robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                                robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                shootingTimer = System.currentTimeMillis();
+                                shootingMode = ShootingModes.Bring_Ball_Down2;
+                            }else{
+                                robot.shooter.setCollectorPower(1);
+                                robot.shooter.setAcceleratorPower(1);
+                            }
+                    break;
+                case Bring_Ball_Down2:
+                    if((shootingTimer + 250) < System.currentTimeMillis()) {
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                            robot.shooter.setCollectorPower(0);
+                            robot.shooter.setAcceleratorPower(0);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            shootingTimer = System.currentTimeMillis();
+                            shootingMode = ShootingModes.Shoot_Ball2;
+                        }else{
+                            robot.shooter.setCollectorPower(-1);
+                            robot.shooter.setAcceleratorPower(-1);
+                        }
+                    }
+                    break;
+                case Shoot_Ball2:
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {
+                            robot.shooter.setCollectorPower(0);
+                            robot.shooter.setAcceleratorPower(0);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            shootingTimer = System.currentTimeMillis();
+                            shootingMode = ShootingModes.Bring_Ball_Down3;
+                        }else{
+                            robot.shooter.setCollectorPower(1);
+                            robot.shooter.setAcceleratorPower(1);
+                        }
+                    break;
+                case Bring_Ball_Down3:
+                    if((shootingTimer + 250) < System.currentTimeMillis()) {
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                            robot.shooter.setCollectorPower(0);
+                            robot.shooter.setAcceleratorPower(0);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            shootingTimer = System.currentTimeMillis();
+                            shootingMode = ShootingModes.Shoot_Ball3;
+                        }else{
+                            robot.shooter.setCollectorPower(-1);
+                            robot.shooter.setAcceleratorPower(-1);
+                        }
+                    }
+                    break;
+                case Shoot_Ball3:
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 320) {
+                            robot.shooter.setCollectorPower(0);
+                            robot.shooter.setAcceleratorPower(0);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                            robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                            shootingTimer = System.currentTimeMillis();
+                            shooting = false;
+                        }else{
+                            robot.shooter.setCollectorPower(1);
+                            robot.shooter.setAcceleratorPower(1);
+                        }
+                    break;
             }
-            else if((System.currentTimeMillis() - shootingTimer) < 500){
-                robot.shooter.setCollectorPower(-.6);
-                robot.shooter.setAcceleratorPower(-1);
-            }else if((System.currentTimeMillis() - shootingTimer) < 700){
-                robot.shooter.setCollectorPower(0);
-                robot.shooter.setAcceleratorPower(0);
-            }else {
-                robot.shooter.setCollectorPower(.6);
-                robot.shooter.setAcceleratorPower(1);
-            }
-
         }else{
             if(collectorUp){
                 robot.shooter.raiseCollector();
@@ -253,11 +340,12 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case RIGHT_TRIGGER:
-                    if(pressed){
+                    if(pressed && shooting == false){
                         shooting = true;
-                        shootingTimer = System.currentTimeMillis();
-                    }else{
-                        shooting = false;
+                        shootingMode = ShootingModes.Bring_Ball_Down1;
+                        robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        shootTimes = 0;
                     }
                     break;
                 case START:
@@ -321,11 +409,12 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case RIGHT_TRIGGER:
-                    if(pressed){
+                    if(pressed && shooting == false){
                         shooting = true;
-                        shootingTimer = System.currentTimeMillis();
-                    }else{
-                        shooting = false;
+                        shootingMode = ShootingModes.Bring_Ball_Down1;
+                        robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                        robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                        shootTimes = 0;
                     }
                     break;
                 case START:
