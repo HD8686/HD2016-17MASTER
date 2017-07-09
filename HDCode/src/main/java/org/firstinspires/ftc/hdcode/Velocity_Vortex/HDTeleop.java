@@ -46,7 +46,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
 
     private final double flywheelSpeed = 0.8;
     double shootingTimer = 0.0;
-    double driveSpeed = 0.6;
+    double driveSpeed = 1.0;
     boolean flywheelRunning = false;
     boolean collectorForward = true;
     boolean shooting = false;
