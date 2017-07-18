@@ -53,7 +53,7 @@ public class HDCap {
         topArm.setPosition(1.0);
     }
     public void holdCap(){
-        topArm.setPosition(0.5);
+        topArm.setPosition(0.4);
     }
     public void lowerTopArm(){
         topArm.setPosition(0.0);

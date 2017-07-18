@@ -2,6 +2,7 @@ package org.firstinspires.ftc.hdlib.RobotHardwareLib.Subsystems;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.ServoEx;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.hdlib.OpModeManagement.HDLoopInterface;
+import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 
@@ -50,7 +52,6 @@ public class HDShooter{
 
         this.flywheel1.setDirection(DcMotorSimple.Direction.FORWARD);
         this.flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
-
         this.flywheel1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.flywheel2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.flywheel1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

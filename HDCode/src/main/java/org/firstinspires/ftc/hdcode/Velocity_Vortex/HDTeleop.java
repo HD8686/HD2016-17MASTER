@@ -117,7 +117,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
             switch (shootingMode) {
                 case Bring_Ball_Down1:
                     robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                    if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 30) {
                         robot.shooter.setCollectorPower(0);
                         robot.shooter.setAcceleratorPower(0);
                         robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -131,7 +131,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case Shoot_Ball1:
                             robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                            if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {
+                            if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {//200
                                 robot.shooter.setCollectorPower(0);
                                 robot.shooter.setAcceleratorPower(0);
                                 robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -144,9 +144,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                             }
                     break;
                 case Bring_Ball_Down2:
-                    if((shootingTimer + 250) < System.currentTimeMillis()) {
+                    if((shootingTimer + 15) < System.currentTimeMillis()) {//250
                         robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 10) {//50
                             robot.shooter.setCollectorPower(0);
                             robot.shooter.setAcceleratorPower(0);
                             robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -161,7 +161,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case Shoot_Ball2:
                         robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 200) {//200
                             robot.shooter.setCollectorPower(0);
                             robot.shooter.setAcceleratorPower(0);
                             robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -174,9 +174,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         }
                     break;
                 case Bring_Ball_Down3:
-                    if((shootingTimer + 250) < System.currentTimeMillis()) {
+                    if((shootingTimer + 15) < System.currentTimeMillis()) {//250
                         robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 50) {
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 10) {//50
                             robot.shooter.setCollectorPower(0);
                             robot.shooter.setAcceleratorPower(0);
                             robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -191,7 +191,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     break;
                 case Shoot_Ball3:
                         robot.collectorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 320) {
+                        if (Math.abs(robot.collectorMotor.getCurrentPosition()) > 400) {//320
                             robot.shooter.setCollectorPower(0);
                             robot.shooter.setAcceleratorPower(0);
                             robot.collectorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -230,7 +230,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }
         else if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
             double pos = robot.lift.capMotor.getCurrentPosition();
-            if(pos < 10500){
+            if(pos < 9500){
                 robot.lift.capMotor.setPower(1);
             }else{
                 robot.lift.capMotor.setPower(0.1);
@@ -400,8 +400,14 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case LEFT_BUMPER:
+                    if(pressed){
+                        robot.lift.holdCap();
+                    }
                     break;
                 case RIGHT_BUMPER:
+                    if(pressed){
+                        robot.lift.raiseTopArm();
+                    }
                     break;
                 case LEFT_TRIGGER:
                     if(pressed) {

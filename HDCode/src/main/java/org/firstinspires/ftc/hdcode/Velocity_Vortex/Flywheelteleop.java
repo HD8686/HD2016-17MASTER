@@ -13,7 +13,6 @@ import org.firstinspires.ftc.hdlib.OpModeManagement.HDOpMode;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDServo;
 import org.firstinspires.ftc.hdlib.RobotHardwareLib.Servo.HDVexMotor;
 
-@TeleOp
 public class Flywheelteleop extends LinearOpMode {
     public DcMotor collectorMotor;
     private DcMotor shooter;
