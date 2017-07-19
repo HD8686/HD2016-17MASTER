@@ -53,7 +53,7 @@ public class HDCap {
         topArm.setPosition(1.0);
     }
     public void holdCap(){
-        topArm.setPosition(0.5);
+        topArm.setPosition(0.4);
     }
     public void lowerTopArm(){
         topArm.setPosition(0.0);
@@ -62,7 +62,7 @@ public class HDCap {
         curLiftMode = liftMode.TOP;
         setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
         double pos = capMotor.getCurrentPosition();
-        if(pos < 10500){
+        if(pos < 8500){//10500
             capMotor.setPower(1);
         }else{
             capMotor.setPower(0.1);
@@ -96,13 +96,13 @@ public class HDCap {
         capMotor.setTargetPosition(liftRetracted);
         setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
         double pos = capMotor.getCurrentPosition();
-         if(pos > 1000){
-             setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if(pos > 1000){
+            setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             capMotor.setPower(-0.5);
         }else if(pos > 0){
-             lowerArms();
-             setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
-             capMotor.setTargetPosition(liftRetracted);
+            lowerArms();
+            setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
+            capMotor.setTargetPosition(liftRetracted);
             capMotor.setPower(-0.2);
         }
     }

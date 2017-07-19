@@ -33,9 +33,9 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
     HDGamepad servoBoyGamepad;
     Alliance alliance;
 
-    double flywheelSpeed = 0.32;
+    double flywheelSpeed = 0.34;
     double shootingTimer = 0.0;
-    double driveSpeed = 0.6;
+    double driveSpeed = 0.9;
     boolean flywheelRunning = false;
     boolean collectorForward = true;
     boolean shooting = false;
@@ -143,7 +143,7 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
         }
         else if(robot.lift.curLiftMode == HDCap.liftMode.TOP){
             double pos = robot.lift.capMotor.getCurrentPosition();
-            if(pos < 10500){
+            if(pos < 9500){
                 robot.lift.capMotor.setPower(1);
             }else{
                 robot.lift.capMotor.setPower(0.1);
@@ -265,28 +265,28 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                         robot.navX.zeroYaw();
                     break;
             }
-        }else if(instance == servoBoyGamepad){
+        }else if(instance == servoBoyGamepad) {
             switch (button) {
                 case A:
-                    if(pressed && !liftManualAdjust) {
+                    if (pressed && !liftManualAdjust) {
                         robot.lift.retractLift();
                         robot.lift.raiseTopArm();
                     }
                     break;
                 case B:
-                    if(pressed &&!liftManualAdjust) {
+                    if (pressed && !liftManualAdjust) {
                         robot.lift.dropPosition();
                         robot.lift.raiseTopArm();
                     }
                     break;
                 case X:
-                    if(pressed && !liftManualAdjust) {
+                    if (pressed && !liftManualAdjust) {
                         robot.lift.movePosition();
                         robot.lift.holdCap();
                     }
                     break;
                 case Y:
-                    if(pressed && !liftManualAdjust) {
+                    if (pressed && !liftManualAdjust) {
                         if (robot.lift.curLiftMode == HDCap.liftMode.CARRY || robot.lift.curLiftMode == HDCap.liftMode.DROP) {
                             robot.lift.extendLift();
                             robot.lift.holdCap();
@@ -298,25 +298,31 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                 case DPAD_RIGHT:
                     break;
                 case DPAD_UP:
-                    if(pressed){
+                    if (pressed) {
                         robot.lift.raiseArms();
                         robot.lift.raiseTopArm();
                     }
                     break;
                 case DPAD_DOWN:
-                    if(pressed){
-                        if(robot.capLift.getCurrentPosition() < 100){
+                    if (pressed) {
+                        if (robot.capLift.getCurrentPosition() < 100) {
                             robot.lift.lowerTopArm();
                         }
                         robot.lift.lowerArms();
                     }
                     break;
                 case LEFT_BUMPER:
+                    if (pressed) {
+                        robot.lift.holdCap();
+                    }
                     break;
                 case RIGHT_BUMPER:
+                    if (pressed) {
+                        robot.lift.raiseTopArm();
+                    }
                     break;
                 case LEFT_TRIGGER:
-                    if(pressed) {
+                    if (pressed) {
                         flywheelRunning = !flywheelRunning;
                     }
                     break;
@@ -329,11 +335,11 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case START:
-                    if(pressed){
+                    if (pressed) {
                         robot.lift.setPower(0.0);
                         robot.lift.setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         liftManualAdjust = true;
-                    }else{
+                    } else {
                         liftManualAdjust = false;
                         robot.lift.capMotor.setTargetPosition(robot.lift.capMotor.getCurrentPosition());
                         robot.lift.setMotorMode(DcMotor.RunMode.RUN_TO_POSITION);
