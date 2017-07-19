@@ -176,7 +176,11 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, 180.0, robot.navX.getYaw());
                 }else if(gamepad1.b){
                     robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x*.2, gamepad1.left_stick_y*.2, -90.0, robot.navX.getYaw());
-                }else if(robot.capLift.getCurrentPosition() > 650){
+                }else if(gamepad1.left_trigger > 0.5){
+                    long degrees = Math.round(-(Math.atan2( gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 2)*180/Math.PI);
+                    robot.driveHandler.mecanumDrive_Cartesian_keepFrontPos(gamepad1.left_stick_x * driveSpeed, gamepad1.left_stick_y * driveSpeed, degrees, robot.navX.getYaw());
+                }
+                else if(robot.capLift.getCurrentPosition() > 650){
                     robot.driveHandler.mecanumDrive_Cartesian(gamepad1.left_stick_x * .15, gamepad1.left_stick_y * .15, gamepad1.right_stick_x * .15, robot.navX.getYaw());
                 }
                 else{
@@ -248,9 +252,6 @@ public class HDTeleop extends HDOpMode implements HDGamepad.HDButtonMonitor{
                     }
                     break;
                 case LEFT_TRIGGER:
-                    if(pressed) {
-                        flywheelRunning = !flywheelRunning;
-                    }
                     break;
                 case RIGHT_TRIGGER:
                     if(pressed){
